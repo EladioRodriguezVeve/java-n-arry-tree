@@ -3,9 +3,17 @@ plugins {
     id 'eclipse'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
 repositories {
     mavenCentral()
 }
+
+version = '1.0.0'
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'

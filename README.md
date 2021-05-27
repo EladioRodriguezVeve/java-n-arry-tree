@@ -21,4 +21,4 @@ TODO add codeblock of gradle dependency
 
 <!-- TODO generate and add link -->
 
-## [User Guide](Guide/Guide.md)
+## [Guide](guide/guide.md)

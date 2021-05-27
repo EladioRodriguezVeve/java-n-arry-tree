@@ -1,0 +1,2 @@
+rootProject.name = 'n-arry-tree'
+include('n-arry-tree')

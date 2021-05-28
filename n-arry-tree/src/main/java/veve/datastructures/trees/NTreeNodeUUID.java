@@ -1,6 +1,6 @@
 package veve.datastructures.trees;
 
-public class NTreeNodeUUID<K extends Comparable<K>, V> {
+class NTreeNodeUUID<K extends Comparable<K>, V> {
 	
 	private NTreeNode<K,V> node;
 	

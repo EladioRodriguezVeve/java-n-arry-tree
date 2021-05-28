@@ -9,6 +9,10 @@ java {
     }
 }
 
+javadoc {
+    options.addBooleanOption('html5', true)
+}
+
 repositories {
     mavenCentral()
 }
@@ -29,4 +33,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.register('copyJavadoc', Copy) {
+	dependsOn tasks.javadoc
+	from "$docsDir/javadoc"
+	into "$rootDir/javadocs"
 }

@@ -1,7 +1,7 @@
 package veve.datastructures.trees;
 
-import static veve.common.GeneralUtils.argsNotNull;
-import static veve.common.GeneralUtils.safeFunction;
+import static veve.datastructures.trees.GeneralUtils.argsNotNull;
+import static veve.datastructures.trees.GeneralUtils.safeFunction;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
-public class TreeNodeIndex<K extends Comparable<K>,V, R> {
+class TreeNodeIndex<K extends Comparable<K>,V, R> {
 	
 	String name;
 	Table<R, String, NTreeNode<K,V>> indexTable;

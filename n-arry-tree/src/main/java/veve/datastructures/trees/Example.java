@@ -9,7 +9,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 
-public class Example<T> {
+class Example<T> {
 	
 	T value;
 	

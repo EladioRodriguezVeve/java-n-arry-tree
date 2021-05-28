@@ -1,14 +1,14 @@
 package veve.datastructures.trees;
 
-import static veve.common.GeneralUtils.argsNotNull;
-import static veve.common.GeneralUtils.safeFunction;
-import static veve.common.GeneralUtils.safePredicate;
-import static veve.common.GeneralUtils.safeBiPredicate;
-import static veve.common.GeneralUtils.safeConsumer;
-import static veve.common.GeneralUtils.cloneUsingSerialization;
-import static veve.common.GeneralUtils.cloneWithCopyConstructor;
-import static veve.datastructures.gson.GsonInstance.gsonDefault;
-import static veve.datastructures.gson.GsonInstance.gsonForNodeToString;
+import static veve.datastructures.trees.GeneralUtils.argsNotNull;
+import static veve.datastructures.trees.GeneralUtils.cloneUsingSerialization;
+import static veve.datastructures.trees.GeneralUtils.cloneWithCopyConstructor;
+import static veve.datastructures.trees.GeneralUtils.safeBiPredicate;
+import static veve.datastructures.trees.GeneralUtils.safeConsumer;
+import static veve.datastructures.trees.GeneralUtils.safeFunction;
+import static veve.datastructures.trees.GeneralUtils.safePredicate;
+import static veve.datastructures.trees.GsonInstance.gsonDefault;
+import static veve.datastructures.trees.GsonInstance.gsonForNodeToString;
 import static veve.datastructures.trees.NTreeConstants.TreeTraversalOrder;
 
 import java.lang.reflect.Type;
@@ -41,7 +41,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import veve.datastructures.gson.GsonIgnore;
 import veve.datastructures.trees.NTreeConstants.NodeValueCloningMode;
 
 /**
@@ -127,7 +126,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Replaces the node's id. 
+	 * Replaces the id of this node. 
 	 * 
 	 * @param newId the id that replaces the existing id
 	 * @return {@code true} if it replaces the id, otherwise {@code false}.
@@ -156,7 +155,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * @return the id of the node
+	 * Returns the id of this node.
+	 * 
+	 * @return the id of this node
 	 */
 	public K getId() {
 		return this.id;
@@ -174,6 +175,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the value of this node's value property.
+	 * 
 	 * @return the value of this node's value property
 	 */
 	public V getValue() {
@@ -181,6 +184,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the {@code NTreeNode} that is the parent of this node. Could be 
+	 * {@code null}.
+	 * 
 	 * @return the {@code NTreeNode} that is the parent of this node
 	 */
 	public NTreeNode<K,V> getParent() {
@@ -619,6 +625,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of this node's children for which the provided 
+	 * {@code Predicate} evaluates to {@code true}.
+	 * 
 	 * @param predicate the {@code Predicate} that is used to filter which childs
 	 * 					to return
 	 * @return a {@code List} of this node's children for which the provided 
@@ -630,6 +639,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of this node's children whose ids are included in
+	 * the passed {@code Collection} of ids.
+	 * 
 	 * @param a {@code Collection} of ids used to filter which childs to return
 	 * @return a {@code List} of this node's children whose ids are included in
 	 * the passed {@code Collection} of ids
@@ -655,6 +667,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Map} of this node's children. The Map keys are the children's ids.
+	 * 
 	 * @return a {@code Map} of this node's children. The Map keys are the children's ids.
 	 */
 	public Map<K,NTreeNode<K,V>> getMapOfChildren() {
@@ -662,6 +676,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Map} of this node's children for which the provided 
+	 * {@code Predicates} evaluates to {@code true}. The Map keys are the 
+	 * children's ids.
+	 * 
 	 * @return a {@code Map} of this node's children for which the provided 
 	 * {@code Predicates} evaluates to {@code true}. The Map keys are the 
 	 * children's ids.
@@ -672,6 +690,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Map} of this node's children that have ids that are in 
+	 * the provided {@code Collection} of ids. The Map keys are the children's ids.
+	 * 
 	 * @return a {@code Map} of this node's children that have ids that are in 
 	 * the provided {@code Collection} of ids. The Map keys are the children's ids.
 	 */
@@ -828,6 +849,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	//----------------------------------------------------------------------------------------------
 	
 	/**
+	 * Returns the number of children this node has.
+	 * 
 	 * @return the number of children this node has
 	 */
 	public int getChildrenSize() {
@@ -835,6 +858,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of the ids of this node's children.
+	 * 
 	 * @return a {@code List} of the ids of this node's children
 	 */
 	public List<K> getChildrenIds() {
@@ -842,6 +867,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of the values of this node's children.
+	 * 
 	 * @return a {@code List} of the values of this node's children
 	 */
 	public List<V> getChildrenValues() {
@@ -880,6 +907,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Map} of where the keys are the ids of this node's children 
+	 * and the values are their values.
+	 * 
 	 * @return a {@code Map} of where the keys are the ids of this node's children 
 	 * and the values are their values
 	 */
@@ -892,6 +922,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	//==============================================================================================
 	
 	/**
+	 * Returns a {@code Map} of this node's siblings. The keys of the map are the
+	 * siblings ids. If this node is a root or it's parent is {@code null} then 
+	 * {@code null} is returned.
+	 * 
 	 * @return a {@code Map} of this node's siblings. The keys of the map are the
 	 * siblings ids. If this node is a root or it's parent is {@code null} then 
 	 * {@code null} is returned.
@@ -907,7 +941,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * @return a a {@code List} of this node's siblings.
+	 * Returns a {@code List} of this node's siblings.
+	 * 
+	 * @return a {@code List} of this node's siblings.
 	 */
 	public List<NTreeNode<K,V>> getListOfSiblings() {
 		return new LinkedList<NTreeNode<K,V>>(getMapOfSiblings().values());
@@ -1265,6 +1301,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the number of nodes in this subtree, which includes this node and
+	 * all of its descendants.
+	 * 
 	 * @return the number of nodes in this subtree, which includes this node and
 	 * all of its descendants
 	 */
@@ -1275,6 +1314,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns {@code true} if this node is the root of it's treeOfBelonging.
+	 * 
 	 * @return {@code true} if this node is the root of it's treeOfBelonging
 	 */
 	public boolean isRoot() {
@@ -1282,6 +1323,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns {@code true} if this node's parent is {@code null} and it's not
+	 * the root of it's treeOfBelonging.
+	 * 
 	 * @return {@code true} if this node's parent is {@code null} and it's not
 	 * the root of it's treeOfBelonging
 	 */
@@ -1290,6 +1334,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the level of this node relative to the root of the tree or node
+	 * hierarchy it belongs to.
+	 * 
 	 * @return the level of this node relative to the root of the tree or node
 	 * hierarchy it belongs to
 	 */
@@ -1304,6 +1351,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the level of this node relative to the provided ancestor or -1 if
+	 * this node does not have that ancestor.
+	 * 
 	 * @return the level of this node relative to the provided ancestor or -1 if
 	 * this node does not have that ancestor
 	 */
@@ -1346,6 +1396,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	//==============================================================================================
 	
 	/**
+	 * Returns a {@code Map} of {@code List}s of this node and its descendants.
+	 * The map keys are the node ids and the values are lists of nodes that have
+	 * the same id.
+	 * 
 	 * @return a {@code Map} of {@code List}s of this node and its descendants.
 	 * The map keys are the node ids and the values are lists of nodes that have
 	 * the same id.
@@ -1357,6 +1411,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of this node and its descendants.
+	 * 
 	 * @param traversal the {@link TreeTraversalOrder} enum that determines the
 	 * 					traversal order used to traverse the nodes and create the list
 	 * @return a {@code List} of this node and its descendants
@@ -1379,6 +1435,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of nodes that include this node, its parent if it
+	 * not null and its children.
+	 * 
 	 * @return a {@code List} of nodes that include this node, its parent if it
 	 * not null and its children
 	 * 
@@ -1394,6 +1453,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns the farthest ancestor node of this node or {@code null} if this
+	 * node's parent is {@code null}.
+	 * 
 	 * @return the farthest ancestor node of this node or {@code null} if this
 	 * node's parent is {@code null}
 	 */
@@ -1411,6 +1473,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns {@code true} if the passed node is an ancestor of this node.
+	 * 
 	 * @param ancestor the node to check if it is an ancestor of this node
 	 * @return {@code true} if the passed node is an ancestor of this node
 	 */
@@ -1430,8 +1494,12 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code List} of this node and the nodes leading up to the
+	 * ancestor plus the ancestor itself or {@code null} if the passed node is not
+	 * an ancestor of this node.
+	 * 
 	 * @param ancestor the node that is an ancestor of this node
-	 * @return a  {@code List} of this node and the nodes leading up to the
+	 * @return a {@code List} of this node and the nodes leading up to the
 	 * ancestor plus the ancestor itself or {@code null} if the passed node is not
 	 * an ancestor of this node
 	 */
@@ -1468,6 +1536,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Stream} of nodes that includes this node and its descendants.
+	 * 
 	 * @return a {@code Stream} of nodes that includes this node and its descendants
 	 */
 	public Stream<NTreeNode<K,V>> stream() {
@@ -1475,6 +1545,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
+	 * Returns a {@code Stream} of nodes that includes this node and its descendants
+	 * ordered based on the traversal argument.
+	 * 
 	 * @param traversal the {@link TreeTraversalOrder} enum that determines the
 	 * 					order of the nodes in the stream
 	 * @return a {@code Stream} of nodes that includes this node and its descendants
@@ -1696,6 +1769,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	//==============================================================================================
 	
 	/**
+	 * Returns the JSON string representation of this node. This does not include
+	 * its parent, children and treeOfBelonging.
+	 * 
 	 * @return the JSON string representation of this node. This does not include
 	 * its parent, children and treeOfBelonging.
 	 */
@@ -1747,7 +1823,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Returns n integer which based on weather it is negative, zero or positive
+	 * Returns an integer which based on weather it is negative, zero or positive
 	 * determines if this node is less than, equal to or greater than the other 
 	 * node.<br>
 	 * Null values are considered less than to non null values and comparison

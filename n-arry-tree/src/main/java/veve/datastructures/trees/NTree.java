@@ -1,11 +1,11 @@
 
 package veve.datastructures.trees;
 
-import static veve.common.GeneralUtils.argsNotNull;
-import static veve.common.GeneralUtils.safeFunction;
-import static veve.common.GeneralUtils.safeCompareBiFunction;
-import static veve.datastructures.gson.GsonInstance.gsonDefault;
-import static veve.datastructures.gson.GsonInstance.gsonForTreeToString;
+import static veve.datastructures.trees.GeneralUtils.argsNotNull;
+import static veve.datastructures.trees.GeneralUtils.safeCompareBiFunction;
+import static veve.datastructures.trees.GeneralUtils.safeFunction;
+import static veve.datastructures.trees.GsonInstance.gsonDefault;
+import static veve.datastructures.trees.GsonInstance.gsonForTreeToString;
 import static veve.datastructures.trees.NTreeConstants.NodeValueCloningMode;
 
 import java.lang.reflect.Type;
@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 
 import com.google.gson.reflect.TypeToken;
 
-import veve.common.GeneralUtils;
 import veve.datastructures.trees.NTreeConstants.TreeTraversalOrder;
 
 /**
@@ -63,14 +62,14 @@ import veve.datastructures.trees.NTreeConstants.TreeTraversalOrder;
  * to a node. For example:<br>
  * valid:<br>
  * <code>
- * addIndex("someIndex", node -> node.getId())<br>
- * addIndex("someIndex", node -> node.getParent().getChildrenSize())<br>
- * addIndex("someIndex", node -> node.getChildById("A").getValue()).)<br>
+ * addIndex("someIndex", node -&gt node.getId())<br>
+ * addIndex("someIndex", node -&gt node.getParent().getChildrenSize())<br>
+ * addIndex("someIndex", node -&gt node.getChildById("A").getValue()).)<br>
  * </code>
  * invalid:<br>
  * <code>
- * addIndex("someIndex", node -> node.getParent().getParent().getValue())<br>
- * addIndex("someIndex", node -> node.getChildById("A").node.getChildById("B").getValue())
+ * addIndex("someIndex", node -&gt node.getParent().getParent().getValue())<br>
+ * addIndex("someIndex", node -&gt node.getChildById("A").node.getChildById("B").getValue())
  * </code>
  * <p>
  * All methods from {@code NTree} or {@code NTreeNode} that modify the tree will
@@ -150,6 +149,8 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
+	 * Returns the id of this tree.
+	 * 
 	 * @return the id of this tree
 	 */
 	public K getId() {
@@ -169,16 +170,22 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
-	 * @return the root node
+	 * Returns the root of this tree which is the first node in the tree's node
+	 * hierarchy. It could be {@code null}.
+	 * 
+	 * @return the root node of this tree. Could be {@code null}.
 	 */
 	public NTreeNode<K,V> getRoot() {
 		return this.root;
 	}
 	
 	/**
-	 * @return the Type instance used for serializing and deserializing to and from 
+	 * Returns the Type instance used for serializing and deserializing to and from 
 	 * JSON the {@code value} property of the nodes. This property is set using
 	 * {@link #nodeValueCloningUsesSerialization(Type)}
+	 * 
+	 * @return the Type instance used for serializing and deserializing to and from 
+	 * JSON the {@code value} property of the nodes.
 	 */
 	public Type getNodeValueType() {
 		return this.nodeValueType;
@@ -201,6 +208,9 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
+	 * Returns the version number of this tree. All instances of this tree start
+	 * with a version value of 1.
+	 * 
 	 * @return the version of this tree
 	 */
 	public long getVersion() {
@@ -285,37 +295,49 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
+	 * Returns {@code true} if the traversal order between a node's children is 
+	 * unordered. This is the default. It is the most performant way to traverse
+	 * the children of nodes.
+	 * 
 	 * @return {@code true} if the traversal order between a node's children is unordered.
-	 * 				This is the default. It is the most performant way to traverse
-	 * 				the children of nodes.
 	 */
 	public boolean isUnordered() {
 		return !this.isOrdered && this.nodeComparator == null;
 	}
 	
 	/**
-	 * @return {@code true} if the traversal order between a node's children is based on
-	 * 			the natural ordering between them. The natural order of nodes is
-	 * 			determined by the {@link NTreeNode#compareTo(NTreeNode)} method.
-	 * 			Use {@link #useNaturalOrdering()} to set natural ordering for
-	 * 			visiting the node's children.
+	 * Returns {@code true} if the traversal order between a node's children is 
+	 * based on the natural ordering between them. The natural order of nodes is
+	 * determined by the {@link NTreeNode#compareTo(NTreeNode)} method.
+	 * Use {@link #useNaturalOrdering()} to set natural ordering for visiting
+	 * the node's children.
+	 * 
+	 * @return {@code true} if the traversal order between a node's children is 
+	 * based on the natural ordering between them.
 	 */
 	public boolean isNaturalOrdered() {
 		return this.isOrdered && this.nodeComparator == null;
 	}
 	
 	/**
-	 * @return {@code true} if the traversal order between a node's children is based on
-	 * 			the BiFunction passed to {@link #useCustomOrdering(BiFunction)}
+	 * Returns {@code true} if the traversal order between a node's children is
+	 * based on the BiFunction passed to {@link #useCustomOrdering(BiFunction)}
+	 * 
+	 * @return {@code true} if the traversal order between a node's children is
+	 * based on the BiFunction passed to {@link #useCustomOrdering(BiFunction)}
 	 */
 	public boolean isCustomOrdered() {
 		return this.isOrdered && this.nodeComparator != null;
 	}
 	
 	/**
-	 * @return {@code true} if the traversal order between a node's children is based on
-	 * 				natural ordering of the nodes or the provided BiFUnction
-	 * 				passed to {@link #useCustomOrdering(BiFunction)}
+	 *  Returns {@code true} if the traversal order between a node's children is
+	 *  based on natural ordering of the nodes or the provided BiFUnction
+	 * 	passed to {@link #useCustomOrdering(BiFunction)}
+	 * 
+	 * @return {@code true} if the traversal order between a node's children is 
+	 * based on natural ordering of the nodes or the provided BiFUnction
+	 * passed to {@link #useCustomOrdering(BiFunction)}
 	 */
 	public boolean isOrdered() {
 		return this.isOrdered;
@@ -392,7 +414,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
-	 * Sets the root to null.
+	 * Sets the root of this tree to null.
 	 */
 	public void clearTree() {
 		clearAllIndexes();
@@ -480,7 +502,9 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
-	 * @return a list of the indexes names in this tree
+	 * Returns a list of the indexes names of this tree.
+	 * 
+	 * @return a list of the indexes names of this tree
 	 */
 	public List<String> getIndexNames() {
 		List<String> list = new LinkedList<>();
@@ -563,7 +587,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	}
 	
 	/**
-	 * Creates a {@link NTree} from a JSON string representation of a NTree. 
+	 * Creates and returns a {@link NTree} given a JSON string representation of a NTree. 
 	 * 
 	 * @return a NTree instance that matches with its JSON representation
 	 */
@@ -928,6 +952,11 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * of nodes. This internal node comparator is set when calling
 	 * {@link #useCustomOrdering(BiFunction)}<br>
 	 * &#8226 If the indexes of both trees are equal.
+	 * 
+	 * @param other the other tree to check if its a clone of this tree
+	 * @param sampleNodes a {@code Collection} of nodes used to verify that this
+	 * tree's nodeComparator gives the same result as the one from the clone.
+	 * @return {@code true} if the other tree is a clone of this tree
 	 */
 	public boolean isClone(NTree<K,V> other, Collection<NTreeNode<K,V>> sampleNodes) {
 		if (this == other)

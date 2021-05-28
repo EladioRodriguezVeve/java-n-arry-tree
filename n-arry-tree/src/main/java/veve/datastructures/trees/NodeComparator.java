@@ -3,7 +3,7 @@ package veve.datastructures.trees;
 import java.util.Comparator;
 import java.util.function.BiFunction;
 
-public class NodeComparator<K extends Comparable<K>,V> implements Comparator<NTreeNode<K,V>>{
+class NodeComparator<K extends Comparable<K>,V> implements Comparator<NTreeNode<K,V>>{
 	
 	BiFunction<NTreeNode<K,V>,NTreeNode<K,V>,Integer> compareBiFunction;
 	

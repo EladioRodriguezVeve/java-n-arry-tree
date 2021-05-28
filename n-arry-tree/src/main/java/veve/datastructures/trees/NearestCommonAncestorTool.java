@@ -1,13 +1,13 @@
 package veve.datastructures.trees;
 
+import static veve.datastructures.trees.GeneralUtils.argsNotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
-
-import static veve.common.GeneralUtils.argsNotNull;
 
 /**
  * A tool used to find the nearest common ancestor between two {@link NTreeNode}s,
@@ -128,6 +128,8 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns {@code true} if nodeA and nodeB have a common ancestor.
+	 * 
 	 * @return {@code true} if nodeA and nodeB have a common ancestor
 	 */
 	public boolean hasCommonAncestor() {
@@ -135,6 +137,9 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the node that is the nearest common ancestor of nodeA and nodeB or
+	 * {@code null} if they don't have a common ancestor.
+	 * 
 	 * @return the node that is the nearest common ancestor of nodeA and nodeB or
 	 * {@code null} if they don't have a common ancestor
 	 */
@@ -146,6 +151,9 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 
 	/**
+	 * Returns the {@code List} of nodes from nodeA to the common ancestor ordered
+	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from nodeA to the common ancestor ordered
 	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor
 	 */
@@ -157,6 +165,9 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the {@code List} of nodes from nodeB to the common ancestor ordered
+	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from nodeB to the common ancestor ordered
 	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor
 	 */
@@ -168,6 +179,9 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the {@code List} of nodes from the common ancestor to nodeA ordered
+	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from the common ancestor to nodeA ordered
 	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor
 	 */
@@ -181,6 +195,9 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the {@code List} of nodes from the common ancestor to nodeB ordered
+	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from the common ancestor to nodeB ordered
 	 * in that order or {@code null} if nodeA and nodeB don't have a common ancestor
 	 */
@@ -194,6 +211,10 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the {@code List} of nodes from the nodeA to nodeB that pass through
+	 * their nearest common ancestor ordered in that order or {@code null} if nodeA 
+	 * and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from the nodeA to nodeB that pass through
 	 * their nearest common ancestor ordered in that order or {@code null} if nodeA 
 	 * and nodeB don't have a common ancestor
@@ -206,6 +227,10 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 	}
 	
 	/**
+	 * Returns the {@code List} of nodes from the nodeB to nodeA that pass through
+	 * their nearest common ancestor ordered in that order or {@code null} if nodeA 
+	 * and nodeB don't have a common ancestor.
+	 * 
 	 * @return the {@code List} of nodes from the nodeB to nodeA that pass through
 	 * their nearest common ancestor ordered in that order or {@code null} if nodeA 
 	 * and nodeB don't have a common ancestor

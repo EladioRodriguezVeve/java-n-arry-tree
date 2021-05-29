@@ -27,7 +27,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> getTestTree() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		return tree.addNewRootSubtree(
+		return tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1",1),
 				tree.n("B2",2),
@@ -61,7 +61,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 	@Test void test_getMapOfChildrenIdValues() {
 		NTree<String,Integer> tree = getTestTree();
 		
-		Map<String,Integer> ids = tree.root.getMapOfChildrenIdValues();
+		Map<String,Integer> ids = tree.root.childrenIdsValuesMap();
 		
 		Map<String,Integer> expectedIds =  new HashMap<>();
 		expectedIds.put("B1",1);
@@ -73,15 +73,15 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 	
 	@Test void test_getMapOfSiblings_is_root() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(tree.n("A1"));
+		tree.addNewRoot(tree.n("A1"));
 		
-		assertNull(tree.root.getMapOfSiblings());
+		assertNull(tree.root.siblingsMap());
 	}
 	
 	@Test void test_getMapOfSiblings() {
 		NTree<String,Integer> tree = getTestTree();
 		
-		Map<String,NTreeNode<String,Integer>> siblingsMap = tree.root.getChildById("B1").getMapOfSiblings();
+		Map<String,NTreeNode<String,Integer>> siblingsMap = tree.root.childWithId("B1").siblingsMap();
 		
 		Map<String,NTreeNode<String,Integer>> expected = new HashMap<>();
 		expected.put("B2", tree.n("B2",2));
@@ -99,7 +99,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,Integer> tree2 = NTree.create("tree2");
 		NTreeNode<String,Integer> original = tree.n("A1", 1);
 		
-		NTreeNode<String,Integer> clone = original.clone(tree2);
+		NTreeNode<String,Integer> clone = original.cloneSingleNode(tree2);
 		
 		assertNull(tree.getNodeValueCloningMode());
 		assertEquals(clone, original);
@@ -114,7 +114,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,CloningTestClass<String>> tree2 = NTree.create("tree2");
 		NTreeNode<String,CloningTestClass<String>> original = tree.n("A1", new CloningTestClass<String>("Value"));
 		
-		NTreeNode<String,CloningTestClass<String>> clone = original.clone(tree2);
+		NTreeNode<String,CloningTestClass<String>> clone = original.cloneSingleNode(tree2);
 		
 		assertEquals(NodeValueCloningMode.BY_COPY_CONSTRUCTOR, tree.getNodeValueCloningMode());
 		assertEquals(clone, original);
@@ -130,7 +130,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,CloningTestClass<String>> tree2 = NTree.create("tree2");
 		NTreeNode<String,CloningTestClass<String>> original = tree.n("A1");
 		
-		NTreeNode<String,CloningTestClass<String>> clone = original.clone(tree2);
+		NTreeNode<String,CloningTestClass<String>> clone = original.cloneSingleNode(tree2);
 		
 		assertEquals(NodeValueCloningMode.BY_COPY_CONSTRUCTOR, tree.getNodeValueCloningMode());
 		assertEquals(clone, original);
@@ -145,7 +145,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,Integer> tree2 = NTree.create("tree2");
 		NTreeNode<String,Integer> original = tree.n("A1", 1);
 		
-		NTreeNode<String,Integer> clone = original.clone(tree2);
+		NTreeNode<String,Integer> clone = original.cloneSingleNode(tree2);
 		
 		assertEquals(NodeValueCloningMode.BY_SERIALIZATION, tree.getNodeValueCloningMode());
 		assertNull(tree.getNodeValueType());
@@ -162,7 +162,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,CloningTestClass<String>> tree2 = NTree.create("tree2");
 		NTreeNode<String,CloningTestClass<String>> original = tree.n("A1",  new CloningTestClass<>("Value"));
 		
-		NTreeNode<String,CloningTestClass<String>> clone = original.clone(tree2);
+		NTreeNode<String,CloningTestClass<String>> clone = original.cloneSingleNode(tree2);
 		
 		assertEquals(NodeValueCloningMode.BY_SERIALIZATION, tree.getNodeValueCloningMode());
 		assertEquals(valueType, tree.getNodeValueType());
@@ -176,7 +176,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		NTree<String,Integer> tree2 = NTree.create("tree2");
 		
-		NTreeNode<String,Integer> clone = tree.root.cloneSubtree(tree2);
+		NTreeNode<String,Integer> clone = tree.root.clone(tree2);
 		
 		Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B1","B2","C1","C2"));
 		Multiset<String> ids =  HashMultiset.create(clone.mapToList(node -> node.getId()));

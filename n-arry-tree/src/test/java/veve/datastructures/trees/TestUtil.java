@@ -8,7 +8,7 @@ public class TestUtil {
 	@SuppressWarnings("unchecked")
 	static NTree<String,Integer> testTree() {
 		NTree<String,Integer> t = NTree.create("t");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1", 1).c(
 				t.n("B1", 2).c(
 					t.n("C1", 4),

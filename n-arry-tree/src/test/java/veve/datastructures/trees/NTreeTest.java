@@ -78,9 +78,9 @@ public class NTreeTest {
 		NTree<String,Integer> treeA = NTree.create("A");
 		NTree<String,Integer> treeB = NTree.create("B");
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			treeA.addNewRootSubtree(treeB.createNode("id"));
+			treeA.addNewRoot(treeB.createNode("id"));
 		});
-		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRootSubtree(NTreeNode) must must be a root";
+		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRoot(NTreeNode) must must be a root";
 		String actualMessage = exception.getMessage();
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
@@ -90,9 +90,9 @@ public class NTreeTest {
 		NTreeNode<String,Integer> node = tree.createNode("node");
 		node.parent = tree.createNode("parent");
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			tree.addNewRootSubtree(node);
+			tree.addNewRoot(node);
 		});
-		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRootSubtree(NTreeNode) must must be a root";
+		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRoot(NTreeNode) must must be a root";
 		String actualMessage = exception.getMessage();
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
@@ -102,24 +102,24 @@ public class NTreeTest {
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> root = tree.createNode("root");
 		
-		tree.setRootSubtree(root);
+		tree.setRoot(root);
 		
 		assertNotSame(tree.getRoot(), root);
 		assertEquals(root, tree.getRoot());
-		assertEquals(root, tree.getFirstNodeInIndex(IDS_INDEX, "root"));
+		assertEquals(root, tree.firstNodeInIndexWithKey(IDS_INDEX, "root"));
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Test void test_setRootSubtree_existing_root() {
 		NTree<String,Integer> tA = NTree.create("treeA");
-		tA.addNewRootSubtree(
+		tA.addNewRoot(
 			tA.n("X1").c(
 				tA.n("Y1"),
 				tA.n("Y2")));
 		NTree<String,Integer> tB = TestUtil.testTree();
 		tB.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tB.setRootSubtree(tA.getRoot());
+		tB.setRoot(tA.getRoot());
 		
 		Multiset<String> tBids =  HashMultiset.create(tB.mapToList(node -> node.getId()));
 		Multiset<String> tBexpectedIds =  HashMultiset.create(Arrays.asList("X1","Y1","Y2"));
@@ -134,7 +134,7 @@ public class NTreeTest {
 	@SuppressWarnings("unchecked")
 	@Test void test_setRootSubtree_existing_node_from_other_tree() {
 		NTree<String,Integer> tA = NTree.create("treeA");
-		tA.addNewRootSubtree(
+		tA.addNewRoot(
 			tA.n("X1").c(
 				tA.n("Y1").c(
 						tA.n("Z1")),
@@ -143,7 +143,7 @@ public class NTreeTest {
 		tB.addIndex(IDS_INDEX, node -> node.getId());
 		
 		NTreeNode<String,Integer> y1 = tA.getRoot().findFirst(node -> node.getId().equals("Y1"));
-		tB.setRootSubtree(y1);
+		tB.setRoot(y1);
 		
 		Multiset<String> tBids =  HashMultiset.create(tB.mapToList(node -> node.getId()));
 		Multiset<String> tBexpectedIds =  HashMultiset.create(Arrays.asList("Y1","Z1"));
@@ -160,7 +160,7 @@ public class NTreeTest {
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
 		NTreeNode<String,Integer> b1 = tree.findFirst(node -> node.getId().equals("B1"));
-		tree.setRootSubtree(b1);
+		tree.setRoot(b1);
 		
 		Multiset<String> treeExpectedIds =  HashMultiset.create(Arrays.asList("B1","C1","C2"));
 		Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
@@ -174,7 +174,7 @@ public class NTreeTest {
 	@Test void test_setRootSubtree_same_root() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		
-		assertNull(tree.setRootSubtree(tree.root));
+		assertNull(tree.setRoot(tree.root));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -183,7 +183,7 @@ public class NTreeTest {
 		tree.addIndex("idsIndex", node -> node.getId());
 		
 		NTreeNode<String,Integer> root = tree.n("X1");
-		tree.setRoot(root);
+		tree.setRootSingleNode(root);
 		
 		Multiset<String> treeExpectedIds =  HashMultiset.create(Arrays.asList("X1","B1","B2","C1","C2"));
 		Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
@@ -201,12 +201,12 @@ public class NTreeTest {
 		tA.addIndex(IDS_INDEX, node -> node.getId());
 		
 		NTree<String,Integer> tB = NTree.create("treeB");
-		tB.addNewRootSubtree(
+		tB.addNewRoot(
 			tB.n("X1").c(
 				tB.n("Y1")));
 		tA.addIndex("idsIndex", node -> node.getId());
 		
-		tA.setRoot(tB.getRoot());
+		tA.setRootSingleNode(tB.getRoot());
 		
 		Multiset<String> treeExpectedIds =  HashMultiset.create(Arrays.asList("X1","B1","B2","C1","C2"));
 		Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
@@ -226,7 +226,7 @@ public class NTreeTest {
 		NTree<String,Integer> tB = TestUtil.testTree();
 		
 		NTreeNode<String,Integer> tBb1 = tB.findFirst(node -> node.getId().equals("B1"));
-		tA.setRoot(tBb1);
+		tA.setRootSingleNode(tBb1);
 		
 		Multiset<String> tAExpectedIds =  HashMultiset.create(Arrays.asList("B1","B1","B2","C1","C2"));
 		Multiset<String> tAIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
@@ -244,7 +244,7 @@ public class NTreeTest {
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
 		NTreeNode<String,Integer> b2 = tree.findFirst(node -> node.getId().equals("B2"));
-		tree.setRoot(b2);
+		tree.setRootSingleNode(b2);
 		
 		Multiset<String> treeExpectedIds =  HashMultiset.create(Arrays.asList("B1","B2","B2","C1","C2"));
 		Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
@@ -274,7 +274,7 @@ public class NTreeTest {
 	
 	@Test void test_size_one() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(tree.n("A"));
+		tree.addNewRoot(tree.n("A"));
 		assertEquals(1, tree.size());
 	}
 	
@@ -290,14 +290,14 @@ public class NTreeTest {
 	
 	@Test void test_height_one() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(tree.n("A"));
+		tree.addNewRoot(tree.n("A"));
 		assertEquals(1, tree.height());
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Test void test_height() {
 		NTree<String,Integer> tA = NTree.create("tree");
-		tA.addNewRootSubtree(
+		tA.addNewRoot(
 			tA.n("A1").c(
 				tA.n("B1").c(
 					tA.n("C1"),
@@ -307,7 +307,7 @@ public class NTreeTest {
 		assertEquals(4, tA.height());
 		
 		NTree<String,Integer> tB = NTree.create("tree");
-		tB.addNewRootSubtree(
+		tB.addNewRoot(
 			tB.n("A1").c(
 				tB.n("B1"),
 				tB.n("B2").c(
@@ -317,7 +317,7 @@ public class NTreeTest {
 		assertEquals(4, tB.height());
 		
 		NTree<String,Integer> tC = NTree.create("tree");
-		tC.addNewRootSubtree(
+		tC.addNewRoot(
 			tC.n("A1").c(
 				tC.n("B1").c(
 					tC.n("C1"),
@@ -343,7 +343,7 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex("oddValuesIndex", node -> node.getValue() % 2 != 0);
 		
-		List<NTreeNode<String,Integer>> nodesInIndex = tree.getNodesInIndex("oddValuesIndex", true);
+		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey("oddValuesIndex", true);
 		
 		Multiset<Integer> expectedValues =  HashMultiset.create(Arrays.asList(1,3,5));
 		Multiset<Integer> actualValues =  HashMultiset.create(nodesInIndex.stream().map(node -> node.getValue()).collect(Collectors.toList()));
@@ -353,13 +353,13 @@ public class NTreeTest {
 	@SuppressWarnings("unchecked")
 	@Test void test_getNodesInIndex_no_mapping() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1",2).c(
 				tree.n("B1",4).c(
 					tree.n("C1"))));
 		tree.addIndex("oddValuesIndex", node -> node.getValue() % 2 != 0);
 		
-		List<NTreeNode<String,Integer>> nodesInIndex = tree.getNodesInIndex("oddValuesIndex", true);
+		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey("oddValuesIndex", true);
 		
 		assertEquals(0, nodesInIndex.size());
 	}
@@ -367,7 +367,7 @@ public class NTreeTest {
 	@SuppressWarnings("unchecked")
 	@Test void test_getNodesInIndex_some_null_values() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1",1).c(
 				tree.n("B1",2).c(
 					tree.n("C1").c(
@@ -375,9 +375,9 @@ public class NTreeTest {
 							tree.n("E1"))))));
 		tree.addIndex(VALUES_INDEX, node -> node.getValue());
 		
-		List<NTreeNode<String,Integer>> nodesWith1 = tree.getNodesInIndex(VALUES_INDEX, 1);
-		List<NTreeNode<String,Integer>> nodesWith2 = tree.getNodesInIndex(VALUES_INDEX, 2);
-		List<NTreeNode<String,Integer>> nodesWith3 = tree.getNodesInIndex(VALUES_INDEX, 3);
+		List<NTreeNode<String,Integer>> nodesWith1 = tree.nodesInIndexWithKey(VALUES_INDEX, 1);
+		List<NTreeNode<String,Integer>> nodesWith2 = tree.nodesInIndexWithKey(VALUES_INDEX, 2);
+		List<NTreeNode<String,Integer>> nodesWith3 = tree.nodesInIndexWithKey(VALUES_INDEX, 3);
 		
 		Multiset<Integer> expectedIndexValues =  HashMultiset.create(Arrays.asList(1,1,2));
 		Multiset<String> keysInIndex =  HashMultiset.create(tree.indexes.get(VALUES_INDEX).keysList());
@@ -390,7 +390,7 @@ public class NTreeTest {
 	@Test void test_getNodesInIndex_non_existing_index() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		
-		List<NTreeNode<String,Integer>> nodesInIndex = tree.getNodesInIndex("nonExistingIndex", "key");
+		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey("nonExistingIndex", "key");
 		assertEquals(null, nodesInIndex);
 	}
 	
@@ -398,7 +398,7 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		List<NTreeNode<String,Integer>> nodesInIndex = tree.getNodesInIndex(IDS_INDEX, "nonExistingKey");
+		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey(IDS_INDEX, "nonExistingKey");
 		assertEquals(0, nodesInIndex.size());
 	}
 	
@@ -406,7 +406,7 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		List<NTreeNode<String,Integer>> nodesInIndex = tree.getNodesInIndex(IDS_INDEX, new Object());
+		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey(IDS_INDEX, new Object());
 		assertEquals(0, nodesInIndex.size());
 	}
 	
@@ -432,8 +432,8 @@ public class NTreeTest {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex("ids", node -> node.getId());
 		tree.addIndex("values", node -> node.getValue());
-		tree.addIndex("numberOfSiblings", node -> node.getParent().getChildrenSize() - 1);
-		tree.addIndex("numberOfChildren", node -> node.getChildrenSize());
+		tree.addIndex("numberOfSiblings", node -> node.getParent().childrenSize() - 1);
+		tree.addIndex("numberOfChildren", node -> node.childrenSize());
 		
 		Multiset<String> expectedIndexNames =  HashMultiset.create(Arrays.asList("ids","values","numberOfSiblings","numberOfChildren"));
 		Multiset<String> indexNames = HashMultiset.create(tree.getIndexNames());
@@ -444,14 +444,14 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		NTreeNode<String,Integer> b1 = tree.getFirstNodeInIndex(IDS_INDEX, "B1");
-		assertEquals(b1, tree.getRoot().getChildById("B1"));
+		NTreeNode<String,Integer> b1 = tree.firstNodeInIndexWithKey(IDS_INDEX, "B1");
+		assertEquals(b1, tree.getRoot().childWithId("B1"));
 	}
 	
 	@Test void test_getFirstNodeInIndex_non_existing_index() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		
-		NTreeNode<String,Integer> node = tree.getFirstNodeInIndex("nonExistingIndex", "key");
+		NTreeNode<String,Integer> node = tree.firstNodeInIndexWithKey("nonExistingIndex", "key");
 		assertEquals(null ,node);
 	}
 	
@@ -459,7 +459,7 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		NTreeNode<String,Integer> node = tree.getFirstNodeInIndex(IDS_INDEX, "nonExistingKey");
+		NTreeNode<String,Integer> node = tree.firstNodeInIndexWithKey(IDS_INDEX, "nonExistingKey");
 		assertEquals(null, node);
 	}
 	
@@ -467,7 +467,7 @@ public class NTreeTest {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		NTreeNode<String,Integer> node = tree.getFirstNodeInIndex(IDS_INDEX, new Object());
+		NTreeNode<String,Integer> node = tree.firstNodeInIndexWithKey(IDS_INDEX, new Object());
 		assertEquals(null, node);
 	}
 	
@@ -501,7 +501,7 @@ public class NTreeTest {
 		NTree<String,Integer> tA = TestUtil.testTree();
 		NTree<String,Integer> tB = TestUtil.testTree();
 		NTree<String,Integer> tC = NTree.create(tA.id);
-		tC.addNewRootSubtree(tC.n("x"));
+		tC.addNewRoot(tC.n("x"));
 		NTree<String,Integer> tD =TestUtil.testTree();
 		tD.id = "tD";
 		

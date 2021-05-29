@@ -38,5 +38,5 @@ tasks.named('test') {
 tasks.register('copyJavadoc', Copy) {
 	dependsOn tasks.javadoc
 	from "$docsDir/javadoc"
-	into "$rootDir/../n-arry-tree-javadocs/docs"
+	into "$rootDir/javadocs"
 }

@@ -58,19 +58,19 @@ public class NearestCommonAncestorTool<K extends Comparable<K>,V> {
 				this.valid = false;
 				return;
 			}
-			List<NTreeNode<K,V>> nodesFromAtoB = nodeB.getNodesUpToAncestor(nodeA);
+			List<NTreeNode<K,V>> nodesFromAtoB = nodeB.nodesUpToAncestor(nodeA);
 			Collections.reverse(nodesFromAtoB);
 			this.nodesFromAtoB = nodesFromAtoB;
 			this.nodesFromAtoAncestor = new LinkedList<>(Arrays.asList(nodeA, nodeA.parent));
-			this.nodesFromBtoAncestor = nodeB.getNodesUpToAncestor(nodeA.parent);
+			this.nodesFromBtoAncestor = nodeB.nodesUpToAncestor(nodeA.parent);
 		}
 		else if (nodeA.hasAncestor(nodeB)) {
 			if (nodeB.parent == null) {
 				this.valid = false;
 				return;
 			}
-			this.nodesFromAtoB = nodeA.getNodesUpToAncestor(nodeB);
-			this.nodesFromAtoAncestor = nodeA.getNodesUpToAncestor(nodeB.parent);
+			this.nodesFromAtoB = nodeA.nodesUpToAncestor(nodeB);
+			this.nodesFromAtoAncestor = nodeA.nodesUpToAncestor(nodeB.parent);
 			this.nodesFromBtoAncestor= new LinkedList<>(Arrays.asList(nodeB, nodeB.parent));
 		}
 		else {

@@ -356,7 +356,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * @throws 	RuntimeException if the passed node's treeOfBelonging is not this
 	 * 			this tree and the node's parent is not null
 	 */
-	public NTree<K,V> addNewRootSubtree(NTreeNode<K,V> newRoot) {
+	public NTree<K,V> addNewRoot(NTreeNode<K,V> newRoot) {
 		argsNotNull(newRoot);
 		if (newRoot == this.root) {
 			return this;
@@ -382,14 +382,14 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * 			&#8226 There was no root, so the replaced node was null.<br>
 	 * 			&#8226 The passed node to this method is this tree's existing root.<br>
 	 */
-	public NTreeNode<K,V> setRootSubtree(NTreeNode<K,V> node) {
+	public NTreeNode<K,V> setRoot(NTreeNode<K,V> node) {
 		argsNotNull(node);
 		if (this.root == null) {
-			this.root = node.cloneSubtree(this);
+			this.root = node.clone(this);
 			recreateIndexes();
 			return null;
 		}
-		return this.root.replaceSubtree(node);
+		return this.root.replaceWith(node);
 	}
 	
 	/**
@@ -403,14 +403,14 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * 			&#8226 There was no root, so the replaced node was null.<br>
 	 * 			&#8226 The passed node to this method is this tree's existing root.<br>
 	 */
-	public NTreeNode<K,V> setRoot(NTreeNode<K,V> node) {
+	public NTreeNode<K,V> setRootSingleNode(NTreeNode<K,V> node) {
 		argsNotNull(node);
 		if (this.root == null) {
-			this.root = node.clone(this);
+			this.root = node.cloneSingleNode(this);
 			recreateIndexes();
 			return null;
 		}
-		return this.root.replace(node);
+		return this.root.replaceSingleNodeWith(node);
 	}
 	
 	/**
@@ -434,7 +434,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		if (this.root == null) {
 			return 0;
 		}
-		return this.root.subtreeSize();
+		return this.root.size();
 	}
 	
 	/**
@@ -544,7 +544,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * 			{@code null} if the index does not exist
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <R> List<NTreeNode<K,V>> getNodesInIndex(String indexName, R key) {
+	public <R> List<NTreeNode<K,V>> nodesInIndexWithKey(String indexName, R key) {
 		argsNotNull(indexName, key);
 		TreeNodeIndex index = this.indexes.get(indexName);
 		if (index == null) {
@@ -563,9 +563,9 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * 			if the index does not exists or there is no node in the index 
 	 * 			mapped to the key
 	 */
-	public <R> NTreeNode<K,V> getFirstNodeInIndex(String indexName, R key) {
+	public <R> NTreeNode<K,V> firstNodeInIndexWithKey(String indexName, R key) {
 		argsNotNull(indexName, key);
-		List<NTreeNode<K,V>> nodes = getNodesInIndex(indexName,key);
+		List<NTreeNode<K,V>> nodes = nodesInIndexWithKey(indexName,key);
 		if (nodes == null || nodes.size() < 1) {
 			return null;
 		}
@@ -767,11 +767,11 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * @return a list of the nodes in the given level
 	 * @throws RuntimeException if the provided level is less than 1
 	 */
-	public List<NTreeNode<K,V>> getNodesInLevel(int level) {
+	public List<NTreeNode<K,V>> nodesInLevel(int level) {
 		if (this.root == null) {
 			return new LinkedList<>();
 		}
-		return this.root.getNodesInLevel(level);
+		return this.root.nodesInLevel(level);
 	}
 	
 	/**
@@ -803,7 +803,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		NTree<K,V> clone = new NTree<K,V>(this.id);
 		clone.nodeValueCloningMode = this.nodeValueCloningMode;
 		clone.nodeValueType = this.nodeValueType;
-		clone.root = this.root.cloneSubtree(clone);
+		clone.root = this.root.clone(clone);
 		clone.version = this.version;
 		clone.isOrdered = this.isOrdered;
 		if (this.nodeComparator != null) {
@@ -828,7 +828,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		NTree<K,V> clone = new NTree<K,V>(id);
 		clone.nodeValueCloningMode = this.nodeValueCloningMode;
 		clone.nodeValueType = this.nodeValueType;
-		clone.root = this.root.cloneSubtree(clone);
+		clone.root = this.root.clone(clone);
 		clone.version = this.version;
 		Map<String, TreeNodeIndex> clonedIndexes = new HashMap<>();
 		this.indexes.forEach((name, index) -> clonedIndexes.put(name, index.cloneIndex(clone)));

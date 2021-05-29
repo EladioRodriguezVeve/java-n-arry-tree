@@ -33,7 +33,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 	
 	@Test void test_subtreeSize() {
 		NTree<String,Integer> tree = TestUtil.testTree();
-		assertEquals(5, tree.root.subtreeSize());
+		assertEquals(5, tree.root.size());
 	}
 	
 	@Test void test_levelFromRoot() {
@@ -49,7 +49,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 	@SuppressWarnings("unchecked")
 	@Test void test_levelRelativeToAncestor() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1"),
 				t.n("B2").c(
@@ -77,7 +77,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 	@SuppressWarnings("unchecked")
 	@Test void test_toMapOfLists() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("A1"),
@@ -122,10 +122,10 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		NTreeNode<String,Integer> node = t.n("X").c(t.n("Y").c(t.n("Z")));
 		NTreeNode<String,Integer> y = node.findFirstWithId("Y");
 		
-		Multiset<NTreeNode<String,Integer>> rootConnected = HashMultiset.create(t.root.getNodeAndConnectedNodes());
-		Multiset<NTreeNode<String,Integer>> b1Connected = HashMultiset.create(b1.getNodeAndConnectedNodes());
-		Multiset<NTreeNode<String,Integer>> nodeConnected = HashMultiset.create(node.getNodeAndConnectedNodes());
-		Multiset<NTreeNode<String,Integer>> yConnected = HashMultiset.create(y.getNodeAndConnectedNodes());
+		Multiset<NTreeNode<String,Integer>> rootConnected = HashMultiset.create(t.root.nodeAndConnectedNodes());
+		Multiset<NTreeNode<String,Integer>> b1Connected = HashMultiset.create(b1.nodeAndConnectedNodes());
+		Multiset<NTreeNode<String,Integer>> nodeConnected = HashMultiset.create(node.nodeAndConnectedNodes());
+		Multiset<NTreeNode<String,Integer>> yConnected = HashMultiset.create(y.nodeAndConnectedNodes());
 		
 		Multiset<NTreeNode<String,Integer>> expRootConnected = HashMultiset.create(Arrays.asList(t.n("A1",1),t.n("B1",2),t.n("B2",3)));
 		Multiset<NTreeNode<String,Integer>> expB1Connected = HashMultiset.create(Arrays.asList(t.n("B1",2),t.n("A1",1),t.n("C1",4),t.n("C2",5)));
@@ -163,7 +163,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		NTreeNode<String,Integer> b1 = t.findFirstWithId("B1");
 		NTreeNode<String,Integer> c1 = t.findFirstWithId("C1");
 		
-		List<NTreeNode<String,Integer>> fromC1toA1 = c1.getNodesUpToAncestor(t.root);
+		List<NTreeNode<String,Integer>> fromC1toA1 = c1.nodesUpToAncestor(t.root);
 		
 		List<NTreeNode<String,Integer>> expected = Arrays.asList(c1,b1,a1);
 		assertEquals(expected, fromC1toA1);
@@ -173,7 +173,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		NTree<String,Integer> t = TestUtil.testTree();
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			t.root.getNodesInLevel(0);
+			t.root.nodesInLevel(0);
 		});
 		
 		assertTrue(exception.getMessage().contains("level cannot be less than 1"));
@@ -182,10 +182,10 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 	@Test void test_getNodesInLevel() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		
-		Multiset<NTreeNode<String,Integer>> nodesL1 = HashMultiset.create(t.root.getNodesInLevel(1));
-		Multiset<NTreeNode<String,Integer>> nodesL2 = HashMultiset.create(t.root.getNodesInLevel(2));
-		Multiset<NTreeNode<String,Integer>> nodesL3 = HashMultiset.create(t.root.getNodesInLevel(3));
-		List<NTreeNode<String,Integer>> nodesL4 = t.root.getNodesInLevel(4);
+		Multiset<NTreeNode<String,Integer>> nodesL1 = HashMultiset.create(t.root.nodesInLevel(1));
+		Multiset<NTreeNode<String,Integer>> nodesL2 = HashMultiset.create(t.root.nodesInLevel(2));
+		Multiset<NTreeNode<String,Integer>> nodesL3 = HashMultiset.create(t.root.nodesInLevel(3));
+		List<NTreeNode<String,Integer>> nodesL4 = t.root.nodesInLevel(4);
 		
 		Multiset<NTreeNode<String,Integer>> expectedL1 = HashMultiset.create(Arrays.asList(t.n("A1",1)));
 		Multiset<NTreeNode<String,Integer>> expectedL2 = HashMultiset.create(Arrays.asList(t.n("B1",2),t.n("B2",3)));
@@ -220,8 +220,8 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		NTree<String,Integer> t = TestUtil.testTree();
 		Type nodeValueType = new TypeToken<Integer>(){}.getType();
 		
-		String json = t.root.subTreeToJson();
-		NTreeNode<String, Integer> clone = NTreeNode.subtreeFromJson(json, t, nodeValueType);
+		String json = t.root.toJson();
+		NTreeNode<String, Integer> clone = NTreeNode.fromJson(json, t, nodeValueType);
 		
 		assertEquals(t.root, clone);
 		assertNotSame(t.root, clone);

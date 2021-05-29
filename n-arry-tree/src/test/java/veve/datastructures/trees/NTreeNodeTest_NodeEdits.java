@@ -28,7 +28,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tree = NTree.create("tree");
     	NTreeNode<String,Integer> node = tree.createNode("node");
     	
-    	assertNull(node.replace(node));
+    	assertNull(node.replaceSingleNodeWith(node));
     }
     
     @Test void test_replace_is_bastard_node() {
@@ -36,7 +36,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTreeNode<String,Integer> nodeA = tree.createNode("A");
     	NTreeNode<String,Integer> nodeB = tree.createNode("B");
     	
-    	assertNull(nodeA.replace(nodeB));
+    	assertNull(nodeA.replaceSingleNodeWith(nodeB));
     }
     
     @SuppressWarnings("unchecked")
@@ -49,14 +49,14 @@ public class NTreeNodeTest_NodeEdits {
     	NTreeNode<String,Integer> replacement = tB.n("X");
     	NTreeNode<String,Integer> replacedRoot = tA.getRoot();
     	
-    	NTreeNode<String,Integer> x = tA.root.replace(replacement);
+    	NTreeNode<String,Integer> x = tA.root.replaceSingleNodeWith(replacement);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("X","B1","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
 		Multiset<String> idsInIndex =  HashMultiset.create(tA.indexes.get(IDS_INDEX).keysList());
 		
-		NTreeNode<String,Integer> xInIdsIndex = tA.getFirstNodeInIndex(IDS_INDEX, "X");
-		List<NTreeNode<String,Integer>> childsInParentIdsIndex = tA.getNodesInIndex(PARENT_IDS_INDEX, "X");
+		NTreeNode<String,Integer> xInIdsIndex = tA.firstNodeInIndexWithKey(IDS_INDEX, "X");
+		List<NTreeNode<String,Integer>> childsInParentIdsIndex = tA.nodesInIndexWithKey(PARENT_IDS_INDEX, "X");
 		
 		assertNotSame(tA.getRoot(), replacement);
 		assertEquals(expectedIds, treeIds);
@@ -77,7 +77,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTreeNode<String,Integer> replacement = tB.n("B2");
     	
     	NTreeNode<String,Integer> tAb1 = tA.findFirstWithId("B1");
-    	NTreeNode<String,Integer> oldNode = tAb1.replace(replacement);
+    	NTreeNode<String,Integer> oldNode = tAb1.replaceSingleNodeWith(replacement);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B1","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
@@ -93,21 +93,21 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
     	tA.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tA.addIndex(HAS_CHILD_WITH_ID_X_INDEX, node -> node.getChildrenIds().contains("X"));
+    	tA.addIndex(HAS_CHILD_WITH_ID_X_INDEX, node -> node.childrenIds().contains("X"));
     	NTree<String,Integer> tB = NTree.create("tB");
     	NTreeNode<String,Integer> replacement = tB.n("X");
     	
     	NTreeNode<String,Integer> tAb1 = tA.findFirstWithId("B1");
-    	NTreeNode<String,Integer> replaced = tAb1.replace(replacement);
+    	NTreeNode<String,Integer> replaced = tAb1.replaceSingleNodeWith(replacement);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","X","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
 		Multiset<String> idsInIndex =  HashMultiset.create(tA.indexes.get(IDS_INDEX).keysList());
 		NTreeNode<String,Integer> x = tA.findFirstWithId("X");
-		NTreeNode<String,Integer> xInIndex = tA.getFirstNodeInIndex(IDS_INDEX, "X");
+		NTreeNode<String,Integer> xInIndex = tA.firstNodeInIndexWithKey(IDS_INDEX, "X");
 		
-		List<NTreeNode<String,Integer>> nodesInParentIdsIndex = tA.getNodesInIndex(PARENT_IDS_INDEX, "X");
-		NTreeNode<String,Integer> nodeInHasChildWithIdXIndex = tA.getFirstNodeInIndex(HAS_CHILD_WITH_ID_X_INDEX, true);
+		List<NTreeNode<String,Integer>> nodesInParentIdsIndex = tA.nodesInIndexWithKey(PARENT_IDS_INDEX, "X");
+		NTreeNode<String,Integer> nodeInHasChildWithIdXIndex = tA.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_X_INDEX, true);
 		
 		assertNotSame(tAb1, replacement);
 		assertEquals(expectedIds,treeIds);
@@ -118,7 +118,7 @@ public class NTreeNodeTest_NodeEdits {
 			if (node.getParent() != x)
 				fail();
 		});
-		assertSame(x, nodeInHasChildWithIdXIndex.getChildById("X"));
+		assertSame(x, nodeInHasChildWithIdXIndex.childWithId("X"));
     }
     
 	//==============================================================================================
@@ -128,7 +128,7 @@ public class NTreeNodeTest_NodeEdits {
     @Test void test_replaceSubtree_same_node() {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	
-    	assertNull(tree.root.replaceSubtree(tree.root));
+    	assertNull(tree.root.replaceWith(tree.root));
     }
     
     @SuppressWarnings("unchecked")
@@ -137,7 +137,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTreeNode<String,Integer> nodeA = tree.createNode("A").c(tree.n("B"));
     	NTreeNode<String,Integer> nodeB = tree.createNode("B");
     	
-    	assertNull(nodeA.replace(nodeB));
+    	assertNull(nodeA.replaceSingleNodeWith(nodeB));
     }
     
     @SuppressWarnings("unchecked")
@@ -148,7 +148,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTreeNode<String,Integer> replacement = tB.n("B2");
     	
     	NTreeNode<String,Integer> tAb1 = tA.findFirstWithId("B1");
-    	NTreeNode<String,Integer> oldNode = tAb1.replace(replacement);
+    	NTreeNode<String,Integer> oldNode = tAb1.replaceSingleNodeWith(replacement);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B1","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
@@ -164,20 +164,20 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
     	tA.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tA.addIndex(HAS_CHILD_WITH_ID_X_INDEX, node -> node.getChildrenIds().contains("X1"));
+    	tA.addIndex(HAS_CHILD_WITH_ID_X_INDEX, node -> node.childrenIds().contains("X1"));
     	NTree<String,Integer> tB = NTree.create("treeB");
-    	tB.addNewRootSubtree(tB.n("X1").c(tB.n("Y1"),tB.n("Y2")));
+    	tB.addNewRoot(tB.n("X1").c(tB.n("Y1"),tB.n("Y2")));
     	
     	NTreeNode<String,Integer> tAb1 = tA.findFirstWithId("B1");
-    	NTreeNode<String,Integer> replaced = tAb1.replaceSubtree(tB.root); //
+    	NTreeNode<String,Integer> replaced = tAb1.replaceWith(tB.root); //
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","X1","Y1","Y2","B2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
 		Multiset<String> idsInIndex =  HashMultiset.create(tA.indexes.get(IDS_INDEX).keysList());
 		
 		NTreeNode<String,Integer> x1 = tA.findFirstWithId("X1");
-		List<NTreeNode<String,Integer>> childsOdX1InParentIdsIndex = tA.getNodesInIndex(PARENT_IDS_INDEX, "X1");
-		NTreeNode<String,Integer> nodeInHasChildWithIdXIndex = tA.getFirstNodeInIndex(HAS_CHILD_WITH_ID_X_INDEX, true);
+		List<NTreeNode<String,Integer>> childsOdX1InParentIdsIndex = tA.nodesInIndexWithKey(PARENT_IDS_INDEX, "X1");
+		NTreeNode<String,Integer> nodeInHasChildWithIdXIndex = tA.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_X_INDEX, true);
 		
 		assertNotSame(tAb1, tB.root);
 		assertEquals(expectedIds,treeIds);
@@ -200,7 +200,7 @@ public class NTreeNodeTest_NodeEdits {
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	NTreeNode<String,Integer> node = tree.n("A");
     	
-    	NTreeNode<String,Integer> removed = node.removeSubtree();
+    	NTreeNode<String,Integer> removed = node.remove();
     	
     	assertNull(removed);
     	assertNull(tree.root);
@@ -211,7 +211,7 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	
-    	NTreeNode<String,Integer> removed = tree.root.removeSubtree();
+    	NTreeNode<String,Integer> removed = tree.root.remove();
     	
     	assertNotNull(removed);
     	assertNull(tree.root);
@@ -224,10 +224,10 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	tree.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tree.addIndex(HAS_CHILD_WITH_ID_B1_INDEX, node -> node.getChildrenIds().contains("B1"));
+    	tree.addIndex(HAS_CHILD_WITH_ID_B1_INDEX, node -> node.childrenIds().contains("B1"));
     	
     	NTreeNode<String,Integer> tAb1 = tree.findFirstWithId("B1");
-    	NTreeNode<String,Integer> removed = tAb1.removeSubtree();
+    	NTreeNode<String,Integer> removed = tAb1.remove();
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B2"));
     	Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
@@ -239,7 +239,7 @@ public class NTreeNodeTest_NodeEdits {
 		assertEquals(expectedIds, idsInIndex);
 		assertEquals(expectedIds, treeIds);
 		assertEquals(Arrays.asList("A1"), idsInParentIdsIndex);
-		assertNull(tree.getFirstNodeInIndex(HAS_CHILD_WITH_ID_B1_INDEX, "B1"));
+		assertNull(tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_B1_INDEX, "B1"));
     }
     
 	//==============================================================================================
@@ -264,16 +264,16 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tree = NTree.create("tree");
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	tree.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tree.addIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, node -> node.getChildrenIds().containsAll(Arrays.asList("B2","C1")));
-    	tree.addNewRootSubtree(
+    	tree.addIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, node -> node.childrenIds().containsAll(Arrays.asList("B2","C1")));
+    	tree.addNewRoot(
     		tree.n("A1").c(
     			tree.n("B1").c(
     				tree.n("B2",2),
     				tree.n("C1")),
     			tree.n("B2")));
     	
-    	NTreeNode<String,Integer> b1 = tree.getRoot().getChildById("B1");
-    	NTreeNode<String,Integer> b2ToBeRemoved = tree.getRoot().getChildById("B2");
+    	NTreeNode<String,Integer> b1 = tree.getRoot().childWithId("B1");
+    	NTreeNode<String,Integer> b2ToBeRemoved = tree.getRoot().childWithId("B2");
     	List<NTreeNode<String,Integer>> removed = b1.removeAndParentAdoptsGrandChildren(true);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B2", "C1"));
@@ -287,11 +287,11 @@ public class NTreeNodeTest_NodeEdits {
 		assertEquals(1, leftB2s.size());
 		assertEquals(2, leftB2s.get(0).getValue());
 		
-		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.getNodesInIndex(PARENT_IDS_INDEX, "A1"));
+		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.nodesInIndexWithKey(PARENT_IDS_INDEX, "A1"));
 		Multiset<NTreeNode<String,Integer>> nodesInTreeWithA1Parent = HashMultiset.create(tree.findAll(node -> node.getParent().getId().equals("A1")));
 		assertEquals(nodesInTreeWithA1Parent, nodesInParentIdsIndexWithA1Parent);
 		
-		NTreeNode<String,Integer> a1InHasChildIndex = tree.getFirstNodeInIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, true);
+		NTreeNode<String,Integer> a1InHasChildIndex = tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_B2_C1_INDEX, true);
 		assertSame(tree.getRoot(), a1InHasChildIndex);
     }
     
@@ -301,16 +301,16 @@ public class NTreeNodeTest_NodeEdits {
     	NTree<String,Integer> tree = NTree.create("tree");
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	tree.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tree.addIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, node -> node.getChildrenIds().containsAll(Arrays.asList("B2","C1")));
-    	tree.addNewRootSubtree(
+    	tree.addIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, node -> node.childrenIds().containsAll(Arrays.asList("B2","C1")));
+    	tree.addNewRoot(
     		tree.n("A1").c(
     			tree.n("B1").c(
     				tree.n("B2", 1),
     				tree.n("C1")),
     			tree.n("B2", 2)));
     	
-    	NTreeNode<String,Integer> b1 = tree.getRoot().getChildById("B1");
-    	NTreeNode<String,Integer> b2ToBeRemoved = tree.getRoot().getChildById("B1").getChildById("B2");
+    	NTreeNode<String,Integer> b1 = tree.getRoot().childWithId("B1");
+    	NTreeNode<String,Integer> b2ToBeRemoved = tree.getRoot().childWithId("B1").childWithId("B2");
     	
     	List<NTreeNode<String,Integer>> removed = b1.removeAndParentAdoptsGrandChildren(false);
     	
@@ -325,11 +325,11 @@ public class NTreeNodeTest_NodeEdits {
 		assertEquals(1, leftB2s.size());
 		assertEquals(2, leftB2s.get(0).getValue());
 		
-		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.getNodesInIndex(PARENT_IDS_INDEX, "A1"));
+		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.nodesInIndexWithKey(PARENT_IDS_INDEX, "A1"));
 		Multiset<NTreeNode<String,Integer>> nodesInTreeWithA1Parent = HashMultiset.create(tree.findAll(node -> node.getParent().getId().equals("A1")));
 		assertEquals(nodesInTreeWithA1Parent, nodesInParentIdsIndexWithA1Parent);
 		
-		NTreeNode<String,Integer> a1InHasChildIndex = tree.getFirstNodeInIndex(HAS_CHILD_WITH_ID_B2_C1_INDEX, true);
+		NTreeNode<String,Integer> a1InHasChildIndex = tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_B2_C1_INDEX, true);
 		assertSame(tree.getRoot(), a1InHasChildIndex);
     }
     
@@ -339,15 +339,15 @@ public class NTreeNodeTest_NodeEdits {
 	  	NTree<String,Integer> tree = NTree.create("tree");
 	  	tree.addIndex(IDS_INDEX, node -> node.getId());
 	  	tree.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-	  	tree.addIndex(HAS_CHILD_WITH_ID_INDEX, node -> node.getChildrenIds().containsAll(Arrays.asList("B2","C1","C2")));
-	  	tree.addNewRootSubtree(
+	  	tree.addIndex(HAS_CHILD_WITH_ID_INDEX, node -> node.childrenIds().containsAll(Arrays.asList("B2","C1","C2")));
+	  	tree.addNewRoot(
 	  		tree.n("A1").c(
 	  			tree.n("B1").c(
 	  				tree.n("C1", 1),
 	  				tree.n("C2")),
 	  			tree.n("B2", 2)));
 	  	
-	  	NTreeNode<String,Integer> b1 = tree.getRoot().getChildById("B1");
+	  	NTreeNode<String,Integer> b1 = tree.getRoot().childWithId("B1");
 	  	
 	  	List<NTreeNode<String,Integer>> removed = b1.removeAndParentAdoptsGrandChildren(true);
 	  	
@@ -355,17 +355,17 @@ public class NTreeNodeTest_NodeEdits {
 		Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
 		Multiset<String> idsInIndex =  HashMultiset.create(tree.indexes.get(IDS_INDEX).keysList());
 		Multiset<String> expectedA1ChildrenIds =  HashMultiset.create(Arrays.asList("B2", "C1", "C2"));
-		Multiset<String> a1ChildrenIds =  HashMultiset.create(tree.getRoot().getChildrenIds());
+		Multiset<String> a1ChildrenIds =  HashMultiset.create(tree.getRoot().childrenIds());
 		assertEquals(expectedIds,treeIds);
 		assertEquals(expectedIds,idsInIndex);
 		assertEquals(expectedA1ChildrenIds,a1ChildrenIds);
 		assertEquals(Arrays.asList(b1), removed);
 		
-		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.getNodesInIndex(PARENT_IDS_INDEX, "A1"));
+		Multiset<NTreeNode<String,Integer>> nodesInParentIdsIndexWithA1Parent = HashMultiset.create(tree.nodesInIndexWithKey(PARENT_IDS_INDEX, "A1"));
 		Multiset<NTreeNode<String,Integer>> nodesInTreeWithA1Parent = HashMultiset.create(tree.findAll(node -> node.getParent().getId().equals("A1")));
 		assertEquals(nodesInTreeWithA1Parent, nodesInParentIdsIndexWithA1Parent);
 		
-		NTreeNode<String,Integer> a1InHasChildIndex = tree.getFirstNodeInIndex(HAS_CHILD_WITH_ID_INDEX, true);
+		NTreeNode<String,Integer> a1InHasChildIndex = tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_INDEX, true);
 		assertSame(tree.getRoot(), a1InHasChildIndex);
 	}
     

@@ -58,8 +58,8 @@ public class NTreeNodeTest_Basics {
     	Multiset<String> expIds =  HashMultiset.create(Arrays.asList("X1","B1","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
 		Multiset<String> idsInIdsIndex =  HashMultiset.create(tree.indexes.get(IDS_INDEX).keysList());
-		NTreeNode<String,Integer> x1InIdsIndex = tree.getFirstNodeInIndex(IDS_INDEX, "X1");
-		List<NTreeNode<String,Integer>> x1NodesInParentIdsIndex = tree.getNodesInIndex(PARENT_IDS_INDEX, "X1");
+		NTreeNode<String,Integer> x1InIdsIndex = tree.firstNodeInIndexWithKey(IDS_INDEX, "X1");
+		List<NTreeNode<String,Integer>> x1NodesInParentIdsIndex = tree.nodesInIndexWithKey(PARENT_IDS_INDEX, "X1");
     	assertTrue(wasReplaced);
     	assertEquals("X1", tree.getRoot().getId());
     	assertEquals(expIds, treeIds);
@@ -87,7 +87,7 @@ public class NTreeNodeTest_Basics {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	tree.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
-    	tree.addIndex(HAS_CHILD_WITH_ID_X1_INDEX, node -> node.getChildrenIds().contains("X1"));
+    	tree.addIndex(HAS_CHILD_WITH_ID_X1_INDEX, node -> node.childrenIds().contains("X1"));
     	
     	NTreeNode<String,Integer> b1 = tree.findFirst(node -> node.id.equals("B1"));
     	boolean wasReplaced = b1.replaceId("X1");
@@ -97,9 +97,9 @@ public class NTreeNodeTest_Basics {
     	Multiset<String> treeIds =  HashMultiset.create(tree.mapToList(node -> node.getId()));
 		Multiset<String> idsInIndex =  HashMultiset.create(tree.indexes.get(IDS_INDEX).keysList());
 		
-		NTreeNode<String,Integer> x1InIdsIndex = tree.getFirstNodeInIndex(IDS_INDEX, "X1");
-		List<NTreeNode<String,Integer>> x1NodesInParentIdsIndex = tree.getNodesInIndex(PARENT_IDS_INDEX, "X1");
-		NTreeNode<String,Integer> nodeInHasChildWithIdX1Index = tree.getFirstNodeInIndex(HAS_CHILD_WITH_ID_X1_INDEX, true);
+		NTreeNode<String,Integer> x1InIdsIndex = tree.firstNodeInIndexWithKey(IDS_INDEX, "X1");
+		List<NTreeNode<String,Integer>> x1NodesInParentIdsIndex = tree.nodesInIndexWithKey(PARENT_IDS_INDEX, "X1");
+		NTreeNode<String,Integer> nodeInHasChildWithIdX1Index = tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_ID_X1_INDEX, true);
 		
     	assertTrue(wasReplaced);
     	assertEquals("X1", b1.id);
@@ -126,7 +126,7 @@ public class NTreeNodeTest_Basics {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(VALUES_INDEX, node -> node.getValue());
     	tree.addIndex(PARENT_VALUES_INDEX, node -> node.getParent().getValue());
-    	tree.addIndex(HAS_CHILD_WITH_VALUE_8_INDEX, node -> node.getChildrenValues().contains(8));
+    	tree.addIndex(HAS_CHILD_WITH_VALUE_8_INDEX, node -> node.childrenValues().contains(8));
     	
     	NTreeNode<String,Integer> b1 = tree.findFirstWithValue(2);
     	NTreeNode<String,Integer> b1After = b1.setValue(8);
@@ -135,9 +135,9 @@ public class NTreeNodeTest_Basics {
     	Multiset<Integer> treeValues =  HashMultiset.create(tree.mapToList(node -> node.getValue()));
 		Multiset<Integer> valuesInIndex =  HashMultiset.create(tree.indexes.get(VALUES_INDEX).keysList());
 		
-		NTreeNode<String,Integer> b1InValuesIndex = tree.getFirstNodeInIndex(VALUES_INDEX, 8);
-		List<NTreeNode<String,Integer>> value8NodesInParentIdsIndex = tree.getNodesInIndex(PARENT_VALUES_INDEX, 8);
-		NTreeNode<String,Integer> nodeInHasChildWithIdX1Index = tree.getFirstNodeInIndex(HAS_CHILD_WITH_VALUE_8_INDEX, true);
+		NTreeNode<String,Integer> b1InValuesIndex = tree.firstNodeInIndexWithKey(VALUES_INDEX, 8);
+		List<NTreeNode<String,Integer>> value8NodesInParentIdsIndex = tree.nodesInIndexWithKey(PARENT_VALUES_INDEX, 8);
+		NTreeNode<String,Integer> nodeInHasChildWithIdX1Index = tree.firstNodeInIndexWithKey(HAS_CHILD_WITH_VALUE_8_INDEX, true);
 		
 		assertSame(b1After, b1);
     	assertEquals(8, b1.getValue());
@@ -269,7 +269,7 @@ public class NTreeNodeTest_Basics {
     @SuppressWarnings("unchecked")
 	@Test void test_toString_id_is_number() {
     	NTree<Integer,String> tree = NTree.create(0);
-    	tree.addNewRootSubtree(
+    	tree.addNewRoot(
     		tree.n(1,"A1").c(
     			tree.n(2,"B1").c(
     				tree.n(3,"C1"),

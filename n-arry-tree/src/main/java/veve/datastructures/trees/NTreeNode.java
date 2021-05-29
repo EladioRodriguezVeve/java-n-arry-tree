@@ -141,16 +141,16 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 		}
 		if (isRoot() || this.parent == null) {
 			this.id = newId;
-			this.treeOfBelonging.putNodesInAllIndexes(this.getNodeAndConnectedNodes());
+			this.treeOfBelonging.putNodesInAllIndexes(this.nodeAndConnectedNodes());
 			return true;
 		}
-		if (this.getMapOfSiblings().containsKey(newId)) {
+		if (this.siblingsMap().containsKey(newId)) {
 			return false;
 		}
 		this.parent.children.remove(this.id);
 		this.id = newId;
 		this.parent.children.put(this.id, this);
-		this.treeOfBelonging.putNodesInAllIndexes(this.getNodeAndConnectedNodes());
+		this.treeOfBelonging.putNodesInAllIndexes(this.nodeAndConnectedNodes());
 		return true;
 	}
 	
@@ -170,7 +170,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 */
 	public NTreeNode<K,V> setValue(V value) {
 		this.value = value;
-		this.treeOfBelonging.putNodesInAllIndexes(this.getNodeAndConnectedNodes());
+		this.treeOfBelonging.putNodesInAllIndexes(this.nodeAndConnectedNodes());
 		return this;
 	}
 	
@@ -226,13 +226,13 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * &#8226 This node has a sibling node that has the same id as the replacement
 	 * node.<br>
 	 */
-	public NTreeNode<K,V> replace(NTreeNode<K,V> other)  {
+	public NTreeNode<K,V> replaceSingleNodeWith(NTreeNode<K,V> other)  {
 		argsNotNull(other);
 		if (other == this || isBastardNode()) {
 			return null;
 		}
 		if (isRoot()) {
-			NTreeNode<K,V> otherClone = other.clone(this.treeOfBelonging);
+			NTreeNode<K,V> otherClone = other.cloneSingleNode(this.treeOfBelonging);
 			this.children.forEach((id,child) -> {
 				otherClone.children.put(id, child);
 				child.parent = otherClone;
@@ -243,10 +243,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 			this.treeOfBelonging.putNodesInAllIndexes(this.children.values());
 			return this.nullRefs();
 		}
-		if (getMapOfSiblings().containsKey(other.id)) {
+		if (siblingsMap().containsKey(other.id)) {
 			return null;
 		}
-		NTreeNode<K,V> otherClone = other.clone(this.treeOfBelonging);
+		NTreeNode<K,V> otherClone = other.cloneSingleNode(this.treeOfBelonging);
 		otherClone.parent = this.parent;
 		this.children.forEach((id,child) -> {
 			otherClone.children.put(id, child);
@@ -274,22 +274,22 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * &#8226 This node has a sibling node that has the same id as the replacement
 	 * node.
 	 */
-	public NTreeNode<K,V> replaceSubtree(NTreeNode<K,V> other) {
+	public NTreeNode<K,V> replaceWith(NTreeNode<K,V> other) {
 		argsNotNull(other);
 		if (other == this || isBastardNode()) {
 			return null;
 		}
 		if (isRoot()) {
-			this.treeOfBelonging.root = other.cloneSubtree(this.treeOfBelonging);
+			this.treeOfBelonging.root = other.clone(this.treeOfBelonging);
 			this.treeOfBelonging.root.parent = new NTreeNode<K,V>(this.treeOfBelonging);
 			this.treeOfBelonging.recreateIndexes();
 			this.parent = null;
 			return this;
 		}
-		if (getMapOfSiblings().containsKey(other.id)) {
+		if (siblingsMap().containsKey(other.id)) {
 			return null;
 		}
-		NTreeNode<K,V> clone = other.cloneSubtree(this.treeOfBelonging);
+		NTreeNode<K,V> clone = other.clone(this.treeOfBelonging);
 		clone.parent = this.parent;
 		this.parent.children.remove(this.id);
 		this.parent.children.put(clone.id, clone);
@@ -310,7 +310,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * If this node's parent is null but this node is not a root of a {@link NTree}
 	 * it will not be removed and {@code null} will be returned.<br>
 	 */
-	public NTreeNode<K,V> removeSubtree() {
+	public NTreeNode<K,V> remove() {
 		if (isBastardNode()) {
 			return null;
 		}
@@ -422,7 +422,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return this node
 	 */
 	@SuppressWarnings("unchecked")
-	public NTreeNode<K,V> addNewChildrenSubtrees(NTreeNode<K,V>... children) {
+	public NTreeNode<K,V> addNewChildren(NTreeNode<K,V>... children) {
 		argsNotNull((Object) children);
 		boolean isPartOfTree = isPartOfTree();
 		int numAdded = 0;
@@ -444,12 +444,12 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Same as {@link #addNewChildrenSubtrees(NTreeNode...)}.
+	 * Same as {@link #addNewChildren(NTreeNode...)}.
 	 */
 	@SuppressWarnings("unchecked")
 	public NTreeNode<K,V> c(NTreeNode<K,V>... children) {
 		argsNotNull((Object) children);
-		return addNewChildrenSubtrees(children);
+		return addNewChildren(children);
 	}
 	
 	/**
@@ -462,14 +462,14 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * existing child, otherwise returns the replaced child
 	 * @throws RuntimeException if trying to set already existing child
 	 */
-	public NTreeNode<K,V> setChildSubtree(NTreeNode<K,V> node) {
+	public NTreeNode<K,V> setChild(NTreeNode<K,V> node) {
 		argsNotNull(node);
-		for (NTreeNode<K,V> child: this.getListOfChildren()) {
+		for (NTreeNode<K,V> child: this.childrenList()) {
 			if (child == node) {
 				throw new RuntimeException("Cannot set own child");
 			}
 		}
-		NTreeNode<K,V> childToSet = node.cloneSubtree(this.treeOfBelonging);
+		NTreeNode<K,V> childToSet = node.clone(this.treeOfBelonging);
 		childToSet.parent = this;
 		if (this.children.containsKey(node.id)) {
 			NTreeNode<K,V> replaced = this.children.put(node.id, childToSet);
@@ -496,12 +496,12 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of nodes that where replaced, where the keys are
 	 * their ids
 	 */
-	public Map<K,NTreeNode<K,V>> setChildSubtrees(Collection<NTreeNode<K,V>> nodes) {
+	public Map<K,NTreeNode<K,V>> setChildren(Collection<NTreeNode<K,V>> nodes) {
 		argsNotNull(nodes);
 		Map<K,NTreeNode<K,V>> replaced = new HashMap<>();
 		Set<NTreeNode<K,V>> nodesSet = new HashSet<>(nodes);
 		nodesSet.forEach(node -> {
-			NTreeNode<K,V> replacedNode = setChildSubtree(node);
+			NTreeNode<K,V> replacedNode = setChild(node);
 			if (replacedNode != null) {
 				replaced.put(node.id, node);
 			}
@@ -510,7 +510,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Same as {@link #setChildSubtrees(Collection)} but accepts a varargs argument
+	 * Same as {@link #setChildren(Collection)} but accepts a varargs argument
 	 * instead of a {@code Collection} of nodes.
 	 * 
 	 * @param nodes a varargs of {@code NTreeNode} to set as children of this node
@@ -518,25 +518,25 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * their ids
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<K,NTreeNode<K,V>> setChildSubtrees(NTreeNode<K,V>... nodes) {
-		return setChildSubtrees(Arrays.asList(nodes));
+	public Map<K,NTreeNode<K,V>> setChildren(NTreeNode<K,V>... nodes) {
+		return setChildren(Arrays.asList(nodes));
 	}
 	
 	/**
-	 * Similar to {@link #setChildSubtree(NTreeNode)} but will not replace an 
+	 * Similar to {@link #setChild(NTreeNode)} but will not replace an 
 	 * existing child. 
 	 * 
 	 * @param node the node to set as a child of this node
 	 * @return {@code true} if the child was set or {@code false} otherwise. 
 	 * {@code false} means that this node had already a child with the same id
 	 */
-	public boolean setChildSubtreeIfAbsent(NTreeNode<K,V> node) {
+	public boolean setChildIfAbsent(NTreeNode<K,V> node) {
 		argsNotNull(node);
 		if (this.children.containsKey(node.id)) {
 			return false;
 		}
 		else {
-			NTreeNode<K,V> childToSet = node.cloneSubtree(this.treeOfBelonging);
+			NTreeNode<K,V> childToSet = node.clone(this.treeOfBelonging);
 			childToSet.parent = this;
 			this.children.put(childToSet.id, childToSet);
 			if (isPartOfTree()) {
@@ -548,18 +548,18 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Similar to {@link #setChildSubtrees(Collection)} but will not replace any 
+	 * Similar to {@link #setChildren(Collection)} but will not replace any 
 	 * existing childs.
 	 * 
 	 * @param nodes a {@code Collection} of nodes to set as a children of this node
 	 * @return {@code true} if it added all nodes passed as children
 	 */
-	public boolean setChildSubtreesIfAbsent(Collection<NTreeNode<K,V>> nodes) {
+	public boolean setChildrenIfAbsent(Collection<NTreeNode<K,V>> nodes) {
 		argsNotNull(nodes);
 		List<Integer> duplicates = new LinkedList<>();
 		Set<NTreeNode<K,V>> nodesSet = new HashSet<>(nodes);
 		nodesSet.forEach(node -> {
-			boolean wasAdded = setChildSubtreeIfAbsent(node);
+			boolean wasAdded = setChildIfAbsent(node);
 			if (!wasAdded) {
 				duplicates.add(0);
 			}
@@ -571,16 +571,16 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Same as {@link #setChildSubtreesIfAbsent(Collection)} but accepts a 
+	 * Same as {@link #setChildrenIfAbsent(Collection)} but accepts a 
 	 * varargs argument instead of a {@code Collection} of nodes.
 	 * 
 	 * @param nodes a varargs of {@code NTreeNode} to set as children of this node
 	 * @return {@code true} if it added all nodes passed as children
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean setChildSubtreesIfAbsent(NTreeNode<K,V>...  nodes) {
+	public boolean setChildrenIfAbsent(NTreeNode<K,V>...  nodes) {
 		argsNotNull((Object) nodes);
-		return setChildSubtreesIfAbsent(Arrays.asList(nodes));
+		return setChildrenIfAbsent(Arrays.asList(nodes));
 	}
 	
 	//----------------------------------------------------------------------------------------------
@@ -594,7 +594,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return the child node that matches the provided id or {@code null} if this
 	 * node does not have a child with that id
 	 */
-	public NTreeNode<K,V> getChildById(K id) {
+	public NTreeNode<K,V> childWithId(K id) {
 		argsNotNull(id);
 		return this.children.get(id);
 	}
@@ -607,9 +607,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * one provided or {@code null} if no child has that value.
 	 */
 	//TODO test
-	public NTreeNode<K,V> getFirstChildWithValue(V value) {
+	public NTreeNode<K,V> firstChildWithValue(V value) {
 		argsNotNull(value);
-		List<NTreeNode<K,V>> nodesWithValue = this.getListOfChildren().stream().filter(
+		List<NTreeNode<K,V>> nodesWithValue = this.childrenList().stream().filter(
 				safePredicate(node -> node.value.equals(value))
 			).collect(Collectors.toList());
 		return nodesWithValue.size() > 0 ? nodesWithValue.get(0) : null;
@@ -620,7 +620,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a {@code List} of this node's children
 	 */
-	public List<NTreeNode<K,V>> getListOfChildren() {
+	public List<NTreeNode<K,V>> childrenList() {
 		return new LinkedList<NTreeNode<K,V>>(this.children.values());
 	}
 	
@@ -633,9 +633,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code List} of this node's children for which the provided 
 	 * {@code Predicate} evaluates to {@code true}
 	 */
-	public List<NTreeNode<K,V>> getListOfChildren(Predicate<NTreeNode<K,V>> predicate) {
+	public List<NTreeNode<K,V>> childrenList(Predicate<NTreeNode<K,V>> predicate) {
 		argsNotNull(predicate);
-		return getListOfChildren().stream().filter(safePredicate(predicate)).collect(Collectors.toList());
+		return childrenList().stream().filter(safePredicate(predicate)).collect(Collectors.toList());
 	}
 	
 	/**
@@ -646,14 +646,14 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code List} of this node's children whose ids are included in
 	 * the passed {@code Collection} of ids
 	 */
-	public List<NTreeNode<K,V>> getListOfChildren(Collection<K> ids) {
+	public List<NTreeNode<K,V>> childrenList(Collection<K> ids) {
 		argsNotNull(ids);
 		Set<K> idsSet = new HashSet<>(ids);
-		return getListOfChildren(node -> idsSet.contains(node.id));
+		return childrenList(node -> idsSet.contains(node.id));
 	}
 	
 	/**
-	 * Similar to {@link #getListOfChildren(Collection)} but has a varargs parameter
+	 * Similar to {@link #childrenList(Collection)} but has a varargs parameter
 	 * instead of a {@code Collection} of nodes
 	 * 
 	 * @param ids the varargs of ids
@@ -661,9 +661,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * the passed varargs ids parameter
 	 */
 	@SuppressWarnings("unchecked")
-	public List<NTreeNode<K,V>> getListOfChildren(K... ids) {
+	public List<NTreeNode<K,V>> childrenList(K... ids) {
 		argsNotNull((Object) ids);
-		return getListOfChildren(Arrays.asList(ids));
+		return childrenList(Arrays.asList(ids));
 	}
 	
 	/**
@@ -671,7 +671,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a {@code Map} of this node's children. The Map keys are the children's ids.
 	 */
-	public Map<K,NTreeNode<K,V>> getMapOfChildren() {
+	public Map<K,NTreeNode<K,V>> childrenMap() {
 		return new HashMap<K,NTreeNode<K,V>>(this.children);
 	}
 	
@@ -684,9 +684,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * {@code Predicates} evaluates to {@code true}. The Map keys are the 
 	 * children's ids.
 	 */
-	public Map<K,NTreeNode<K,V>> getMapOfChildren(Predicate<NTreeNode<K,V>> predicate) {
+	public Map<K,NTreeNode<K,V>> childrenMap(Predicate<NTreeNode<K,V>> predicate) {
 		argsNotNull(predicate);
-		return getListOfChildren().stream().filter(safePredicate(predicate)).collect(Collectors.toMap(node -> node.id, node -> node));
+		return childrenList().stream().filter(safePredicate(predicate)).collect(Collectors.toMap(node -> node.id, node -> node));
 	}
 	
 	/**
@@ -696,23 +696,23 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of this node's children that have ids that are in 
 	 * the provided {@code Collection} of ids. The Map keys are the children's ids.
 	 */
-	public Map<K,NTreeNode<K,V>> getMapOfChildren(Collection<K> ids) {
+	public Map<K,NTreeNode<K,V>> childrenMap(Collection<K> ids) {
 		argsNotNull(ids);
 		Set<K> idsSet = new HashSet<>(ids);
-		return getMapOfChildren(node -> idsSet.contains(node.id));
+		return childrenMap(node -> idsSet.contains(node.id));
 	}
 	
 	/**
-	 * Similar to {@link #getMapOfChildren(Collection)} but instead of having a 
+	 * Similar to {@link #childrenMap(Collection)} but instead of having a 
 	 * {@code Collection} as parameter it uses a varargs parameter.
 	 * 
 	 * @return a {@code Map} of this node's children that have ids that are in 
 	 * the provided varargs of ids. The Map keys are the children's ids.
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<K,NTreeNode<K,V>> getMapOfChildren(K... ids) {
+	public Map<K,NTreeNode<K,V>> childrenMap(K... ids) {
 		argsNotNull((Object) ids);
-		return getMapOfChildren(Arrays.asList(ids));
+		return childrenMap(Arrays.asList(ids));
 	}
 	
 	//----------------------------------------------------------------------------------------------
@@ -726,7 +726,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return the removed node or {@code null} if this node has no child with 
 	 * the provided id
 	 */
-	public NTreeNode<K,V> removeChildSubtree(K id) {
+	public NTreeNode<K,V> removeChild(K id) {
 		argsNotNull(id);
 		if (this.children.containsKey(id)) {
 			if (isPartOfTree()) {
@@ -747,12 +747,12 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K,NTreeNode<K,V>> removeChildSubtrees(Predicate<NTreeNode<K,V>> predicate) {
+	public Map<K,NTreeNode<K,V>> removeChildren(Predicate<NTreeNode<K,V>> predicate) {
 		argsNotNull(predicate);
 		Map<K,NTreeNode<K,V>> removed = new HashMap<>();
-		List<NTreeNode<K,V>> nodesToRemove = getListOfChildren(predicate);
+		List<NTreeNode<K,V>> nodesToRemove = childrenList(predicate);
 		nodesToRemove.forEach(node -> {
-			NTreeNode<K,V> removedNode = removeChildSubtree(node.id);
+			NTreeNode<K,V> removedNode = removeChild(node.id);
 			if (removedNode != null) {
 				removed.put(node.id, node);
 			}
@@ -768,14 +768,14 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K,NTreeNode<K,V>> removeChildSubtrees(Collection<K> ids) {
+	public Map<K,NTreeNode<K,V>> removeChildren(Collection<K> ids) {
 		argsNotNull(ids);
 		Set<K> idsSet = new HashSet<>(ids);
-		return removeChildSubtrees(node -> idsSet.contains(node.id));
+		return removeChildren(node -> idsSet.contains(node.id));
 	}
 	
 	/**
-	 * Similar to {@link #removeChildSubtrees(Collection)} but uses a varargs
+	 * Similar to {@link #removeChildren(Collection)} but uses a varargs
 	 * parameter instead of a {@code Collection} to pass the child ids.
 	 * 
 	 * @param ids a vararg of the ids of the child nodes to remove
@@ -783,9 +783,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * the ids of the child nodes.
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<K,NTreeNode<K,V>> removeChildSubtrees(K... ids) {
+	public Map<K,NTreeNode<K,V>> removeChildren(K... ids) {
 		argsNotNull((Object) ids);
-		return removeChildSubtrees(Arrays.asList(ids));
+		return removeChildren(Arrays.asList(ids));
 	}
 	
 	/**
@@ -794,8 +794,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K, NTreeNode<K, V>> clearChildSubtrees() {
-		return removeChildSubtrees(getChildrenIds());
+	public Map<K, NTreeNode<K, V>> removeAllChildren() {
+		return removeChildren(childrenIds());
 	}
 	
 	/**
@@ -808,11 +808,11 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K,NTreeNode<K,V>> retainChildSubtrees(Predicate<NTreeNode<K,V>> predicate) {
+	public Map<K,NTreeNode<K,V>> retainChild(Predicate<NTreeNode<K,V>> predicate) {
 		argsNotNull(predicate);
-		Map<K,NTreeNode<K,V>> nodesToRemove = getListOfChildren().stream()
+		Map<K,NTreeNode<K,V>> nodesToRemove = childrenList().stream()
 				.filter(Predicate.not(safePredicate(predicate))).collect(Collectors.toMap(node -> node.id, node -> node));
-		nodesToRemove.forEach((id, node) -> removeChildSubtree(node.id));
+		nodesToRemove.forEach((id, node) -> removeChild(node.id));
 		return nodesToRemove;
 	}
 	
@@ -824,14 +824,14 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K, NTreeNode<K, V>> retainChildSubtrees(Collection<K> ids) {
+	public Map<K, NTreeNode<K, V>> retainChildren(Collection<K> ids) {
 		argsNotNull(ids);
 		Set<K> idsSet = new HashSet<>(ids);
-		return retainChildSubtrees(node -> idsSet.contains(node.id));
+		return retainChild(node -> idsSet.contains(node.id));
 	}
 	
 	/**
-	 * Similar to {@link #retainChildSubtrees(Collection)} but has a varargs parameter
+	 * Similar to {@link #retainChildren(Collection)} but has a varargs parameter
 	 * to pass the child ids.
 	 * 
 	 * @param ids a varargs of ids of the child nodes to retain
@@ -839,9 +839,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * the ids of the child nodes.
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<K, NTreeNode<K, V>> retainChildSubtrees(K... ids) {
+	public Map<K, NTreeNode<K, V>> retainChildren(K... ids) {
 		argsNotNull((Object) ids);
-		return retainChildSubtrees(Arrays.asList(ids));
+		return retainChildren(Arrays.asList(ids));
 	}
 	
 	//----------------------------------------------------------------------------------------------
@@ -853,7 +853,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return the number of children this node has
 	 */
-	public int getChildrenSize() {
+	public int childrenSize() {
 		return this.children.size();
 	}
 	
@@ -862,7 +862,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a {@code List} of the ids of this node's children
 	 */
-	public List<K> getChildrenIds() {
+	public List<K> childrenIds() {
 		return mapChildrenToList(child -> child.id);
 	}
 	
@@ -871,7 +871,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a {@code List} of the values of this node's children
 	 */
-	public List<V> getChildrenValues() {
+	public List<V> childrenValues() {
 		return mapChildrenToList(child -> child.value);
 	}
 	
@@ -887,7 +887,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 */
 	public <R> List<R> mapChildrenToList(Function<NTreeNode<K,V>,R> function) {
 		argsNotNull(function);
-		return getListOfChildren().stream().map(safeFunction(function)).collect(Collectors.toList());
+		return childrenList().stream().map(safeFunction(function)).collect(Collectors.toList());
 	}
 	
 	/**
@@ -903,7 +903,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 */
 	public <R> Map<K,R> mapChildrenToMap(Function<NTreeNode<K,V>,R> function) {
 		argsNotNull(function);
-		return getListOfChildren().stream().collect(Collectors.toMap(node -> node.id, node -> safeFunction(function).apply(node)));
+		return childrenList().stream().collect(Collectors.toMap(node -> node.id, node -> safeFunction(function).apply(node)));
 	}
 	
 	/**
@@ -913,8 +913,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of where the keys are the ids of this node's children 
 	 * and the values are their values
 	 */
-	public Map<K,V> getMapOfChildrenIdValues() {
-		return getListOfChildren().stream().collect(Collectors.toMap(node -> node.id, node -> node.value));
+	public Map<K,V> childrenIdsValuesMap() {
+		return childrenList().stream().collect(Collectors.toMap(node -> node.id, node -> node.value));
 	}
 	
 	//==============================================================================================
@@ -930,7 +930,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * siblings ids. If this node is a root or it's parent is {@code null} then 
 	 * {@code null} is returned.
 	 */
-	public Map<K,NTreeNode<K,V>> getMapOfSiblings() {
+	public Map<K,NTreeNode<K,V>> siblingsMap() {
 		if (this.parent == null) {
 			return null;
 		}
@@ -945,15 +945,15 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a {@code List} of this node's siblings.
 	 */
-	public List<NTreeNode<K,V>> getListOfSiblings() {
-		return new LinkedList<NTreeNode<K,V>>(getMapOfSiblings().values());
+	public List<NTreeNode<K,V>> siblingsList() {
+		return new LinkedList<NTreeNode<K,V>>(siblingsMap().values());
 	}
 	
 	//==============================================================================================
 	//	CLONING
 	//==============================================================================================
 	
-	NTreeNode<K,V> clone(NTreeNode<K,V> node, NTree<K,V> treeOfBelonging) {
+	NTreeNode<K,V> cloneSingleNode(NTreeNode<K,V> node, NTree<K,V> treeOfBelonging) {
 		argsNotNull(node, treeOfBelonging);
 		V clonedValue = null;
 		if (this.treeOfBelonging.getNodeValueCloningMode() == null) {
@@ -986,9 +986,9 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @param treeOfBelonging the tree that owns the returned clone
 	 * @return a clone of this node without any parent or children
 	 */
-	public NTreeNode<K,V> clone(NTree<K,V> treeOfBelonging) {
+	public NTreeNode<K,V> cloneSingleNode(NTree<K,V> treeOfBelonging) {
 		argsNotNull(treeOfBelonging);
-		return clone(this, treeOfBelonging);
+		return cloneSingleNode(this, treeOfBelonging);
 	}
 	
 	/**
@@ -1002,16 +1002,16 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @param treeOfBelonging the tree that owns the returned clone
 	 * @return a clone of this node without any parent or children
 	 */
-	public NTreeNode<K,V> clone() {
-		return clone(this, this.treeOfBelonging);
+	public NTreeNode<K,V> cloneSingleNode() {
+		return cloneSingleNode(this, this.treeOfBelonging);
 	}
 	
-	void _cloneSubtree(NTreeNode<K,V> node, NTreeNode<K,V> parent, NTree<K,V> treeOfBelonging) {
-		NTreeNode<K,V> clonedNode = node.clone(treeOfBelonging);
+	void _clone(NTreeNode<K,V> node, NTreeNode<K,V> parent, NTree<K,V> treeOfBelonging) {
+		NTreeNode<K,V> clonedNode = node.cloneSingleNode(treeOfBelonging);
 		clonedNode.parent = parent;
 		clonedNode.treeOfBelonging = treeOfBelonging;
 		parent.children.put(clonedNode.id, clonedNode);
-		node.children.forEach((id, child) -> _cloneSubtree(child, clonedNode, treeOfBelonging));
+		node.children.forEach((id, child) -> _clone(child, clonedNode, treeOfBelonging));
 	}
 	
 	/**
@@ -1023,10 +1023,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @param treeOfBelonging the tree that owns the returned clone and its descendants
 	 * @return a Returns a clone of this node and its descendant.
 	 */
-	public NTreeNode<K,V> cloneSubtree(NTree<K,V> treeOfBelonging) {
+	public NTreeNode<K,V> clone(NTree<K,V> treeOfBelonging) {
 		argsNotNull(treeOfBelonging);
 		NTreeNode<K,V> tempParent = new NTreeNode<>(treeOfBelonging, this.id);
-		_cloneSubtree(this, tempParent, treeOfBelonging);
+		_clone(this, tempParent, treeOfBelonging);
 		NTreeNode<K,V> clone = tempParent.children.get(this.id);
 		clone.parent = null;
 		return clone;
@@ -1040,8 +1040,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @return a Returns a clone of this node and its descendant.
 	 */
-	public NTreeNode<K,V> cloneSubtree() {
-		return cloneSubtree(this.treeOfBelonging);
+	public NTreeNode<K,V> clone() {
+		return clone(this.treeOfBelonging);
 	}
 	
 	//==============================================================================================
@@ -1307,7 +1307,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return the number of nodes in this subtree, which includes this node and
 	 * all of its descendants
 	 */
-	public int subtreeSize() {
+	public int size() {
 		List<Integer> list = new ArrayList<>();
 		_preOrderAction(node -> list.add(0));
 		return list.size();
@@ -1442,7 +1442,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * not null and its children
 	 * 
 	 */
-	public List<NTreeNode<K,V>> getNodeAndConnectedNodes() {
+	public List<NTreeNode<K,V>> nodeAndConnectedNodes() {
 		List<NTreeNode<K,V>> nodeList = new ArrayList<>();
 		nodeList.add(this);
 		if (this.parent != null) {
@@ -1503,7 +1503,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * ancestor plus the ancestor itself or {@code null} if the passed node is not
 	 * an ancestor of this node
 	 */
-	public List<NTreeNode<K,V>> getNodesUpToAncestor(NTreeNode<K,V> ancestor) {
+	public List<NTreeNode<K,V>> nodesUpToAncestor(NTreeNode<K,V> ancestor) {
 		argsNotNull(ancestor);
 		if (!hasAncestor(ancestor)) {
 			return null;
@@ -1526,7 +1526,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * node
 	 * @throws RuntimeException if the passed level is less than 1
 	 */
-	public List<NTreeNode<K,V>> getNodesInLevel(int level) {
+	public List<NTreeNode<K,V>> nodesInLevel(int level) {
 		if (level < 1) {
 			throw new RuntimeException("level cannot be less than 1");
 		}
@@ -1714,8 +1714,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	void _equalsSubtree(NTreeNode<K,V> nodeA, NTreeNode<K,V> nodeB, MutableBoolean equal) {
-		Map<K,NTreeNode<K,V>> nodeAChildren = nodeA.getMapOfChildren();
-		Map<K,NTreeNode<K,V>> nodeBChildren = nodeB.getMapOfChildren();
+		Map<K,NTreeNode<K,V>> nodeAChildren = nodeA.childrenMap();
+		Map<K,NTreeNode<K,V>> nodeBChildren = nodeB.childrenMap();
 		if (!nodeAChildren.entrySet().equals(nodeBChildren.entrySet())) {
 			equal.setFalse();
 			return;
@@ -1770,12 +1770,12 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	
 	/**
 	 * Returns the JSON string representation of this node. This does not include
-	 * its parent, children and treeOfBelonging.
+	 * its parent and treeOfBelonging.
 	 * 
 	 * @return the JSON string representation of this node. This does not include
-	 * its parent, children and treeOfBelonging.
+	 * its parent and treeOfBelonging.
 	 */
-	public String subTreeToJson() {
+	public String toJson() {
 		return gsonDefault.toJson(this);
 	}
 	
@@ -1790,7 +1790,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @param nodeValueType the type of the node values
 	 * @return an {@code NTreeNode}
 	 */
-	public static <K extends Comparable<K>,V> NTreeNode<K,V> subtreeFromJson(String json, NTree<K,V> treeOfBelonging, Type nodeValueType) {
+	public static <K extends Comparable<K>,V> NTreeNode<K,V> fromJson(String json, NTree<K,V> treeOfBelonging, Type nodeValueType) {
 		argsNotNull(json, treeOfBelonging, nodeValueType);
 		Type kClass = treeOfBelonging.getId().getClass();
 		NTreeNode<K, V> deserializedNode = gsonDefault.fromJson(json, TypeToken.getParameterized(NTreeNode.class, kClass, nodeValueType).getType());

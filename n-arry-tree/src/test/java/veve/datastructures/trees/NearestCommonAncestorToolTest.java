@@ -15,7 +15,7 @@ public class NearestCommonAncestorToolTest {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree1() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1"),
 				t.n("B2"))
@@ -26,7 +26,7 @@ public class NearestCommonAncestorToolTest {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree2() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1"),
 				t.n("B2").c(
@@ -38,7 +38,7 @@ public class NearestCommonAncestorToolTest {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree3() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("C1"),
@@ -50,7 +50,7 @@ public class NearestCommonAncestorToolTest {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree4() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("C1"),

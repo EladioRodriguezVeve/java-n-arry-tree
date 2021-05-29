@@ -21,7 +21,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1",3).c(
 					t.n("C1",2),
@@ -37,7 +37,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> testTree2() {
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1",2).c(
 					t.n("C1",2),
@@ -98,7 +98,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	@Test void test_forEachPreOrder_natural_ordering_tree_manipulation() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1"),
 				tree.n("B2")));
@@ -106,10 +106,10 @@ public class NTreeNodeTest_Traversal {
 		tree.useNaturalOrdering();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tree.root.forEachPreOrder(node -> node.setChildSubtreesIfAbsent(tree.n("X")));
+		tree.root.forEachPreOrder(node -> node.setChildrenIfAbsent(tree.n("X")));
 		
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("X")),
@@ -173,7 +173,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	@Test void test_forEachPostOrder_natural_ordering_tree_manipulation() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1"),
 				tree.n("B2")));
@@ -181,10 +181,10 @@ public class NTreeNodeTest_Traversal {
 		tree.useNaturalOrdering();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tree.root.forEachPostOrder(node -> node.setChildSubtreesIfAbsent(tree.n("X")));
+		tree.root.forEachPostOrder(node -> node.setChildrenIfAbsent(tree.n("X")));
 		
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("X")),
@@ -209,7 +209,7 @@ public class NTreeNodeTest_Traversal {
 		NTree<String,Integer> tree = testTree();
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			tree.forEachOfLevel(0, node -> node.removeSubtree());
+			tree.forEachOfLevel(0, node -> node.remove());
 		});
 		
 		assertTrue(exception.getMessage().contains("level cannot be less than 1"));
@@ -299,10 +299,10 @@ public class NTreeNodeTest_Traversal {
 		tree.useNaturalOrdering();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tree.root.forEachOfLevel(3, node -> node.setChildSubtreesIfAbsent(tree.n("X")));
+		tree.root.forEachOfLevel(3, node -> node.setChildrenIfAbsent(tree.n("X")));
 		
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1",2).c(
 					t.n("C1",2).c(
@@ -371,7 +371,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	@Test void test_forEachLevelOrder_natural_ordering_tree_manipulation() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1"),
 				tree.n("B2")));
@@ -379,10 +379,10 @@ public class NTreeNodeTest_Traversal {
 		tree.useNaturalOrdering();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tree.root.forEachLevelOrder(node -> node.setChildSubtreesIfAbsent(tree.n("X")));
+		tree.root.forEachLevelOrder(node -> node.setChildrenIfAbsent(tree.n("X")));
 		
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("X")),
@@ -446,7 +446,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	@Test void test_forEachLevelOrderFromBottom_natural_ordering_tree_manipulation() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		tree.addNewRootSubtree(
+		tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1"),
 				tree.n("B2")));
@@ -454,10 +454,10 @@ public class NTreeNodeTest_Traversal {
 		tree.useNaturalOrdering();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
-		tree.root.forEachLevelOrderFromBottom(node -> node.setChildSubtreesIfAbsent(tree.n("X")));
+		tree.root.forEachLevelOrderFromBottom(node -> node.setChildrenIfAbsent(tree.n("X")));
 		
 		NTree<String,Integer> t = NTree.create("tree");
-		t.addNewRootSubtree(
+		t.addNewRoot(
 			t.n("A1").c(
 				t.n("B1").c(
 					t.n("X")),

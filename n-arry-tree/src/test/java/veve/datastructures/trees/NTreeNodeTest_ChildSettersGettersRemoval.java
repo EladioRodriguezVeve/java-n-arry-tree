@@ -23,11 +23,11 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	static final String IDS_INDEX = "idsIndex";
 	
 	//==============================================================================================
-	//	addNewChildrenSubtrees
+	//	addNewChildren
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_addNewChildrenSubtrees_node_not_part_of_tree() {
+	@Test void test_addNewChildren_node_not_part_of_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> nodeA = tree.n("A");
@@ -46,7 +46,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_addNewChildrenSubtrees_node_is_part_of_tree() {
+	@Test void test_addNewChildren_node_is_part_of_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(tree.n("A"));
@@ -70,11 +70,11 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	//==============================================================================================
-	//	setChildSubtree
+	//	setChild
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtree_is_own_child() {
+	@Test void test_setChild_is_own_child() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		NTreeNode<String,Integer> a = tree.n("A");
 		NTreeNode<String,Integer> b = tree.n("B");
@@ -86,7 +86,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtree_not_part_of_tree() {
+	@Test void test_setChild_not_part_of_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> a = tree.n("A");
@@ -101,7 +101,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtree_replaces() {
+	@Test void test_setChild_replaces() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> newB1 = 
@@ -120,7 +120,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtree_adds() {
+	@Test void test_setChild_adds() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> w1 = 
@@ -141,7 +141,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtree_adds_from_same_tree() {
+	@Test void test_setChild_adds_from_same_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(
@@ -167,7 +167,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	//==============================================================================================
-	//	setChildSubtrees
+	//	setChilds
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
@@ -207,11 +207,11 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	//==============================================================================================
-	//	setChildSubtreeIfAbsent
+	//	setChildIfAbsent
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtreeIfAbsent_is_own_child() {
+	@Test void test_setChildIfAbsent_is_own_child() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		NTreeNode<String,Integer> a = tree.n("A");
 		NTreeNode<String,Integer> b = tree.n("B");
@@ -222,7 +222,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 		assertFalse(wasReplaced);
 	}
 	
-	@Test void test_setChildSubtreeIfAbsent_not_part_of_tree() {
+	@Test void test_setChildIfAbsent_not_part_of_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> a = tree.n("A");
@@ -236,7 +236,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtreeIfAbsent() {
+	@Test void test_setChildIfAbsent() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(tree.n("A"));
@@ -254,11 +254,11 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	//==============================================================================================
-	//	setChildSubtreesIfAbsent
+	//	setChildsIfAbsent
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setChildSubtreesIfAbsent() {
+	@Test void test_setChildrenIfAbsent() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -291,7 +291,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	//	GETTERS
 	//==============================================================================================
 	
-	@Test void test_getListOfChildren_using_ids() {
+	@Test void test_childrenList_using_ids() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		
 		List<NTreeNode<String,Integer>> nodes =  tree.root.childrenList("B1","B2");
@@ -302,7 +302,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 		assertEquals("B2", nodes.get(1).id);
 	}
 	
-	@Test void test_getMapOfChildren_using_ids() {
+	@Test void test_childrenMapusing_ids() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		
 		Map<String, NTreeNode<String, Integer>> nodes =  tree.root.childrenMap(Arrays.asList("B1","B2"));
@@ -313,10 +313,10 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	//==============================================================================================
-	//	removeChildSubtree
+	//	removeChild
 	//==============================================================================================
 	
-	@Test void test_removeChildSubtree_contains_child_with_same_id() {
+	@Test void test_removeChild_contains_child_with_same_id() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		NTreeNode<String,Integer> a = tree.n("A");
 		
@@ -326,7 +326,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_removeChildSubtree_is_not_part_of_tree() {
+	@Test void test_removeChild_is_not_part_of_tree() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		NTreeNode<String,Integer> a = tree.n("A");
 		NTreeNode<String,Integer> b = tree.n("B");
@@ -339,7 +339,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_removeChildSubtree() {
+	@Test void test_removeChild() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(
@@ -364,7 +364,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_removeChildSubtrees() {
+	@Test void test_removeChildren() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(
@@ -390,7 +390,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_clearChildSubtrees() {
+	@Test void test_removeAllChildren() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -410,7 +410,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_retainChildSubtrees() {
+	@Test void test_retainChildren() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(

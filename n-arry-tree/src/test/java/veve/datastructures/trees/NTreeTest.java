@@ -74,7 +74,7 @@ public class NTreeTest {
 		assertTrue(tree.isCustomOrdered());
 	}
 	
-	@Test void test_addNewRootSubtree_root_from_other_tree_thowsException() {
+	@Test void test_addNewRoote_root_from_other_tree_thowsException() {
 		NTree<String,Integer> treeA = NTree.create("A");
 		NTree<String,Integer> treeB = NTree.create("B");
 		Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -85,7 +85,7 @@ public class NTreeTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 	
-	@Test void test_addNewRootSubtree_node_with_parent_thowsException() {
+	@Test void test_addNewRoot_node_with_parent_thowsException() {
 		NTree<String,Integer> tree = NTree.create("A");
 		NTreeNode<String,Integer> node = tree.createNode("node");
 		node.parent = tree.createNode("parent");
@@ -97,7 +97,7 @@ public class NTreeTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 	
-	@Test void test_setRootSubtree_new_root() {
+	@Test void test_setRoot_new_root() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		NTreeNode<String,Integer> root = tree.createNode("root");
@@ -110,7 +110,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRootSubtree_existing_root() {
+	@Test void test_setRoot_existing_root() {
 		NTree<String,Integer> tA = NTree.create("treeA");
 		tA.addNewRoot(
 			tA.n("X1").c(
@@ -132,7 +132,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRootSubtree_existing_node_from_other_tree() {
+	@Test void test_setRoot_existing_node_from_other_tree() {
 		NTree<String,Integer> tA = NTree.create("treeA");
 		tA.addNewRoot(
 			tA.n("X1").c(
@@ -155,7 +155,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRootSubtree_existing_node_from_same_tree() {
+	@Test void test_setRoot_existing_node_from_same_tree() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -178,7 +178,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRoot_new_root() {
+	@Test void test_setRootSingleNode_new_root() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex("idsIndex", node -> node.getId());
 		
@@ -196,7 +196,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRoot_existing_root() {
+	@Test void test_setRootSingleNode_existing_root() {
 		NTree<String,Integer> tA = TestUtil.testTree();
 		tA.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -219,7 +219,7 @@ public class NTreeTest {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Test void test_setRoot_existing_node_from_other_tree() {
+	@Test void test_setRootSingleNode_existing_node_from_other_tree() {
 		NTree<String,Integer> tA = TestUtil.testTree();
 		tA.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -239,7 +239,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_setRoot_existing_node_from_same_tree() {
+	@Test void test_setRootSingleNode_existing_node_from_same_tree() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -339,7 +339,7 @@ public class NTreeTest {
 		assertEquals(treeExpectedIds, treeKeysInIndex);
 	}
 	
-	@Test void test_getNodesInIndex() {
+	@Test void test_nodesInIndexWithKey() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex("oddValuesIndex", node -> node.getValue() % 2 != 0);
 		
@@ -351,7 +351,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_getNodesInIndex_no_mapping() {
+	@Test void test_nodesInIndexWithKey_no_mapping() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addNewRoot(
 			tree.n("A1",2).c(
@@ -365,7 +365,7 @@ public class NTreeTest {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_getNodesInIndex_some_null_values() {
+	@Test void test_nodesInIndexWithKey_some_null_values() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addNewRoot(
 			tree.n("A1",1).c(
@@ -387,14 +387,14 @@ public class NTreeTest {
 		assertEquals(0, nodesWith3.size());
 	}
 	
-	@Test void test_getNodesInIndex_non_existing_index() {
+	@Test void test_nodesInIndexWithKey_non_existing_index() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		
 		List<NTreeNode<String,Integer>> nodesInIndex = tree.nodesInIndexWithKey("nonExistingIndex", "key");
 		assertEquals(null, nodesInIndex);
 	}
 	
-	@Test void test_getNodesInIndex_non_existing_node_in_index() {
+	@Test void test_nodesInIndexWithKey_non_existing_node_in_index() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -402,7 +402,7 @@ public class NTreeTest {
 		assertEquals(0, nodesInIndex.size());
 	}
 	
-	@Test void test_getNodesInIndex_wrong_key_type() {
+	@Test void test_gnodesInIndexWithKey_wrong_key_type() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -448,14 +448,14 @@ public class NTreeTest {
 		assertEquals(b1, tree.getRoot().childWithId("B1"));
 	}
 	
-	@Test void test_getFirstNodeInIndex_non_existing_index() {
+	@Test void test_firstNodeInIndexWithKey_non_existing_index() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		
 		NTreeNode<String,Integer> node = tree.firstNodeInIndexWithKey("nonExistingIndex", "key");
 		assertEquals(null ,node);
 	}
 	
-	@Test void test_getFirstNodeInIndex_non_existing_node_in_index() {
+	@Test void test_firstNodeInIndexWithKey_non_existing_node_in_index() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
@@ -463,7 +463,7 @@ public class NTreeTest {
 		assertEquals(null, node);
 	}
 	
-	@Test void test_getFirstNodeInIndex_wrong_key_type() {
+	@Test void firstNodeInIndexWithKey() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		

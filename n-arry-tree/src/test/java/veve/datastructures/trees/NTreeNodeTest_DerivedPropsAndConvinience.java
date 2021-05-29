@@ -116,7 +116,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_getNodeAndConnectedNodes() {
+	@Test void test_nodeAndConnectedNodes() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		NTreeNode<String,Integer> b1 = t.findFirstWithId("B1");
 		NTreeNode<String,Integer> node = t.n("X").c(t.n("Y").c(t.n("Z")));
@@ -157,7 +157,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertFalse(b1.hasAncestor(c1));
 	}
 	
-	@Test void test_getNodesUpToAncestor() {
+	@Test void test_nodesUpToAncestor() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		NTreeNode<String,Integer> a1 = t.findFirstWithId("A1");
 		NTreeNode<String,Integer> b1 = t.findFirstWithId("B1");
@@ -169,7 +169,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertEquals(expected, fromC1toA1);
 	}
 
-	@Test void test_getNodesInLevel_less_than_1() {
+	@Test void test_nodesInLevel_less_than_1() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -179,7 +179,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertTrue(exception.getMessage().contains("level cannot be less than 1"));
 	}
 	
-	@Test void test_getNodesInLevel() {
+	@Test void test_nodesInLevel() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		
 		Multiset<NTreeNode<String,Integer>> nodesL1 = HashMultiset.create(t.root.nodesInLevel(1));
@@ -216,7 +216,7 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertEquals(expected, ids);
 	}
 	
-	@Test void test_subTreeToJson_and_subtreeFromJson() {
+	@Test void test_toJson_and_fromJson() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		Type nodeValueType = new TypeToken<Integer>(){}.getType();
 		

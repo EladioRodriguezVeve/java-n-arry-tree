@@ -58,7 +58,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertEquals(expectedIds, ids);
 	}
 	
-	@Test void test_getMapOfChildrenIdValues() {
+	@Test void test_childrenIdsValuesMap() {
 		NTree<String,Integer> tree = getTestTree();
 		
 		Map<String,Integer> ids = tree.root.childrenIdsValuesMap();
@@ -71,14 +71,14 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertEquals(expectedIds, ids);
 	}
 	
-	@Test void test_getMapOfSiblings_is_root() {
+	@Test void test_siblingsMap_is_root() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addNewRoot(tree.n("A1"));
 		
 		assertNull(tree.root.siblingsMap());
 	}
 	
-	@Test void test_getMapOfSiblings() {
+	@Test void test_siblingsMap() {
 		NTree<String,Integer> tree = getTestTree();
 		
 		Map<String,NTreeNode<String,Integer>> siblingsMap = tree.root.childWithId("B1").siblingsMap();
@@ -94,7 +94,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 	//	CLONING
 	//==============================================================================================
 	
-	@Test void test_clone_uses_serialization_for_value_by_default() {
+	@Test void test_cloneSingleNode_uses_serialization_for_value_by_default() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		NTree<String,Integer> tree2 = NTree.create("tree2");
 		NTreeNode<String,Integer> original = tree.n("A1", 1);
@@ -108,7 +108,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertNotSame(clone, original);
 	}
 	
-	@Test void test_clone_uses_copy_constructor_for_value() {
+	@Test void test_cloneSingleNode_uses_copy_constructor_for_value() {
 		NTree<String,CloningTestClass<String>> tree = NTree.create("tree");
 		tree.nodeValueCloningUsesCopyConstructor();
 		NTree<String,CloningTestClass<String>> tree2 = NTree.create("tree2");
@@ -124,7 +124,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertNotSame(clone, original);
 	}
 	
-	@Test void test_clone_uses_copy_constructor_for_value_and_value_null() {
+	@Test void test_cloneSingleNode_uses_copy_constructor_for_value_and_value_null() {
 		NTree<String,CloningTestClass<String>> tree = NTree.create("tree");
 		tree.nodeValueCloningUsesCopyConstructor();
 		NTree<String,CloningTestClass<String>> tree2 = NTree.create("tree2");
@@ -139,7 +139,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertNotSame(clone, original);
 	}
 	
-	@Test void test_clone_uses_serialization_for_value_by_configuration() {
+	@Test void test_cloneSingleNode_uses_serialization_for_value_by_configuration() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.nodeValueCloningUsesSerialization();
 		NTree<String,Integer> tree2 = NTree.create("tree2");
@@ -155,7 +155,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertNotSame(clone, original);
 	}
 	
-	@Test void test_clone_uses_serialization_with_type_for_value_by_configuration() {
+	@Test void test_cloneSingleNode_uses_serialization_with_type_for_value_by_configuration() {
 		NTree<String,CloningTestClass<String>> tree = NTree.create("tree");
 		Type valueType = new TypeToken<CloningTestClass<String>>(){}.getType();
 		tree.nodeValueCloningUsesSerialization(valueType);
@@ -172,7 +172,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		assertNotSame(clone, original);
 	}
 	
-	@Test void test_cloneSubtree() {
+	@Test void test_clone() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		NTree<String,Integer> tree2 = NTree.create("tree2");
 		

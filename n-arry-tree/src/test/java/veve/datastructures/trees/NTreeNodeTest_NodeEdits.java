@@ -24,14 +24,14 @@ public class NTreeNodeTest_NodeEdits {
 	//	replace
 	//==============================================================================================
 	
-	@Test void test_replace_same_node() {
+	@Test void test_replaceSingleNodeWith_same_node() {
     	NTree<String,Integer> tree = NTree.create("tree");
     	NTreeNode<String,Integer> node = tree.createNode("node");
     	
     	assertNull(node.replaceSingleNodeWith(node));
     }
     
-    @Test void test_replace_is_bastard_node() {
+    @Test void test_replaceSingleNodeWith_is_bastard_node() {
     	NTree<String,Integer> tree = NTree.create("tree");
     	NTreeNode<String,Integer> nodeA = tree.createNode("A");
     	NTreeNode<String,Integer> nodeB = tree.createNode("B");
@@ -40,7 +40,7 @@ public class NTreeNodeTest_NodeEdits {
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replace_is_root() {
+	@Test void test_replaceSingleNodeWith_is_root() {
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
     	tA.addIndex(PARENT_IDS_INDEX, node -> node.getParent().getId());
@@ -70,7 +70,7 @@ public class NTreeNodeTest_NodeEdits {
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replace_sibling_has_id_already() {
+	@Test void test_replaceSingleNodeWith_sibling_has_id_already() {
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
     	NTree<String,Integer> tB = NTree.create("tB");
@@ -88,7 +88,7 @@ public class NTreeNodeTest_NodeEdits {
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replace() {
+	@Test void test_replaceSingleNodeWith() {
     	final String HAS_CHILD_WITH_ID_X_INDEX = "HAS_CHILD_WITH_ID_X_INDEX";
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
@@ -125,30 +125,30 @@ public class NTreeNodeTest_NodeEdits {
 	//	replaceSubtree
 	//==============================================================================================
     
-    @Test void test_replaceSubtree_same_node() {
+    @Test void test_replaceWith_same_node() {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	
     	assertNull(tree.root.replaceWith(tree.root));
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replaceSubtree_is_bastard_node() {
+	@Test void test_replaceWith_is_bastard_node() {
     	NTree<String,Integer> tree = NTree.create("tree");
     	NTreeNode<String,Integer> nodeA = tree.createNode("A").c(tree.n("B"));
     	NTreeNode<String,Integer> nodeB = tree.createNode("B");
     	
-    	assertNull(nodeA.replaceSingleNodeWith(nodeB));
+    	assertNull(nodeA.replaceWith(nodeB));
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replaceSubtree_has_sibling_with_same_id() {
+	@Test void test_replaceWith_has_sibling_with_same_id() {
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
     	NTree<String,Integer> tB = NTree.create("tB");
     	NTreeNode<String,Integer> replacement = tB.n("B2");
     	
     	NTreeNode<String,Integer> tAb1 = tA.findFirstWithId("B1");
-    	NTreeNode<String,Integer> oldNode = tAb1.replaceSingleNodeWith(replacement);
+    	NTreeNode<String,Integer> oldNode = tAb1.replaceWith(replacement);
     	
     	Multiset<String> expectedIds =  HashMultiset.create(Arrays.asList("A1","B1","B2","C1","C2"));
     	Multiset<String> treeIds =  HashMultiset.create(tA.mapToList(node -> node.getId()));
@@ -159,7 +159,7 @@ public class NTreeNodeTest_NodeEdits {
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_replaceSubtree() {
+	@Test void test_replaceWith() {
     	final String HAS_CHILD_WITH_ID_X_INDEX = "HAS_CHILD_WITH_ID_X_INDEX";
     	NTree<String,Integer> tA = TestUtil.testTree();
     	tA.addIndex(IDS_INDEX, node -> node.getId());
@@ -195,7 +195,7 @@ public class NTreeNodeTest_NodeEdits {
 	//	removeSubtree
 	//==============================================================================================
     
-    @Test void test_removeSubtree_is_not_root_and_parent_is_null() {
+    @Test void test_remove_is_not_root_and_parent_is_null() {
     	NTree<String,Integer> tree = NTree.create("tree");
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	NTreeNode<String,Integer> node = tree.n("A");
@@ -207,7 +207,7 @@ public class NTreeNodeTest_NodeEdits {
     	assertEquals(0, tree.indexes.get(IDS_INDEX).indexTable.size());
     }
     
-    @Test void test_removeSubtree_is_root() {
+    @Test void test_remove_is_root() {
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(IDS_INDEX, node -> node.getId());
     	
@@ -219,7 +219,7 @@ public class NTreeNodeTest_NodeEdits {
     }
     
     @SuppressWarnings("unchecked")
-	@Test void test_removeSubtree() {
+	@Test void test_remove() {
     	final String HAS_CHILD_WITH_ID_B1_INDEX = "HAS_CHILD_WITH_ID_B1_INDEX";
     	NTree<String,Integer> tree = TestUtil.testTree();
     	tree.addIndex(IDS_INDEX, node -> node.getId());

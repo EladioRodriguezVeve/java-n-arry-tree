@@ -20,7 +20,7 @@ Clone this repo and from the root of the repo run `./gradlew build`
 
 ## Javadocs
 
-Click [here](javadocs/index.html) to access the javadocs.
+Click [here](docs/index.html) to access the javadocs.
 
 ## How to Use Guide
 

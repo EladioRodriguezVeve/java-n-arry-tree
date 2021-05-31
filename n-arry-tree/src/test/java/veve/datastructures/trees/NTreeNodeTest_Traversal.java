@@ -153,7 +153,7 @@ public class NTreeNodeTest_Traversal {
 	@SuppressWarnings("unchecked")
 	@Test void test_forEachPostOrder_custom_ordering() {
 		NTree<String,Integer> tree = testTree();
-		tree.useCustomOrdering((a,b) -> a.getValue() - b.getValue());;
+		tree.useCustomOrdering((a,b) -> a.getValue() - b.getValue());
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		
 		List<String> idsList = new LinkedList<>();

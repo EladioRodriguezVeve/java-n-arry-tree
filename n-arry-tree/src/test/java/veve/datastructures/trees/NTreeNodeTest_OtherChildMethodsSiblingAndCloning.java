@@ -27,12 +27,13 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 	@SuppressWarnings("unchecked")
 	NTree<String,Integer> getTestTree() {
 		NTree<String,Integer> tree = NTree.create("tree");
-		return tree.addNewRoot(
+		tree.addNewRoot(
 			tree.n("A1").c(
 				tree.n("B1",1),
 				tree.n("B2",2),
 				tree.n("B3",3),
 				tree.n("B4",4)));
+		return tree;
 	}
 	
 	@Test void test_mapChildrenToList() {

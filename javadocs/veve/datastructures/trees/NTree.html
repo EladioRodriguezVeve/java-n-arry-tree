@@ -256,10 +256,11 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
+<td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addNewRoot(veve.datastructures.trees.NTreeNode)">addNewRoot</a></span>&#8203;(<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;newRoot)</code></th>
 <td class="colLast">
-<div class="block">Adds a <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> as the root of this tree.</div>
+<div class="block">Adds a <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> as the root of this tree if this tree has no root
+ node set yet.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -1060,17 +1061,19 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <ul class="blockList">
 <li class="blockList">
 <h4>addNewRoot</h4>
-<pre class="methodSignature">public&nbsp;<a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;addNewRoot&#8203;(<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;newRoot)</pre>
-<div class="block">Adds a <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> as the root of this tree. The node's treeOfBelonging 
- must be this tree and the node's parent must be null.</div>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;addNewRoot&#8203;(<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;newRoot)</pre>
+<div class="block">Adds a <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> as the root of this tree if this tree has no root
+ node set yet. The node's treeOfBelonging must be this tree and the node's
+ parent must be null.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>newRoot</code> - the new NTreeNode to be the root of this tree.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this tree after adding the new root node.</dd>
+<dd><code>true</code> if it added the new root node or <code>false</code> if 
+ this tree already has a root node or</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.RuntimeException</code> - if the passed node's treeOfBelonging is not this
-                        this tree and the node's parent is not null</dd>
+                        tree or the node's parent is not null</dd>
 </dl>
 </li>
 </ul>

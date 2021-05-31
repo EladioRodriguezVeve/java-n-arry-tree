@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -74,27 +75,31 @@ public class NTreeTest {
 		assertTrue(tree.isCustomOrdered());
 	}
 	
-	@Test void test_addNewRoote_root_from_other_tree_thowsException() {
+	@Test void test_addNewRoot_root_from_other_tree_returns_false() {
 		NTree<String,Integer> treeA = NTree.create("A");
 		NTree<String,Integer> treeB = NTree.create("B");
-		Exception exception = assertThrows(RuntimeException.class, () -> {
-			treeA.addNewRoot(treeB.createNode("id"));
-		});
-		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRoot(NTreeNode) must must be a root";
-		String actualMessage = exception.getMessage();
-		assertTrue(actualMessage.contains(expectedMessage));
+		boolean wasAdded = treeA.addNewRoot(treeB.createNode("id"));
+		assertFalse(wasAdded);
+		assertNull(treeA.root);
 	}
 	
-	@Test void test_addNewRoot_node_with_parent_thowsException() {
+	@Test void test_addNewRoot_node_with_parent_returns_false() {
 		NTree<String,Integer> tree = NTree.create("A");
 		NTreeNode<String,Integer> node = tree.createNode("node");
 		node.parent = tree.createNode("parent");
-		Exception exception = assertThrows(RuntimeException.class, () -> {
-			tree.addNewRoot(node);
-		});
-		String expectedMessage = "Node passed to veve.datastructures.trees.NTree.addNewRoot(NTreeNode) must must be a root";
-		String actualMessage = exception.getMessage();
-		assertTrue(actualMessage.contains(expectedMessage));
+		boolean wasAdded = tree.addNewRoot(node);
+		assertFalse(wasAdded);
+		assertNull(tree.root);
+	}
+	
+	@Test void test_addNewRoot_tree_has_rrot_already_returns_false() {
+		NTree<String,Integer> tree = NTree.create("A");
+		NTreeNode<String,Integer> root = tree.createNode("root");
+		tree.addNewRoot(root);
+		NTreeNode<String,Integer> node = tree.createNode("node");
+		boolean wasAdded = tree.addNewRoot(node);
+		assertFalse(wasAdded);
+		assertSame(root, tree.root);
 	}
 	
 	@Test void test_setRoot_new_root() {

@@ -17,6 +17,7 @@ repositories {
     mavenCentral()
 }
 
+group = 'dev.veve'
 version = '1.0.0'
 
 dependencies {

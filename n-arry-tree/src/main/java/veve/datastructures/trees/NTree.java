@@ -348,25 +348,27 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	//==============================================================================================
 	
 	/**
-	 * Adds a {@link NTreeNode} as the root of this tree. The node's treeOfBelonging 
-	 * must be this tree and the node's parent must be null.
+	 * Adds a {@link NTreeNode} as the root of this tree if this tree has no root
+	 * node set yet. The node's treeOfBelonging must be this tree and the node's
+	 * parent must be null.
 	 * 
 	 * @param 	newRoot the new NTreeNode to be the root of this tree.
-	 * @return 	this tree after adding the new root node.
+	 * @return 	{@code true} if it added the new root node or {@code false} if 
+	 * this tree already has a root node or 
 	 * @throws 	RuntimeException if the passed node's treeOfBelonging is not this
-	 * 			this tree and the node's parent is not null
+	 * 			tree or the node's parent is not null
 	 */
-	public NTree<K,V> addNewRoot(NTreeNode<K,V> newRoot) {
+	public boolean addNewRoot(NTreeNode<K,V> newRoot) {
 		argsNotNull(newRoot);
-		if (newRoot == this.root) {
-			return this;
+		if (this.root != null) {
+			return false;
 		}
 		if (newRoot.treeOfBelonging != this || newRoot.parent != null) {
-			throw new RuntimeException("Node passed to " + GeneralUtils.classAndMethod() + " must must be a root");
+			return false;
 		}
 		this.root = newRoot;
 		recreateIndexes();
-		return this;
+		return true;
 	}
 	
 	/**

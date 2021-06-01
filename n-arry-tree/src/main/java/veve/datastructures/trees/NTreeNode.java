@@ -24,10 +24,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -927,12 +931,11 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * {@code null} is returned.
 	 * 
 	 * @return a {@code Map} of this node's siblings. The keys of the map are the
-	 * siblings ids. If this node is a root or it's parent is {@code null} then 
-	 * {@code null} is returned.
+	 * siblings ids.
 	 */
 	public Map<K,NTreeNode<K,V>> siblingsMap() {
 		if (this.parent == null) {
-			return null;
+			return new HashMap<>();
 		}
 		K id = this.id;
 		return this.parent.children.entrySet().stream()
@@ -1741,6 +1744,158 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 		}
 		_equalsSubtree(this, other, equal);
 		return equal.getValue();
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this node and its descendants
+	 * in a {@code String}.
+	 * 
+	 * @param <R> the return type of the provided dataFunction parameter. Java
+	 * 			can imply it.
+	 * @param width the width factor. If {@code null} defaults to 4.
+	 * @param height the height factor. If {@code null} defaults to 2.
+	 * @param dataFunction the {@code Function} whose result is displayed next to
+	 * each node's id. If {@code null} then no data is displayed next to each
+	 * node's id.
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this node and its descendants
+	 */
+	public <R> String treeGraph(Integer width, Integer height, Function<NTreeNode<K,V>,R> dataFunction) {
+		final AtomicInteger horWidth = new AtomicInteger();
+		final AtomicInteger vertHeight = new AtomicInteger();
+		if (width != null && width > 0) {
+			horWidth.set(width);
+		}
+		else {
+			horWidth.set(4);
+		}
+		if (height != null && height > 0) {
+			vertHeight.set(height);
+		}
+		else {
+			vertHeight.set(2);
+		}
+		Map<Integer,Map<Integer,String>> graphLines = new TreeMap<>();
+		int size = size() * height;
+		for (int i = 0; i < size; i++) {
+			graphLines.put(i, new TreeMap<Integer,String>());
+		}
+		int numOfCols = height() * horWidth.get();
+		graphLines.forEach((line, columnMap) -> {
+			for (int i = 0; i < numOfCols; i++) {
+				columnMap.put(i, " ");
+			}
+		});
+		
+		boolean originalIsOrdered = this.treeOfBelonging.isOrdered;
+		NodeComparator<K,V> originalNodeComparator = this.treeOfBelonging.nodeComparator;
+		this.treeOfBelonging.useNaturalOrdering();
+		List<NTreeNode<K,V>> nodeList = this.toList(TreeTraversalOrder.PRE_ORDER);
+		List<NTreeNodeUUID<K,V>> nodeListUUID = new LinkedList<>();
+		nodeList.forEach(node -> nodeListUUID.add(new NTreeNodeUUID<>(node)));
+		
+		Consumer<NTreeNode<K,V>> putNodeData = node -> {
+			int col = ((node.levelRelativeToAncestor(this)-1) * horWidth.get());
+			int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*height;
+			String data = node.id.toString();
+			if (dataFunction != null) {
+				data += ": " + safeFunction(dataFunction).apply(node);
+			}
+			graphLines.get(row).put(col, data);
+		};
+		nodeList.forEach(putNodeData);
+		
+		Consumer<NTreeNode<K,V>> putImmediateVertices = node -> {
+			if (node != this) {
+				int col = ((node.levelRelativeToAncestor(this)-1)*horWidth.get());
+				int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*height;
+				for (int i = 1; i < horWidth.get(); i++) {
+					graphLines.get(row).put(col-i, "─");
+				}
+				graphLines.get(row).put(col-horWidth.get(), "└");
+			}
+		};
+		nodeList.forEach(putImmediateVertices);
+		
+		Map<Integer,Integer> lRowColIndex = new TreeMap<>();
+		BiConsumer<Integer,Map<Integer, String>> coordsVerticalVertices = (line, colMap) -> {
+			if (line != 0) {
+				Optional<Entry<Integer, String>> colMapEntry = colMap.entrySet().stream()
+						.filter(entry -> entry.getValue().equals("└"))
+						.findFirst(); 
+				if (colMapEntry.isPresent()) {
+					int vertColIndex = colMapEntry.get().getKey();
+					lRowColIndex.put(line, vertColIndex);
+				}
+			}
+		};
+		graphLines.forEach(coordsVerticalVertices);
+		
+		lRowColIndex.forEach((rowIndex, colIndex) -> {
+			int rIndex = rowIndex -1;
+			while(true) {
+				if (graphLines.get(rIndex).get(colIndex).equals(" ")) {
+					graphLines.get(rIndex).put(colIndex, "│");
+					rIndex--;
+				}
+				else {
+					break;
+				}
+			}
+		});
+		
+		this.treeOfBelonging.isOrdered = originalIsOrdered;
+		this.treeOfBelonging.nodeComparator = originalNodeComparator;
+		
+		// Make string
+		Map<Integer,String> graphStringLines = new TreeMap<>();
+		
+		Iterator<Entry<Integer,Map<Integer,String>>> glIterator = graphLines.entrySet().iterator();
+		while(glIterator.hasNext()) {
+			Entry<Integer,Map<Integer,String>> lineEntry = glIterator.next();
+			Iterator<Entry<Integer,String>> colIter = lineEntry.getValue().entrySet().iterator();
+			String lineText = "";
+			while(colIter.hasNext()) {
+				String colText = colIter.next().getValue();
+				lineText += colText;
+			}
+			lineText.stripTrailing();
+			graphStringLines.put(lineEntry.getKey(), lineText);
+		}
+		
+		String graph = "";
+		List<String> textLines = new LinkedList<>(graphStringLines.values());
+		for (int i = 0; i < textLines.size(); i++) {
+			graph += textLines.get(i) + System.lineSeparator();
+		}
+		return graph;
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this node and its descendants
+	 * in a {@code String}.
+	 * 
+	 * @param <R> the return type of the provided dataFunction parameter. Java
+	 * 			can imply it.
+	 * @param dataFunction the {@code Function} whose result is displayed next to
+	 * each node's id. If {@code null} then no data is displayed next to each
+	 * node's id.
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this node and its descendants
+	 */
+	public <R> String treeGraph(Function<NTreeNode<K,V>,R> dataFunction) {
+		return treeGraph(null, null, dataFunction);
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this node and its descendants
+	 * in a {@code String}.
+	 * 
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this node and its descendants
+	 */
+	public String treeGraph() {
+		return treeGraph(null, null, null);
 	}
 	
 	NTreeNode<K,V> nullRefs() {

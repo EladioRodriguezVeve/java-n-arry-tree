@@ -216,6 +216,50 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertEquals(expected, ids);
 	}
 	
+	//TODO Complete with assertions
+	@SuppressWarnings("unchecked")
+	@Test void test_treeStringGraph() {
+		NTree<String,Integer> t = NTree.create("tree");
+		t.addNewRoot(
+			t.n("A1").c(
+				t.n("B1").c(
+					t.n("C1").c(
+						t.n("D1",1)
+					)
+				),
+				t.n("B2").c(
+					t.n("C2").c(
+						t.n("D2",2)
+					),
+					t.n("C3",3)
+				),
+				t.n("B3").c(
+					t.n("C4").c(
+						t.n("D3").c(
+							t.n("E1",4)
+						)
+					),
+					t.n("C5",5)
+				),
+				t.n("B4")
+			)
+		);
+		
+		NTree<String,ClassForTesting<Integer>> t2 = NTree.create("tree");
+		t2.addNewRoot(
+			t2.n("A1").c(
+				t2.n("B1", new ClassForTesting<Integer>(2)).c(
+					t2.n("C1").c(
+						t2.n("D1")
+					)
+				)
+			)
+		);
+		
+		String graph = t2.root.treeGraph(3, 2, node -> node.getValue());
+		System.out.print(graph);
+	}
+	
 	@Test void test_toJson_and_fromJson() {
 		NTree<String,Integer> t = TestUtil.testTree();
 		Type nodeValueType = new TypeToken<Integer>(){}.getType();

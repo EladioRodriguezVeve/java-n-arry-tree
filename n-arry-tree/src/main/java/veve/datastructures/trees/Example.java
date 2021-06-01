@@ -2,6 +2,8 @@ package veve.datastructures.trees;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -20,14 +22,8 @@ class Example<T> {
 	
 	public static void main(String[] args) {
 		
-		Function<Integer, Integer> function = num -> num * 1 ;
-		Function<Integer, Integer> function2 = num -> num * 1 ;
-//		function = num -> num * 10;
-//		
-//		int f1 = function.apply(2);
-//		int f2 = function2.apply(2);
 		
-		System.out.println(function.equals(function2));
+		System.out.println("Hello" + null);
 		
 		
 	}

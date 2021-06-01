@@ -272,8 +272,7 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	/**
 	 * Configures this tree so when traversing the tree the order in which the
 	 * children of each node is visited corresponds with their natural ordering.
-	 * The natural ordering of nodes is determined first by their id and then 
-	 * based on their value if the class of the value property implements Comparable.
+	 * The natural ordering between sibling nodes is determined by their id.
 	 */
 	public void useNaturalOrdering() {
 		this.isOrdered = true;
@@ -999,6 +998,41 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this tree in a {@code String}.
+	 * 
+	 * @param <R> the return type of the provided dataFunction parameter. Java
+	 * 			can imply it.
+	 * @param width the width factor. If {@code null} defaults to 4.
+	 * @param height the height factor. If {@code null} defaults to 2.
+	 * @param dataFunction the {@code Function} whose result is displayed next to
+	 * each node's id. If {@code null} then no data is displayed next to each
+	 * node's id.
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this tree
+	 */
+	public <R> String treeGraph(Integer width, Integer height, Function<NTreeNode<K,V>,R> dataFunction) {
+		if (this.root == null) {
+			return "Empty Tree";
+		}
+		return this.root.treeGraph(width, height, dataFunction);
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this tree in a {@code String}.
+	 * 
+	 * @param <R> the return type of the provided dataFunction parameter. Java
+	 * 			can imply it.
+	 * @param dataFunction the {@code Function} whose result is displayed next to
+	 * each node's id. If {@code null} then no data is displayed next to each
+	 * node's id.
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this tree
+	 */
+	public <R> String treeGraph(Function<NTreeNode<K,V>,R> dataFunction) {
+		return treeGraph(null, null, dataFunction);
 	}
 	
 	//==============================================================================================

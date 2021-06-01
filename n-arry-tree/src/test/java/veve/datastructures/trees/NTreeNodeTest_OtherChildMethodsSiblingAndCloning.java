@@ -76,7 +76,7 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addNewRoot(tree.n("A1"));
 		
-		assertNull(tree.root.siblingsMap());
+		assertEquals(0, tree.root.siblingsMap().size());
 	}
 	
 	@Test void test_siblingsMap() {

@@ -9,4 +9,9 @@ public class ClassForTesting<T> {
 	public ClassForTesting(ClassForTesting<T> other) {
 		this(other.value);
 	}
+	
+	@Override
+	public String toString() {
+		return "Value: " + this.value;
+	}
 }

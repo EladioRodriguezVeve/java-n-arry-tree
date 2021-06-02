@@ -216,7 +216,69 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 		assertEquals(expected, ids);
 	}
 	
-	//TODO Complete with assertions
+	@SuppressWarnings("unchecked")
+	@Test void test_findFirst_no_match() {
+		NTree<String,Integer> t = NTree.create("tree");
+		t.addNewRoot(
+				t.n("A1",1).c(
+					t.n("B1",1)));
+		
+		NTreeNode<String,Integer> result = t.root.findFirst(node -> node.getValue() == 8);
+		
+		assertNull(result);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test void test_findFirst_node_is_match() {
+		NTree<String,Integer> t = NTree.create("tree");
+		t.addNewRoot(
+			t.n("A1",1).c(
+				t.n("B1",1)));
+		
+		NTreeNode<String,Integer> result = t.root.findFirst(node -> node.getValue() == 1);
+		
+		NTreeNode<String,Integer> expected = t.n("A1",1);
+		assertEquals(expected, result);
+	}
+	
+	@Test void test_findFirst() {
+		NTree<String,Integer> t = TestUtil.testTreeWithNullValues();
+		
+		NTreeNode<String,Integer> c2 = t.root.findFirst(node -> node.getValue() == 5);
+		NTreeNode<String,Integer> a1 = t.root.findFirst(node -> node.getValue() == null);
+		
+		NTreeNode<String,Integer> expC2 = t.n("C2", 5);
+		NTreeNode<String,Integer> expA1 = t.n("A1");
+		assertEquals(expC2, c2);
+		assertEquals(expA1, a1);
+	}
+	
+	@Test void test_findFirstWithValue() {
+		NTree<String,Integer> t = TestUtil.testTreeWithNullValues();
+		
+		NTreeNode<String,Integer> c2 = t.root.findFirstWithValue(5);
+		NTreeNode<String,Integer> a1 = t.root.findFirstWithValue(null);
+		
+		NTreeNode<String,Integer> expC2 = t.n("C2", 5);
+		NTreeNode<String,Integer> expA1 = t.n("A1");
+		assertEquals(expC2, c2);
+		assertEquals(expA1, a1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test void test_equalSubtree() {
+		NTree<String,Integer> t1 = TestUtil.testTreeWithNullValues();
+		NTree<String,Integer> t2 = TestUtil.testTreeWithNullValues();
+		NTree<String,Integer> t3 = NTree.create("tree");
+		t3.addNewRoot(
+			t3.n("A1").c(
+				t3.n("B1", 2),
+				t3.n("B2", 3)));
+		
+		assertTrue(t1.root.equalsSubtree(t2.root));
+		assertFalse(t1.root.equalsSubtree(t3.root));
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Test void test_treeStringGraph() {
 		NTree<String,Integer> t = NTree.create("tree");

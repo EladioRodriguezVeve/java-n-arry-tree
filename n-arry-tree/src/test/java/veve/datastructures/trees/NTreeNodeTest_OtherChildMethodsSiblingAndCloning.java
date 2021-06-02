@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +90,25 @@ public class NTreeNodeTest_OtherChildMethodsSiblingAndCloning {
 		expected.put("B3", tree.n("B3",3));
 		expected.put("B4", tree.n("B4",4));
 		assertEquals(expected, siblingsMap);
+	}
+	
+	@Test void test_siblingsList_parent_is_null() {
+		NTree<String,Integer> tree = NTree.create("tree");
+		tree.addNewRoot(tree.n("A1"));
+		
+		List<NTreeNode<String,Integer>> result = tree.root.siblingsList();
+		
+		assertEquals(0, result.size());
+	}
+	
+	@Test void test_siblingsList() {
+		NTree<String,Integer> tree = getTestTree();
+		tree.useNaturalOrdering();
+		
+		Multiset<NTreeNode<String,Integer>> siblingsList = HashMultiset.create(tree.root.childWithId("B1").siblingsList());
+		
+		HashMultiset<NTreeNode<String,Integer>> expected = HashMultiset.create(Arrays.asList(tree.n("B2",2), tree.n("B3",3), tree.n("B4",4)));
+		assertEquals(expected, siblingsList);
 	}
 	
 	//==============================================================================================

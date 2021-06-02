@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
@@ -71,7 +72,8 @@ import veve.datastructures.trees.NTreeConstants.NodeValueCloningMode;
  * result of the lambda function would be null.
  * <p>
  * Note that no method accepts null values as arguments except 
- * {@link NTreeNode#setValue(Object)} and the variants of {@link NTreeNode#treeGraph}
+ * {@link NTreeNode#setValue(Object)}, the variants of {@link NTreeNode#treeGraph}
+ * and {@link NTreeNode#findFirstWithValue(Object)}.
  * <p>
  * The {@link NearestCommonAncestorTool} class can be used to find the nearest
  * common ancestor between two nodes in a tree plus having other methods to get 
@@ -611,12 +613,17 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return the first child node that it finds that has a value equal to the
 	 * one provided or {@code null} if no child has that value.
 	 */
-	//TODO test
 	public NTreeNode<K,V> firstChildWithValue(V value) {
 		argsNotNull(value);
 		List<NTreeNode<K,V>> nodesWithValue = this.childrenList().stream().filter(
 				safePredicate(node -> node.value.equals(value))
 			).collect(Collectors.toList());
+		if (this.treeOfBelonging.isNaturalOrdered()) {
+			Collections.sort(nodesWithValue);
+		}
+		else if (this.treeOfBelonging.isCustomOrdered()) {
+			Collections.sort(nodesWithValue, this.treeOfBelonging.nodeComparator);
+		}
 		return nodesWithValue.size() > 0 ? nodesWithValue.get(0) : null;
 	}
 	
@@ -813,7 +820,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return a {@code Map} of the child nodes removed. The keys of the map are
 	 * the ids of the child nodes.
 	 */
-	public Map<K,NTreeNode<K,V>> retainChild(Predicate<NTreeNode<K,V>> predicate) {
+	public Map<K,NTreeNode<K,V>> retainChildren(Predicate<NTreeNode<K,V>> predicate) {
 		argsNotNull(predicate);
 		Map<K,NTreeNode<K,V>> nodesToRemove = childrenList().stream()
 				.filter(Predicate.not(safePredicate(predicate))).collect(Collectors.toMap(node -> node.id, node -> node));
@@ -832,7 +839,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	public Map<K, NTreeNode<K, V>> retainChildren(Collection<K> ids) {
 		argsNotNull(ids);
 		Set<K> idsSet = new HashSet<>(ids);
-		return retainChild(node -> idsSet.contains(node.id));
+		return retainChildren(node -> idsSet.contains(node.id));
 	}
 	
 	/**
@@ -1375,15 +1382,6 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 		return level;
 	}
 	
-	/**
-	 * Returns {@code true} if this node is part of a {@link NTree}. All {@code NTreeNode}s
-	 * have a {@code  NTree} that is their owner but the node is not necessarily
-	 * a node of that tree. To be part of a tree a node must be the root node of a
-	 * {@code NTree} or a descendant of the root. Root meaning here the {@code NTree.root}
-	 * property of a {@code NTree}.
-	 * 
-	 * @return {@code true} if this node is part of a {@link NTree}
-	 */
 	boolean isPartOfTree() {
 		NTreeNode<K,V> origin = this;
 		while(origin.parent != null) {
@@ -1713,8 +1711,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * @return the found node or {@code null} if not found
 	 */
 	public NTreeNode<K,V> findFirstWithValue(V value) {
-		argsNotNull(value);
-		return findFirst(node -> node.value.equals(value));
+		return findFirst(node -> Objects.equals(node.value, value));
 	}
 	
 	void _equalsSubtree(NTreeNode<K,V> nodeA, NTreeNode<K,V> nodeB, MutableBoolean equal) {

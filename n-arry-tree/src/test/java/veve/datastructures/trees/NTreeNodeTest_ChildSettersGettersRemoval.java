@@ -171,7 +171,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	//==============================================================================================
 	
 	@SuppressWarnings("unchecked")
-	@Test void test_serChildSubtrees() {
+	@Test void test_setChildren() {
 		NTree<String,Integer> tree = NTree.create("tree");
 		tree.addIndex(IDS_INDEX, node -> node.getId());
 		tree.addNewRoot(tree.n("A1"));
@@ -291,6 +291,34 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 	//	GETTERS
 	//==============================================================================================
 	
+	@Test void test_firstChildWithValue_no_match_found() {
+		NTree<String,Integer> tree = NTree.create("tree");
+		
+		NTreeNode<String,Integer> node = tree.findFirstWithValue(99);
+		
+		assertNull(node);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test void test_firstChildWithValue() {
+		NTree<String,Integer> t = NTree.create("tree");
+		t.addNewRoot(
+			t.n("A1").c(
+				t.n("B1",1),
+				t.n("B2",1),
+				t.n("B3"),
+				t.n("B4",1),
+				t.n("B5",2)
+			)
+		);
+		t.useCustomOrdering((nodeA,nodeB) -> nodeB.compareTo(nodeA));
+		
+		NTreeNode<String,Integer> node = t.root.firstChildWithValue(1);
+		
+		NTreeNode<String,Integer> expected = t.n("B4",1);
+		assertEquals(expected, node);
+	}
+	
 	@Test void test_childrenList_using_ids() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		
@@ -302,7 +330,7 @@ public class NTreeNodeTest_ChildSettersGettersRemoval {
 		assertEquals("B2", nodes.get(1).id);
 	}
 	
-	@Test void test_childrenMapusing_ids() {
+	@Test void test_childrenMap_using_ids() {
 		NTree<String,Integer> tree = TestUtil.testTree();
 		
 		Map<String, NTreeNode<String, Integer>> nodes =  tree.root.childrenMap(Arrays.asList("B1","B2"));

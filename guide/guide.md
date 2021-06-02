@@ -18,6 +18,7 @@
     - [`findFirstWithId(K id)`](#findfirstwithidk-id)
     - [`findFirstWithValue(V value)`](#findfirstwithvaluev-value)
     - [`mapToList(Function<NTreeNode<K,V>,R> function)`](#maptolistfunctionntreenodekvr-function)
+    - [`forEachNode(TreeTraversalOrder traversal, Consumer<NTreeNode<K,V>> action)`](#foreachnodetreetraversalorder-traversal-consumerntreenodekv-action)
   - [NTreeNode](#ntreenode)
   - [NearestCommonAncestorTool](#nearestcommonancestortool)
 - [How To's](#how-tos)
@@ -263,6 +264,19 @@ List<Integer> ids = tree.mapToList(node -> node.getValue()*2);
 Note that if the lambda function passed throws an exception it will return null
 and it will be in the returned list. So if all nodes had null values and you
 applied the last statement above the resulting list will have all items being null.
+
+---
+
+#### `forEachNode(TreeTraversalOrder traversal, Consumer<NTreeNode<K,V>> action)`
+
+Traverses this tree and performs an action for each node. The tree is
+traversed in the order specified by the provided `TreeTraversalOrder`
+enum. The traversal order between children is unordered by default or if
+the tree was configured with `dontUseOrdering()`. Configure this
+tree with `useNaturalOrdering()` or `useCustomOrdering(BiFunction)`
+for ordered traversal between children.
+
+TODO !!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 

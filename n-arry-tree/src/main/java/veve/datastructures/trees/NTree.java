@@ -656,7 +656,6 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		return createNode(id, value);
 	}
 	
-	//TODO test
 	/**
 	 * Returns a list of all the nodes for which the provided predicate returns 
 	 * {@code true}.
@@ -673,7 +672,6 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		return this.root.findAll(predicate);
 	}
 	
-	//TODO test
 	/**
 	 * Returns the first node that satisfies the provided predicate being 
 	 * {@code true} when traversing this tree in a preorder manner to find it.
@@ -943,7 +941,6 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		return toList(TreeTraversalOrder.PRE_ORDER).stream();
 	}
 	
-	//TODO test
 	/**
 	 * Returs true if the passed {code NTree} is a clone of this tree. This
 	 * method checks other things that the overridden equals method does not. It
@@ -1106,7 +1103,6 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		return true;
 	}
 	
-	//TODO test
 	/**
 	 * Returns the {@code String} representation of this tree. It returns a JSON
 	 * string representation of this tree but unlike {@link #toJson()} this JSON

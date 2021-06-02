@@ -10,7 +10,7 @@ The class that represents the tree is `NTree` and the one for the nodes is `NTre
 Each node has an id and a value field. Nodes that are siblings cannot have the same id, similar to how two files cannot have the same name in a file system.
 
 There is a utility class named `NearestCommonAncestorTool` that can be used to find the nearest common ancestor between two nodes in a
-node hierarchy
+node hierarchy.
 
 ## How to Build
 
@@ -20,7 +20,7 @@ Clone this repo and from the root of the repo run `./gradlew build`
 
 ## Javadocs
 
-Click [here](https://eladiorodriguezveve.github.io/n-arry-tree-javadocs/) to access the javadocs.
+Link to Javadocs will be here after released to Maven Central repository.
 
 ## How to Use Guide
 

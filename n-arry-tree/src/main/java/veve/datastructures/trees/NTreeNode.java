@@ -418,7 +418,6 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	//	CHILDREN SETTERS
 	//----------------------------------------------------------------------------------------------
 	
-	//TODO test completely down
 	/**
 	 * Adds new child nodes to this node. The nodes to be added as childs must
 	 * have a parent that is {@code null} or they will not be added. If two  or

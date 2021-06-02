@@ -26,7 +26,18 @@
     - [`setRootSingleNode(NTreeNode<K,V> node)`](#setrootsinglenodentreenodekv-node)
     - [`treeGraph(Integer width, Integer height, Function<NTreeNode<K,V>,R> dataFunction)`](#treegraphinteger-width-integer-height-functionntreenodekvr-datafunction)
   - [NTreeNode](#ntreenode)
-  - [NearestCommonAncestorTool](#nearestcommonancestortool)
+    - [`childrenList(Predicate<NTreeNode<K,V>> predicate)`](#childrenlistpredicatentreenodekv-predicate)
+    - [`childrenMap(Predicate<NTreeNode<K,V>> predicate)`](#childrenmappredicatentreenodekv-predicate)
+    - [`firstChildWithValue(V value)`](#firstchildwithvaluev-value)
+    - [`mapChildrenToList(Function<NTreeNode<K,V>,R> function)`](#mapchildrentolistfunctionntreenodekvr-function)
+    - [`mapChildrenToMap(Function<NTreeNode<K,V>,R> function)`](#mapchildrentomapfunctionntreenodekvr-function)
+    - [`remove()`](#remove)
+    - [`removeAndParentAdoptsGrandChildren(BiPredicate<NTreeNode<K,V>,NTreeNode<K,V>> bipredicate)`](#removeandparentadoptsgrandchildrenbipredicatentreenodekvntreenodekv-bipredicate)
+    - [`removeAndParentAdoptsGrandChildren(boolean replacesDuplicates)`](#removeandparentadoptsgrandchildrenboolean-replacesduplicates)
+    - [`removeChildren(Predicate<NTreeNode<K,V>> predicate)`](#removechildrenpredicatentreenodekv-predicate)
+    - [`retainChildren(Predicate<NTreeNode<K,V>> predicate)`](#retainchildrenpredicatentreenodekv-predicate)
+    - [`replaceSingleNodeWith(NTreeNode<K,V> other)`](#replacesinglenodewithntreenodekv-other)
+    - [`replaceWith(NTreeNode<K,V> other)`](#replacewithntreenodekv-other)
 - [How To's](#how-tos)
   - [Instantiating a tree](#instantiating-a-tree)
   - [Adding all the nodes to a new tree in one statement](#adding-all-the-nodes-to-a-new-tree-in-one-statement)
@@ -35,15 +46,13 @@
 
 ## API
 
-In the this section we show examples of some of the methods for NTree, NtreeNode
-and NearestCommonAncestorTool classes. Only the methods which are not too simple
-or too obvios as to what they do or how to use them are covered here. The javadocs
-should suffice for the methods not covered in this guide.
+In the this section we show examples of some of the methods for NTree and
+NtreeNode classes. We include only some mothods from the API to clarify what
+they do. For the rest of the methods you see the Javadocs.
 
 ### NTree
 
 ---
-
 
 #### `addIndex(String indexName, Function<NTreeNode<K,V>, R> keyGeneratingFunction)`
 
@@ -444,7 +453,218 @@ A1: null
 
 ### NTreeNode
 
-### NearestCommonAncestorTool
+---
+
+#### `childrenList(Predicate<NTreeNode<K,V>> predicate)`
+
+Returns a `List` of this node's children for which the provided `Predicate`
+evaluates to `true`.
+
+Assume we have the following tree:
+
+![NtreeNode childrenList](images/NtreeNode/firstChildWithValue.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// The list will have nodes B1 and B3
+List<NTreeNode<String,Integer>> childrenEvenValues = tree.getRoot().childrenList(node -> node.getValue() % 2 == 0);
+```
+
+---
+
+#### `childrenMap(Predicate<NTreeNode<K,V>> predicate)`
+
+Similar to [`childrenList(Predicate<NTreeNode<K,V>> predicate)`](#childrenlistpredicatentreenodekv-predicate)
+but returns a `Map` of children where the keys of the map are the children Ids.
+
+---
+
+#### `firstChildWithValue(V value)`
+
+Returns the first child it finds that has a value that is equal to the one provided.
+The traversal order between the childs of this node is not ordered by default.
+This can be changed by configuring this node's treeOfBelonging using
+`useNaturalOrdering()` or `useCustomOrdering(BiFunction<NTreeNode<K,V>,NTreeNode<K,V>,Integer> compareBiFunction)`.
+
+Assume we have the following tree:
+
+![NTreeNode firstChildWithValue](images/NtreeNode/firstChildWithValue.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// Could be node B1 or B3
+NTreeNode<String,Integer> firstWithValue2 = tree.getRoot().firstChildWithValue(2);
+
+// Will be node B1
+tree.useNaturalOrdering();
+NTreeNode<String,Integer> b1 = tree.getRoot().firstChildWithValue(2);
+
+// Will be node B3
+tree.useCustomOrdering((nodeA, nodeB) -> nodeB.getValue() - nodeA.getValue());
+NTreeNode<String,Integer> b3 = tree.getRoot().firstChildWithValue(2);
+```
+
+---
+
+#### `mapChildrenToList(Function<NTreeNode<K,V>,R> function)`
+
+Returns a `List` of the results of applying the provided `Function`
+to each of this node's children.
+
+Example:
+
+Assume we have the following tree:
+
+![NtreeNode childrenList](images/NtreeNode/firstChildWithValue.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// The list will have values [4, 2, 4, 2] although not necesarily in that order
+List<Integer> childrenValuesX2 = tree.getRoot().mapChildrenToList(node -> node.getValue() * 2);
+```
+
+---
+
+#### `mapChildrenToMap(Function<NTreeNode<K,V>,R> function)`
+
+Similar to
+
+except that it reurns a `Map`instead of a `List`. The map keys will be the keys
+of the children ids.
+
+---
+
+#### `remove()`
+
+Removes a node and its descendants.
+
+Example:
+
+Assume we have the following tree:
+
+![NtreeNode remove](images/NtreeNode/remove.svg)
+
+```java
+NTree<String,Integer> tree = ...
+tree.getRoot().childWithId("B2").remove();
+```
+
+---
+
+#### `removeAndParentAdoptsGrandChildren(BiPredicate<NTreeNode<K,V>,NTreeNode<K,V>> bipredicate)`
+
+Removes the node and it's parent adopts the nodes children. The result of the
+`BiPpredicate` determines if the child or the sibling of the node is replaced in
+the case that they hace the same ids.
+
+Example:
+
+```java
+NTree<String,Integer> tree = ...
+
+tree.getRoot().childWithId("B2").removeAndParentAdoptsGrandchildren((child,uncle) -> child.getValue() > uncle.getValue());
+```
+
+or
+
+```java
+NTree<String,Integer> tree = ...
+
+tree.getRoot().childWithId("B2").removeAndParentAdoptsGrandchildren((child,uncle) -> child.getValue() < uncle.getValue());
+```
+
+Conceptual Diagram:
+
+![NTreeNode removeAndParentAdoptsGrandchildren](images/NtreeNode/removeAndParentAdoptsGrandchildren.svg)
+
+---
+
+#### `removeAndParentAdoptsGrandChildren(boolean replacesDuplicates)`
+
+Works in the same way as
+[`removeAndParentAdoptsGrandChildren(BiPredicate<NTreeNode<K,V>,NTreeNode<K,V>> bipredicate)`](#removeandparentadoptsgrandchildrenbipredicatentreenodekvntreenodekv-bipredicate)
+but instead of passing a BiPredicate you pass a boolean to determine if childs
+of this node that have the same id as siblings of this node replace this nodes
+siblings.
+
+---
+
+#### `removeChildren(Predicate<NTreeNode<K,V>> predicate)`
+
+Removes the child nodes of this node for which the provided `Predicate`
+evaluates to `true`.
+
+Example:
+
+Assume we have the following tree:
+
+![NtreeNode removeChildren](images/NtreeNode/firstChildWithValue.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// Will remove A1 childs B1 and B3
+tree.getRoot().removeChildren(node -> node.getValue() == 2);
+```
+
+---
+
+#### `retainChildren(Predicate<NTreeNode<K,V>> predicate)`
+
+Removes all of this node's children for which the provided `Predicate`
+evaluates to `false` and retaining those childs for which it evaluates to `true`.
+
+Example:
+
+Assume we have the following tree:
+
+![NtreeNode removeChildren](images/NtreeNode/firstChildWithValue.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// Will remove A1 childs B2 and B4 and leave B1 and B3
+tree.getRoot().retainChildren(node -> node.getValue() == 2);
+```
+
+---
+
+#### `replaceSingleNodeWith(NTreeNode<K,V> other)`
+
+Replaces this node in a node hierarchy or tree with another node without
+replacing the node's descendants. The node passed will not be changed and
+instead a clone of it will be used.
+
+This method is similar to [`setRootSingleNode(NTreeNode<K,V> node)`](#setrootsinglenodentreenodekv-node)
+but instead of setting the root of a tree it replaces the node that calls this
+method with another node.
+
+---
+
+#### `replaceWith(NTreeNode<K,V> other)`
+
+Replaces this node in a node hierarchy or tree with another node and the
+other node's descendants. The node passed will not be changed and
+instead a clone of it will be used.
+
+This method is similar to [`setRoot(NTreeNode<K,V> node)`](#setrootntreenodekv-node)
+but instead of setting the root of a tree it replaces the node and descendants
+of the node that calls this method with another node and its descendants.
+
+---
 
 ## How To's
 

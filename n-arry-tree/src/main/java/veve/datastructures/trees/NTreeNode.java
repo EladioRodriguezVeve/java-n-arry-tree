@@ -606,7 +606,11 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	}
 	
 	/**
-	 * Returns the first child it finds that a value that is equal to the one provided.
+	 * Returns the first child it finds that has a value that is equal to the one provided.
+	 * The traversal order between the childs of this node is not ordered by default.
+	 * This can be changed by configuring this node's treeOfBelonging using
+	 * {@link NTree#useNaturalOrdering()} or 
+	 * {@link NTree#useCustomOrdering(java.util.function.BiFunction)}.
 	 * 
 	 * @param value the value of the child node to return
 	 * @return the first child node that it finds that has a value equal to the

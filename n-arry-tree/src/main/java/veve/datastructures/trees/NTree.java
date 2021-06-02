@@ -607,31 +607,6 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	//==============================================================================================
 	
 	/**
-	 * Returns a new {@link NTreeNode} with the provided id and {@code null} value whose
-	 * treeOfBelonging is this tree. It's the same as {@link #createNode(Comparable)}.
-	 * 
-	 * @param id the id of the node to be created
-	 * @return a new NTreeNode with the provided id and null value
-	 */
-	public NTreeNode<K,V> n(K id) {
-		argsNotNull(id);
-		return createNode(id);
-	}
-	
-	/**
-	 * Returns a new {@link NTreeNode} with the provided id and value whose
-	 * treeOfBelonging is this tree. It's the same as {@link #createNode(Comparable, Object)}.
-	 * 
-	 * @param id the id of the node to be created
-	 * @param value the value of the node to be created
-	 * @return a new NTreeNode with the provided id and value
-	 */
-	public NTreeNode<K,V> n(K id, V value) {
-		argsNotNull(id, value);
-		return createNode(id, value);
-	}
-	
-	/**
 	 * Returns a new {@link NTreeNode} with the provided id and {@code null} 
 	 * value whose treeOfBelonging is this tree.
 	 * 
@@ -654,6 +629,31 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	public NTreeNode<K,V> createNode(K id, V value) {
 		argsNotNull(id, value);
 		return new NTreeNode<K,V>(this, id, value);
+	}
+	
+	/**
+	 * Returns a new {@link NTreeNode} with the provided id and {@code null} value whose
+	 * treeOfBelonging is this tree. It's the same as {@link #createNode(Comparable)}.
+	 * 
+	 * @param id the id of the node to be created
+	 * @return a new NTreeNode with the provided id and null value
+	 */
+	public NTreeNode<K,V> n(K id) {
+		argsNotNull(id);
+		return createNode(id);
+	}
+	
+	/**
+	 * Returns a new {@link NTreeNode} with the provided id and value whose
+	 * treeOfBelonging is this tree. It's the same as {@link #createNode(Comparable, Object)}.
+	 * 
+	 * @param id the id of the node to be created
+	 * @param value the value of the node to be created
+	 * @return a new NTreeNode with the provided id and value
+	 */
+	public NTreeNode<K,V> n(K id, V value) {
+		argsNotNull(id, value);
+		return createNode(id, value);
 	}
 	
 	//TODO test
@@ -792,16 +792,17 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		return this.root.mapToList(function);
 	}
 	
-	//TODO test index is cloned
 	/**
 	 * Returns a new tree which is a deep copy of this tree including its version
-	 * and indexes.
+	 * and indexes but with a different id.
 	 * 
-	 * @return a deep copy of this tree.
+	 * @param id the id of the cloned tree
+	 * @return a deep copy of this tree with the provided id
 	 */
 	@SuppressWarnings("unchecked")
-	public NTree<K,V> clone() {
-		NTree<K,V> clone = new NTree<K,V>(this.id);
+	public NTree<K,V> clone(K id) {
+		argsNotNull(id);
+		NTree<K,V> clone = new NTree<K,V>(id);
 		clone.nodeValueCloningMode = this.nodeValueCloningMode;
 		clone.nodeValueType = this.nodeValueType;
 		clone.root = this.root.clone(clone);
@@ -818,22 +819,12 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	
 	/**
 	 * Returns a new tree which is a deep copy of this tree including its version
-	 * and indexes but with a different id.
+	 * and indexes.
 	 * 
-	 * @param id the id of the cloned tree
-	 * @return a deep copy of this tree with the provided id
+	 * @return a deep copy of this tree.
 	 */
-	@SuppressWarnings("unchecked")
-	public NTree<K,V> clone(K id) {
-		argsNotNull(id);
-		NTree<K,V> clone = new NTree<K,V>(id);
-		clone.nodeValueCloningMode = this.nodeValueCloningMode;
-		clone.nodeValueType = this.nodeValueType;
-		clone.root = this.root.clone(clone);
-		clone.version = this.version;
-		Map<String, TreeNodeIndex> clonedIndexes = new HashMap<>();
-		this.indexes.forEach((name, index) -> clonedIndexes.put(name, index.cloneIndex(clone)));
-		return clone;
+	public NTree<K,V> clone() {
+		return clone(this.id);
 	}
 	
 	/**
@@ -900,6 +891,23 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 		argsNotNull(action);
 		if (this.root != null) {
 			this.root.forEachLevelOrder(action);
+		}
+	}
+	
+	/**
+	 * Traverses this tree and performs an action for each node. The tree is 
+	 * traversed in a levelorder manner from deepest node up each level up to root.
+	 * The traversal order between children of each node is unordered by default or 
+	 * if the tree was configured with {@link #dontUseOrdering()}. Configure this
+	 * tree with {@link #useNaturalOrdering()} or {@link #useCustomOrdering(BiFunction)} 
+	 * for ordered traversal between children.
+	 * 
+	 * @param action a consumer that performs an action for each node
+	 */
+	public void forEachLevelOrderFromBottom(Consumer<NTreeNode<K,V>> action) {
+		argsNotNull(action);
+		if (this.root != null) {
+			this.root.forEachLevelOrderFromBottom(action);
 		}
 	}
 	
@@ -1005,8 +1013,10 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 * 
 	 * @param <R> the return type of the provided dataFunction parameter. Java
 	 * 			can imply it.
-	 * @param width the width factor. If {@code null} defaults to 4.
-	 * @param height the height factor. If {@code null} defaults to 2.
+	 * @param width the width factor. If {@code null} or less than 1 then it
+	 *              defaults to 4.
+	 * @param height the height factor. If {@code null} or less than 1 then it 
+	 * 				 defaults to 2.
 	 * @param dataFunction the {@code Function} whose result is displayed next to
 	 * each node's id. If {@code null} then no data is displayed next to each
 	 * node's id.
@@ -1033,6 +1043,16 @@ public class NTree<K extends Comparable<K>,V> implements Iterable<NTreeNode<K,V>
 	 */
 	public <R> String treeGraph(Function<NTreeNode<K,V>,R> dataFunction) {
 		return treeGraph(null, null, dataFunction);
+	}
+	
+	/**
+	 * Returns a simple graphic representation of this tree in a {@code String}.
+	 * 
+	 * @return a {@code String} that when printed forms a simple graphic
+	 * representation of this tree
+	 */
+	public <R> String treeGraph() {
+		return treeGraph(null, null, null);
 	}
 	
 	//==============================================================================================

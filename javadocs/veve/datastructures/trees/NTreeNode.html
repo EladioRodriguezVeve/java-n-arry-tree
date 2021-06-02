@@ -163,7 +163,8 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  lambda function would be false. If the parameter is of type Function then the
  result of the lambda function would be null.
  <p>
- Note that no method accepts null values as arguments except <a href="#setValue(V)"><code>setValue(Object)</code></a>
+ Note that no method accepts null values as arguments except 
+ <a href="#setValue(V)"><code>setValue(Object)</code></a> and the variants of <a href="#treeGraph(java.lang.Integer,java.lang.Integer,java.util.function.Function)"><code>treeGraph(java.lang.Integer, java.lang.Integer, java.util.function.Function&lt;veve.datastructures.trees.NTreeNode&lt;K, V&gt;, R&gt;)</code></a>
  <p>
  The <a href="NearestCommonAncestorTool.html" title="class in veve.datastructures.trees"><code>NearestCommonAncestorTool</code></a> class can be used to find the nearest
  common ancestor between two nodes in a tree plus having other methods to get 
@@ -2447,8 +2448,10 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <dd><code>R</code> - the return type of the provided dataFunction parameter. Java
                         can imply it.</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>width</code> - the width factor. If <code>null</code> defaults to 4.</dd>
-<dd><code>height</code> - the height factor. If <code>null</code> defaults to 2.</dd>
+<dd><code>width</code> - the width factor. If <code>null</code> or less than 1 then it
+              defaults to 4.</dd>
+<dd><code>height</code> - the height factor. If <code>null</code> or less than 1 then it 
+                                 defaults to 2.</dd>
 <dd><code>dataFunction</code> - the <code>Function</code> whose result is displayed next to
  each node's id. If <code>null</code> then no data is displayed next to each
  node's id.</dd>

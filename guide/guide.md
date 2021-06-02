@@ -17,6 +17,7 @@
     - [`findFirst(Predicate<NTreeNode<K,V>> predicate)`](#findfirstpredicatentreenodekv-predicate)
     - [`findFirstWithId(K id)`](#findfirstwithidk-id)
     - [`findFirstWithValue(V value)`](#findfirstwithvaluev-value)
+    - [`mapToList(Function<NTreeNode<K,V>,R> function)`](#maptolistfunctionntreenodekvr-function)
   - [NTreeNode](#ntreenode)
   - [NearestCommonAncestorTool](#nearestcommonancestortool)
 - [How To's](#how-tos)
@@ -236,8 +237,34 @@ is `node -> node.getValue().equals(value)`
 
 ---
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO
+#### `mapToList(Function<NTreeNode<K,V>,R> function)`
+
+Returns a List of values that are the result of the execution of the provided
+mapping function to each node in this tree.
+
+Example:
+
+Assume we have the following tree:
+
+![Ntree findAll](images/NTree/nodesInIndexWithKey.svg)
+
+The top part of the nodes represents the id and the bottom part the value.
+
+```java
+NTree<String,Integer> tree = ...
+
+// List will have the ids of the nodes in the tree
+List<String> ids = tree.mapToList(node -> node.getId());
+
+// List will have the results of multuplying every node value by 2
+List<Integer> ids = tree.mapToList(node -> node.getValue()*2);
+```
+
+Note that if the lambda function passed throws an exception it will return null
+and it will be in the returned list. So if all nodes had null values and you
+applied the last statement above the resulting list will have all items being null.
+
+---
 
 ### NTreeNode
 

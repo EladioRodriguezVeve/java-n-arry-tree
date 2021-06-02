@@ -70,7 +70,8 @@ import veve.datastructures.trees.NTreeConstants.NodeValueCloningMode;
  * lambda function would be false. If the parameter is of type Function then the
  * result of the lambda function would be null.
  * <p>
- * Note that no method accepts null values as arguments except {@link NTreeNode#setValue(Object)}
+ * Note that no method accepts null values as arguments except 
+ * {@link NTreeNode#setValue(Object)} and the variants of {@link NTreeNode#treeGraph}
  * <p>
  * The {@link NearestCommonAncestorTool} class can be used to find the nearest
  * common ancestor between two nodes in a tree plus having other methods to get 
@@ -1752,8 +1753,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * 
 	 * @param <R> the return type of the provided dataFunction parameter. Java
 	 * 			can imply it.
-	 * @param width the width factor. If {@code null} defaults to 4.
-	 * @param height the height factor. If {@code null} defaults to 2.
+	 * @param width the width factor. If {@code null} or less than 1 then it
+	 *              defaults to 4.
+	 * @param height the height factor. If {@code null} or less than 1 then it 
+	 * 				 defaults to 2.
 	 * @param dataFunction the {@code Function} whose result is displayed next to
 	 * each node's id. If {@code null} then no data is displayed next to each
 	 * node's id.
@@ -1776,7 +1779,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 			vertHeight.set(2);
 		}
 		Map<Integer,Map<Integer,String>> graphLines = new TreeMap<>();
-		int size = size() * height;
+		int size = size() * vertHeight.get();
 		for (int i = 0; i < size; i++) {
 			graphLines.put(i, new TreeMap<Integer,String>());
 		}
@@ -1796,7 +1799,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 		
 		Consumer<NTreeNode<K,V>> putNodeData = node -> {
 			int col = ((node.levelRelativeToAncestor(this)-1) * horWidth.get());
-			int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*height;
+			int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*vertHeight.get();
 			String data = node.id.toString();
 			if (dataFunction != null) {
 				data += ": " + safeFunction(dataFunction).apply(node);
@@ -1808,7 +1811,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 		Consumer<NTreeNode<K,V>> putImmediateVertices = node -> {
 			if (node != this) {
 				int col = ((node.levelRelativeToAncestor(this)-1)*horWidth.get());
-				int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*height;
+				int row = nodeListUUID.indexOf(new NTreeNodeUUID<>(node))*vertHeight.get();
 				for (int i = 1; i < horWidth.get(); i++) {
 					graphLines.get(row).put(col-i, "─");
 				}
@@ -1859,7 +1862,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 				String colText = colIter.next().getValue();
 				lineText += colText;
 			}
-			lineText.stripTrailing();
+			lineText = lineText.stripTrailing();
 			graphStringLines.put(lineEntry.getKey(), lineText);
 		}
 		
@@ -1884,6 +1887,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * representation of this node and its descendants
 	 */
 	public <R> String treeGraph(Function<NTreeNode<K,V>,R> dataFunction) {
+		argsNotNull(dataFunction);
 		return treeGraph(null, null, dataFunction);
 	}
 	

@@ -256,8 +256,84 @@ public class NTreeNodeTest_DerivedPropsAndConvinience {
 			)
 		);
 		
-		String graph = t2.root.treeGraph(3, 2, node -> node.getValue());
-		System.out.print(graph);
+		String graph1T1 = t.root.treeGraph(3, 2, node -> node.getValue());
+		String expected1T1 = 
+				  "A1: null\n"
+				+ "│\n"
+				+ "└──B1: null\n"
+				+ "│  │\n"
+				+ "│  └──C1: null\n"
+				+ "│     │\n"
+				+ "│     └──D1: 1\n"
+				+ "│\n"
+				+ "└──B2: null\n"
+				+ "│  │\n"
+				+ "│  └──C2: null\n"
+				+ "│  │  │\n"
+				+ "│  │  └──D2: 2\n"
+				+ "│  │\n"
+				+ "│  └──C3: 3\n"
+				+ "│\n"
+				+ "└──B3: null\n"
+				+ "│  │\n"
+				+ "│  └──C4: null\n"
+				+ "│  │  │\n"
+				+ "│  │  └──D3: null\n"
+				+ "│  │     │\n"
+				+ "│  │     └──E1: 4\n"
+				+ "│  │\n"
+				+ "│  └──C5: 5\n"
+				+ "│\n"
+				+ "└──B4: null\n"
+				+ "\n"
+				+ "";
+		assertEquals(expected1T1, graph1T1);
+		
+		String graph2T1 = t.root.treeGraph(null, null, null);
+		String expected2T1 = 
+				  "A1\n"
+				+ "│\n"
+				+ "└───B1\n"
+				+ "│   │\n"
+				+ "│   └───C1\n"
+				+ "│       │\n"
+				+ "│       └───D1\n"
+				+ "│\n"
+				+ "└───B2\n"
+				+ "│   │\n"
+				+ "│   └───C2\n"
+				+ "│   │   │\n"
+				+ "│   │   └───D2\n"
+				+ "│   │\n"
+				+ "│   └───C3\n"
+				+ "│\n"
+				+ "└───B3\n"
+				+ "│   │\n"
+				+ "│   └───C4\n"
+				+ "│   │   │\n"
+				+ "│   │   └───D3\n"
+				+ "│   │       │\n"
+				+ "│   │       └───E1\n"
+				+ "│   │\n"
+				+ "│   └───C5\n"
+				+ "│\n"
+				+ "└───B4\n"
+				+ "\n"
+				+ "";
+		assertEquals(expected2T1, graph2T1);
+		
+		String graph1T2 = t2.root.treeGraph(3, 2, node -> node.getValue());
+		String expected1T2 = 
+				  "A1: null\n"
+				+ "│\n"
+				+ "└──B1: Value: 2\n"
+				+ "   │\n"
+				+ "   └──C1: null\n"
+				+ "      │\n"
+				+ "      └──D1: null\n"
+				+ "\n"
+				+ "";
+		assertEquals(expected1T2, graph1T2);
 	}
 	
 	@Test void test_toJson_and_fromJson() {

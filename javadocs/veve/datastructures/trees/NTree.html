@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":9,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":9,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10,"i61":10,"i62":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -376,13 +376,20 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachLevelOrderFromBottom(java.util.function.Consumer)">forEachLevelOrderFromBottom</a></span>&#8203;(java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Traverses this tree and performs an action for each node.</div>
+</td>
+</tr>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachNode(veve.datastructures.trees.NTreeConstants.TreeTraversalOrder,java.util.function.Consumer)">forEachNode</a></span>&#8203;(<a href="NTreeConstants.TreeTraversalOrder.html" title="enum in veve.datastructures.trees">NTreeConstants.TreeTraversalOrder</a>&nbsp;traversal,
            java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Traverses this tree and performs an action for each node.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachOfLevel(int,java.util.function.Consumer)">forEachOfLevel</a></span>&#8203;(int&nbsp;level,
               java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</code></th>
@@ -390,21 +397,21 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Performs an action for each node in the specified level.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachPostOrder(java.util.function.Consumer)">forEachPostOrder</a></span>&#8203;(java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Traverses this tree and performs an action for each node.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachPreOrder(java.util.function.Consumer)">forEachPreOrder</a></span>&#8203;(java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Traverses this tree and performs an action for each node.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static &lt;K extends java.lang.Comparable&lt;K&gt;,&#8203;V&gt;<br><a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromJson(java.lang.String,java.lang.Class,java.lang.reflect.Type)">fromJson</a></span>&#8203;(java.lang.String&nbsp;json,
         java.lang.Class&lt;K&gt;&nbsp;idClass,
@@ -413,26 +420,26 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Creates and returns a <a href="NTree.html" title="class in veve.datastructures.trees"><code>NTree</code></a> given a JSON string representation of a NTree.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="NTree.html" title="type parameter in NTree">K</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getId()">getId</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the id of this tree.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIndexNames()">getIndexNames</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a list of the indexes names of this tree.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code><a href="NTreeConstants.NodeValueCloningMode.html" title="enum in veve.datastructures.trees">NTreeConstants.NodeValueCloningMode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNodeValueCloningMode()">getNodeValueCloningMode</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>java.lang.reflect.Type</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNodeValueType()">getNodeValueType</a></span>()</code></th>
 <td class="colLast">
@@ -440,7 +447,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  JSON the <code>value</code> property of the nodes.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRoot()">getRoot</a></span>()</code></th>
 <td class="colLast">
@@ -448,21 +455,21 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  hierarchy.</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUUID()">getUUID</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the string UUID of this tree.</div>
 </td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getVersion()">getVersion</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the version number of this tree.</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
@@ -470,7 +477,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  in this tree.</div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#height()">height</a></span>()</code></th>
 <td class="colLast">
@@ -478,14 +485,14 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  node down the path to the deepest node.</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incrementVersion()">incrementVersion</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Increments by one the version of this tree.</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isClone(veve.datastructures.trees.NTree,java.util.Collection)">isClone</a></span>&#8203;(<a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;other,
        java.util.Collection&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;sampleNodes)</code></th>
@@ -493,7 +500,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Returs true if the passed {code NTree} is a clone of this tree.</div>
 </td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isCustomOrdered()">isCustomOrdered</a></span>()</code></th>
 <td class="colLast">
@@ -501,7 +508,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  based on the BiFunction passed to <a href="#useCustomOrdering(java.util.function.BiFunction)"><code>useCustomOrdering(BiFunction)</code></a></div>
 </td>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isNaturalOrdered()">isNaturalOrdered</a></span>()</code></th>
 <td class="colLast">
@@ -509,7 +516,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  based on the natural ordering between them.</div>
 </td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrdered()">isOrdered</a></span>()</code></th>
 <td class="colLast">
@@ -518,7 +525,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
         passed to <a href="#useCustomOrdering(java.util.function.BiFunction)"><code>useCustomOrdering(BiFunction)</code></a></div>
 </td>
 </tr>
-<tr id="i35" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isUnordered()">isUnordered</a></span>()</code></th>
 <td class="colLast">
@@ -526,7 +533,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  unordered.</div>
 </td>
 </tr>
-<tr id="i36" class="altColor">
+<tr id="i37" class="rowColor">
 <td class="colFirst"><code>java.util.Iterator&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
 <td class="colLast">
@@ -534,7 +541,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  nodes.</div>
 </td>
 </tr>
-<tr id="i37" class="rowColor">
+<tr id="i38" class="altColor">
 <td class="colFirst"><code>&lt;R&gt;&nbsp;java.util.List&lt;R&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mapToList(java.util.function.Function)">mapToList</a></span>&#8203;(java.util.function.Function&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;,&#8203;R&gt;&nbsp;function)</code></th>
 <td class="colLast">
@@ -542,7 +549,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  of the provided mapping function to each node in this tree.</div>
 </td>
 </tr>
-<tr id="i38" class="altColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#n(K)">n</a></span>&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id)</code></th>
 <td class="colLast">
@@ -550,7 +557,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  treeOfBelonging is this tree.</div>
 </td>
 </tr>
-<tr id="i39" class="rowColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#n(K,V)">n</a></span>&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id,
  <a href="NTree.html" title="type parameter in NTree">V</a>&nbsp;value)</code></th>
@@ -559,7 +566,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  treeOfBelonging is this tree.</div>
 </td>
 </tr>
-<tr id="i40" class="altColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code>&lt;R&gt;&nbsp;java.util.List&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodesInIndexWithKey(java.lang.String,R)">nodesInIndexWithKey</a></span>&#8203;(java.lang.String&nbsp;indexName,
                    R&nbsp;key)</code></th>
@@ -567,14 +574,14 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Returns a list of the nodes in an index that are mapped to a key in that index.</div>
 </td>
 </tr>
-<tr id="i41" class="rowColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodesInLevel(int)">nodesInLevel</a></span>&#8203;(int&nbsp;level)</code></th>
 <td class="colLast">
 <div class="block">Returns an LList of the nodes in the given level.</div>
 </td>
 </tr>
-<tr id="i42" class="altColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeValueCloningUsesCopyConstructor()">nodeValueCloningUsesCopyConstructor</a></span>()</code></th>
 <td class="colLast">
@@ -582,7 +589,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  property of the nodes when cloning nodes.</div>
 </td>
 </tr>
-<tr id="i43" class="rowColor">
+<tr id="i44" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeValueCloningUsesSerialization()">nodeValueCloningUsesSerialization</a></span>()</code></th>
 <td class="colLast">
@@ -590,7 +597,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  value property of the nodes when cloning nodes.</div>
 </td>
 </tr>
-<tr id="i44" class="altColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeValueCloningUsesSerialization(java.lang.reflect.Type)">nodeValueCloningUsesSerialization</a></span>&#8203;(java.lang.reflect.Type&nbsp;nodeValueType)</code></th>
 <td class="colLast">
@@ -598,42 +605,42 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  value property of the nodes when cloning nodes.</div>
 </td>
 </tr>
-<tr id="i45" class="rowColor">
+<tr id="i46" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#recreateIndexes()">recreateIndexes</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Recreates all existing indexes of this tree.</div>
 </td>
 </tr>
-<tr id="i46" class="altColor">
+<tr id="i47" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAllIndexes()">removeAllIndexes</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Removes all indexes in this tree.</div>
 </td>
 </tr>
-<tr id="i47" class="rowColor">
+<tr id="i48" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeIndex(java.lang.String)">removeIndex</a></span>&#8203;(java.lang.String&nbsp;indexName)</code></th>
 <td class="colLast">
 <div class="block">Removes an existing index of this tree if it exists.</div>
 </td>
 </tr>
-<tr id="i48" class="altColor">
+<tr id="i49" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replaceId(K)">replaceId</a></span>&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id)</code></th>
 <td class="colLast">
 <div class="block">Replaces the id of the tree.</div>
 </td>
 </tr>
-<tr id="i49" class="rowColor">
+<tr id="i50" class="altColor">
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRoot(veve.datastructures.trees.NTreeNode)">setRoot</a></span>&#8203;(<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Sets the root of this tree.</div>
 </td>
 </tr>
-<tr id="i50" class="altColor">
+<tr id="i51" class="rowColor">
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRootSingleNode(veve.datastructures.trees.NTreeNode)">setRootSingleNode</a></span>&#8203;(<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;node)</code></th>
 <td class="colLast">
@@ -641,14 +648,14 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  current root.</div>
 </td>
 </tr>
-<tr id="i51" class="rowColor">
+<tr id="i52" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of nodes in this tree.</div>
 </td>
 </tr>
-<tr id="i52" class="altColor">
+<tr id="i53" class="rowColor">
 <td class="colFirst"><code>java.util.stream.Stream&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stream()">stream</a></span>()</code></th>
 <td class="colLast">
@@ -656,14 +663,14 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  traversal of this tree.</div>
 </td>
 </tr>
-<tr id="i53" class="rowColor">
+<tr id="i54" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toJson()">toJson</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a JSON string representation of this tree.</div>
 </td>
 </tr>
-<tr id="i54" class="altColor">
+<tr id="i55" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toList()">toList</a></span>()</code></th>
 <td class="colLast">
@@ -671,7 +678,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  tree is traversed which is in a preorder manner.</div>
 </td>
 </tr>
-<tr id="i55" class="rowColor">
+<tr id="i56" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toList(veve.datastructures.trees.NTreeConstants.TreeTraversalOrder)">toList</a></span>&#8203;(<a href="NTreeConstants.TreeTraversalOrder.html" title="enum in veve.datastructures.trees">NTreeConstants.TreeTraversalOrder</a>&nbsp;traversal)</code></th>
 <td class="colLast">
@@ -679,14 +686,21 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  tree is traversed specified by the provided <code>TreeTraversalOrder</code> enum.</div>
 </td>
 </tr>
-<tr id="i56" class="altColor">
+<tr id="i57" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the <code>String</code> representation of this tree.</div>
 </td>
 </tr>
-<tr id="i57" class="rowColor">
+<tr id="i58" class="altColor">
+<td class="colFirst"><code>&lt;R&gt;&nbsp;java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#treeGraph()">treeGraph</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a simple graphic representation of this tree in a <code>String</code>.</div>
+</td>
+</tr>
+<tr id="i59" class="rowColor">
 <td class="colFirst"><code>&lt;R&gt;&nbsp;java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#treeGraph(java.lang.Integer,java.lang.Integer,java.util.function.Function)">treeGraph</a></span>&#8203;(java.lang.Integer&nbsp;width,
          java.lang.Integer&nbsp;height,
@@ -695,14 +709,14 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Returns a simple graphic representation of this tree in a <code>String</code>.</div>
 </td>
 </tr>
-<tr id="i58" class="altColor">
+<tr id="i60" class="altColor">
 <td class="colFirst"><code>&lt;R&gt;&nbsp;java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#treeGraph(java.util.function.Function)">treeGraph</a></span>&#8203;(java.util.function.Function&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;,&#8203;R&gt;&nbsp;dataFunction)</code></th>
 <td class="colLast">
 <div class="block">Returns a simple graphic representation of this tree in a <code>String</code>.</div>
 </td>
 </tr>
-<tr id="i59" class="rowColor">
+<tr id="i61" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#useCustomOrdering(java.util.function.BiFunction)">useCustomOrdering</a></span>&#8203;(java.util.function.BiFunction&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;,&#8203;java.lang.Integer&gt;&nbsp;compareBiFunction)</code></th>
 <td class="colLast">
@@ -711,7 +725,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  BiFunction whose return value is an integer.</div>
 </td>
 </tr>
-<tr id="i60" class="altColor">
+<tr id="i62" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#useNaturalOrdering()">useNaturalOrdering</a></span>()</code></th>
 <td class="colLast">
@@ -1326,46 +1340,6 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </dl>
 </li>
 </ul>
-<a id="n(java.lang.Comparable)">
-<!--   -->
-</a><a id="n(K)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>n</h4>
-<pre class="methodSignature">public&nbsp;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;n&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id)</pre>
-<div class="block">Returns a new <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> with the provided id and <code>null</code> value whose
- treeOfBelonging is this tree. It's the same as <a href="#createNode(K)"><code>createNode(Comparable)</code></a>.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>id</code> - the id of the node to be created</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new NTreeNode with the provided id and null value</dd>
-</dl>
-</li>
-</ul>
-<a id="n(java.lang.Comparable,java.lang.Object)">
-<!--   -->
-</a><a id="n(K,V)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>n</h4>
-<pre class="methodSignature">public&nbsp;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;n&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id,
-                              <a href="NTree.html" title="type parameter in NTree">V</a>&nbsp;value)</pre>
-<div class="block">Returns a new <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> with the provided id and value whose
- treeOfBelonging is this tree. It's the same as <a href="#createNode(K,V)"><code>createNode(Comparable, Object)</code></a>.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>id</code> - the id of the node to be created</dd>
-<dd><code>value</code> - the value of the node to be created</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new NTreeNode with the provided id and value</dd>
-</dl>
-</li>
-</ul>
 <a id="createNode(java.lang.Comparable)">
 <!--   -->
 </a><a id="createNode(K)">
@@ -1397,6 +1371,46 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
                                        <a href="NTree.html" title="type parameter in NTree">V</a>&nbsp;value)</pre>
 <div class="block">Returns a new <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> with the provided id and value whose
  treeOfBelonging is this tree.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - the id of the node to be created</dd>
+<dd><code>value</code> - the value of the node to be created</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new NTreeNode with the provided id and value</dd>
+</dl>
+</li>
+</ul>
+<a id="n(java.lang.Comparable)">
+<!--   -->
+</a><a id="n(K)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>n</h4>
+<pre class="methodSignature">public&nbsp;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;n&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id)</pre>
+<div class="block">Returns a new <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> with the provided id and <code>null</code> value whose
+ treeOfBelonging is this tree. It's the same as <a href="#createNode(K)"><code>createNode(Comparable)</code></a>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - the id of the node to be created</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new NTreeNode with the provided id and null value</dd>
+</dl>
+</li>
+</ul>
+<a id="n(java.lang.Comparable,java.lang.Object)">
+<!--   -->
+</a><a id="n(K,V)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>n</h4>
+<pre class="methodSignature">public&nbsp;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;n&#8203;(<a href="NTree.html" title="type parameter in NTree">K</a>&nbsp;id,
+                              <a href="NTree.html" title="type parameter in NTree">V</a>&nbsp;value)</pre>
+<div class="block">Returns a new <a href="NTreeNode.html" title="class in veve.datastructures.trees"><code>NTreeNode</code></a> with the provided id and value whose
+ treeOfBelonging is this tree. It's the same as <a href="#createNode(K,V)"><code>createNode(Comparable, Object)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>id</code> - the id of the node to be created</dd>
@@ -1563,23 +1577,6 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </dl>
 </li>
 </ul>
-<a id="clone()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>clone</h4>
-<pre class="methodSignature">public&nbsp;<a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;clone()</pre>
-<div class="block">Returns a new tree which is a deep copy of this tree including its version
- and indexes.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>clone</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a deep copy of this tree.</dd>
-</dl>
-</li>
-</ul>
 <a id="clone(java.lang.Comparable)">
 <!--   -->
 </a><a id="clone(K)">
@@ -1596,6 +1593,23 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <dd><code>id</code> - the id of the cloned tree</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a deep copy of this tree with the provided id</dd>
+</dl>
+</li>
+</ul>
+<a id="clone()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>clone</h4>
+<pre class="methodSignature">public&nbsp;<a href="NTree.html" title="class in veve.datastructures.trees">NTree</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&nbsp;clone()</pre>
+<div class="block">Returns a new tree which is a deep copy of this tree including its version
+ and indexes.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>clone</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a deep copy of this tree.</dd>
 </dl>
 </li>
 </ul>
@@ -1666,6 +1680,25 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <div class="block">Traverses this tree and performs an action for each node. The tree is 
  traversed in a levelorder manner from root node down each level. The 
  traversal order between children of each node is unordered by default or 
+ if the tree was configured with <a href="#dontUseOrdering()"><code>dontUseOrdering()</code></a>. Configure this
+ tree with <a href="#useNaturalOrdering()"><code>useNaturalOrdering()</code></a> or <a href="#useCustomOrdering(java.util.function.BiFunction)"><code>useCustomOrdering(BiFunction)</code></a> 
+ for ordered traversal between children.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - a consumer that performs an action for each node</dd>
+</dl>
+</li>
+</ul>
+<a id="forEachLevelOrderFromBottom(java.util.function.Consumer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>forEachLevelOrderFromBottom</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;forEachLevelOrderFromBottom&#8203;(java.util.function.Consumer&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTree.html" title="type parameter in NTree">K</a>,&#8203;<a href="NTree.html" title="type parameter in NTree">V</a>&gt;&gt;&nbsp;action)</pre>
+<div class="block">Traverses this tree and performs an action for each node. The tree is 
+ traversed in a levelorder manner from deepest node up each level up to root.
+ The traversal order between children of each node is unordered by default or 
  if the tree was configured with <a href="#dontUseOrdering()"><code>dontUseOrdering()</code></a>. Configure this
  tree with <a href="#useNaturalOrdering()"><code>useNaturalOrdering()</code></a> or <a href="#useCustomOrdering(java.util.function.BiFunction)"><code>useCustomOrdering(BiFunction)</code></a> 
  for ordered traversal between children.</div>
@@ -1762,8 +1795,10 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <dd><code>R</code> - the return type of the provided dataFunction parameter. Java
                         can imply it.</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>width</code> - the width factor. If <code>null</code> defaults to 4.</dd>
-<dd><code>height</code> - the height factor. If <code>null</code> defaults to 2.</dd>
+<dd><code>width</code> - the width factor. If <code>null</code> or less than 1 then it
+              defaults to 4.</dd>
+<dd><code>height</code> - the height factor. If <code>null</code> or less than 1 then it 
+                                 defaults to 2.</dd>
 <dd><code>dataFunction</code> - the <code>Function</code> whose result is displayed next to
  each node's id. If <code>null</code> then no data is displayed next to each
  node's id.</dd>
@@ -1789,6 +1824,21 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <dd><code>dataFunction</code> - the <code>Function</code> whose result is displayed next to
  each node's id. If <code>null</code> then no data is displayed next to each
  node's id.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>String</code> that when printed forms a simple graphic
+ representation of this tree</dd>
+</dl>
+</li>
+</ul>
+<a id="treeGraph()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>treeGraph</h4>
+<pre class="methodSignature">public&nbsp;&lt;R&gt;&nbsp;java.lang.String&nbsp;treeGraph()</pre>
+<div class="block">Returns a simple graphic representation of this tree in a <code>String</code>.</div>
+<dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>String</code> that when printed forms a simple graphic
  representation of this tree</dd>

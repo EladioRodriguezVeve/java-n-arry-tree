@@ -1,6 +1,8 @@
 plugins {
     id 'java-library'
     id 'eclipse'
+    id 'maven-publish'
+    id 'signing'
 }
 
 java {
@@ -13,11 +15,15 @@ javadoc {
     options.addBooleanOption('html5', true)
 }
 
+signing {
+    sign publishing.publications.mavenJava
+}
+
 repositories {
     mavenCentral()
 }
 
-group = 'dev.veve'
+group = 'io.github.EladioRodriguezVeve'
 version = '1.0.0'
 
 dependencies {
@@ -40,4 +46,10 @@ tasks.register('copyJavadoc', Copy) {
 	dependsOn tasks.javadoc
 	from "$docsDir/javadoc"
 	into "$rootDir/javadocs"
+}
+
+tasks.named('jar') {
+    manifest {
+        attributes('Automatic-Module-Name': 'io.github.EladioRodriguezVeve.n.arry.tree')
+    }
 }

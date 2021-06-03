@@ -164,7 +164,8 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
  result of the lambda function would be null.
  <p>
  Note that no method accepts null values as arguments except 
- <a href="#setValue(V)"><code>setValue(Object)</code></a> and the variants of <a href="#treeGraph(java.lang.Integer,java.lang.Integer,java.util.function.Function)"><code>treeGraph(java.lang.Integer, java.lang.Integer, java.util.function.Function&lt;veve.datastructures.trees.NTreeNode&lt;K, V&gt;, R&gt;)</code></a>
+ <a href="#setValue(V)"><code>setValue(Object)</code></a>, the variants of <a href="#treeGraph(java.lang.Integer,java.lang.Integer,java.util.function.Function)"><code>treeGraph(java.lang.Integer, java.lang.Integer, java.util.function.Function&lt;veve.datastructures.trees.NTreeNode&lt;K, V&gt;, R&gt;)</code></a>
+ and <a href="#findFirstWithValue(V)"><code>findFirstWithValue(Object)</code></a>.
  <p>
  The <a href="NearestCommonAncestorTool.html" title="class in veve.datastructures.trees"><code>NearestCommonAncestorTool</code></a> class can be used to find the nearest
  common ancestor between two nodes in a tree plus having other methods to get 
@@ -446,7 +447,7 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <td class="colFirst"><code><a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#firstChildWithValue(V)">firstChildWithValue</a></span>&#8203;(<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Returns the first child it finds that a value that is equal to the one provided.</div>
+<div class="block">Returns the first child it finds that has a value that is equal to the one provided.</div>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
@@ -750,19 +751,19 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </tr>
 <tr id="i67" class="rowColor">
 <td class="colFirst"><code>java.util.Map&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainChild(java.util.function.Predicate)">retainChild</a></span>&#8203;(java.util.function.Predicate&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;predicate)</code></th>
-<td class="colLast">
-<div class="block">Removes all of this node's children for which the provided <code>Predicate</code>
- evaluates to <code>false</code> and retaining those childs for which it evaluates to
- <code>true</code>.</div>
-</td>
-</tr>
-<tr id="i68" class="altColor">
-<td class="colFirst"><code>java.util.Map&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainChildren(java.util.Collection)">retainChildren</a></span>&#8203;(java.util.Collection&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>&gt;&nbsp;ids)</code></th>
 <td class="colLast">
 <div class="block">Removes all of this node's children whose id is not in the provided 
  <code>Collection</code> of ids and retains those whose id is in the collection.</div>
+</td>
+</tr>
+<tr id="i68" class="altColor">
+<td class="colFirst"><code>java.util.Map&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainChildren(java.util.function.Predicate)">retainChildren</a></span>&#8203;(java.util.function.Predicate&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;predicate)</code></th>
+<td class="colLast">
+<div class="block">Removes all of this node's children for which the provided <code>Predicate</code>
+ evaluates to <code>false</code> and retaining those childs for which it evaluates to
+ <code>true</code>.</div>
 </td>
 </tr>
 <tr id="i69" class="rowColor">
@@ -1393,7 +1394,11 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 <li class="blockList">
 <h4>firstChildWithValue</h4>
 <pre class="methodSignature">public&nbsp;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&nbsp;firstChildWithValue&#8203;(<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&nbsp;value)</pre>
-<div class="block">Returns the first child it finds that a value that is equal to the one provided.</div>
+<div class="block">Returns the first child it finds that has a value that is equal to the one provided.
+ The traversal order between the childs of this node is not ordered by default.
+ This can be changed by configuring this node's treeOfBelonging using
+ <a href="NTree.html#useNaturalOrdering()"><code>NTree.useNaturalOrdering()</code></a> or 
+ <a href="NTree.html#useCustomOrdering(java.util.function.BiFunction)"><code>NTree.useCustomOrdering(java.util.function.BiFunction)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - the value of the child node to return</dd>
@@ -1631,13 +1636,13 @@ implements java.lang.Iterable&lt;<a href="NTreeNode.html" title="class in veve.d
 </dl>
 </li>
 </ul>
-<a id="retainChild(java.util.function.Predicate)">
+<a id="retainChildren(java.util.function.Predicate)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>retainChild</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;retainChild&#8203;(java.util.function.Predicate&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;predicate)</pre>
+<h4>retainChildren</h4>
+<pre class="methodSignature">public&nbsp;java.util.Map&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;retainChildren&#8203;(java.util.function.Predicate&lt;<a href="NTreeNode.html" title="class in veve.datastructures.trees">NTreeNode</a>&lt;<a href="NTreeNode.html" title="type parameter in NTreeNode">K</a>,&#8203;<a href="NTreeNode.html" title="type parameter in NTreeNode">V</a>&gt;&gt;&nbsp;predicate)</pre>
 <div class="block">Removes all of this node's children for which the provided <code>Predicate</code>
  evaluates to <code>false</code> and retaining those childs for which it evaluates to
  <code>true</code>.</div>

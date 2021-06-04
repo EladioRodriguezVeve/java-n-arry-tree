@@ -657,7 +657,7 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * Returns a {@code List} of this node's children whose ids are included in
 	 * the passed {@code Collection} of ids.
 	 * 
-	 * @param a {@code Collection} of ids used to filter which childs to return
+	 * @param ids a {@code Collection} of ids used to filter which childs to return
 	 * @return a {@code List} of this node's children whose ids are included in
 	 * the passed {@code Collection} of ids
 	 */
@@ -994,7 +994,8 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * Returns a clone of this node and sets its treeOfBelonging to the one provided.
 	 * By default the node's value id copied using simple serialization. This can
 	 * be changed if the tree is configured with {@link NTree#nodeValueCloningUsesCopyConstructor()}
-	 * or {@link NTree#nodeValueCloningUsesSerialization(Type)}.<br>
+	 * or {@link NTree#nodeValueCloningUsesSerialization(Type)}.
+	 * <br>
 	 * The returned clone does not have any parent or children.
 	 * 
 	 * @param treeOfBelonging the tree that owns the returned clone
@@ -1010,10 +1011,10 @@ public class NTreeNode<K extends Comparable<K>, V> implements Iterable<NTreeNode
 	 * node has. By default the node's value id copied using simple serialization. 
 	 * This can be changed if the tree is configured with 
 	 * {@link NTree#nodeValueCloningUsesCopyConstructor()}
-	 * or {@link NTree#nodeValueCloningUsesSerialization(Type)}.<br>
+	 * or {@link NTree#nodeValueCloningUsesSerialization(Type)}.
+	 * <br>
 	 * The returned clone does not have any parent or children.
 	 * 
-	 * @param treeOfBelonging the tree that owns the returned clone
 	 * @return a clone of this node without any parent or children
 	 */
 	public NTreeNode<K,V> cloneSingleNode() {

@@ -42,13 +42,14 @@ tasks.named('test') {
 }
 
 tasks.register('copyJavadoc', Copy) {
+    dependsOn tasks.javadoc
 	from "$docsDir/javadoc"
 	into "$rootDir/javadocs"
 }
 
 tasks.named('jar') {
     manifest {
-        attributes('Automatic-Module-Name': 'io.github.EladioRodriguezVeve.n.arry.tree')
+        attributes('Automatic-Module-Name': 'io.github.eladiorodriguezveve.n.arry.tree')
     }
 }
 

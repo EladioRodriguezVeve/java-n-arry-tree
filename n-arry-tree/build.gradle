@@ -42,7 +42,6 @@ tasks.named('test') {
 }
 
 tasks.register('copyJavadoc', Copy) {
-	dependsOn tasks.javadoc
 	from "$docsDir/javadoc"
 	into "$rootDir/javadocs"
 }

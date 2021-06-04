@@ -22,7 +22,7 @@ repositories {
     mavenCentral()
 }
 
-group = 'io.github.EladioRodriguezVeve'
+group = 'io.github.eladiorodriguezveve'
 version = '1.0.0'
 
 dependencies {
@@ -83,7 +83,7 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:https://github.com/EladioRodriguezVeve/n-arry-tree.gitt'
+                    connection = 'scm:git:https://github.com/EladioRodriguezVeve/n-arry-tree.git'
                     developerConnection = 'scm:git:https://github.com/EladioRodriguezVeve/n-arry-tree.git'
                     url = 'https://github.com/EladioRodriguezVeve/n-arry-tree/'
                 }

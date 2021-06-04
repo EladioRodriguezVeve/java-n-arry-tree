@@ -17,10 +17,6 @@ javadoc {
     options.addBooleanOption('html5', true)
 }
 
-signing {
-    sign publishing.publications.mavenJava
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -102,4 +98,8 @@ publishing {
             url = 'https://s01.oss.sonatype.org/'
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }

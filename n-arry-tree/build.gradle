@@ -9,6 +9,8 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
     }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 javadoc {
@@ -20,6 +22,7 @@ signing {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -51,5 +54,52 @@ tasks.register('copyJavadoc', Copy) {
 tasks.named('jar') {
     manifest {
         attributes('Automatic-Module-Name': 'io.github.EladioRodriguezVeve.n.arry.tree')
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'n-arry-tree'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'N-arrry Tree'
+                description = 'Library for creating n-arry trees'
+                url = 'https://github.com/EladioRodriguezVeve/n-arry-tree'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'EladioRodriguezVeve'
+                        name = 'Eladio Rodriguez Veve'
+                        email = 'eladiomail@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/EladioRodriguezVeve/n-arry-tree.gitt'
+                    developerConnection = 'scm:git:https://github.com/EladioRodriguezVeve/n-arry-tree.git'
+                    url = 'https://github.com/EladioRodriguezVeve/n-arry-tree/'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = 'ossrh'
+            credentials(PasswordCredentials)
+            url = 'https://s01.oss.sonatype.org/'
+        }
     }
 }

@@ -18,7 +18,6 @@ javadoc {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -67,7 +66,7 @@ publishing {
                 }
             }
             pom {
-                name = 'N-arrry Tree'
+                name = 'N-arry Tree'
                 description = 'Library for creating n-arry trees'
                 url = 'https://github.com/EladioRodriguezVeve/n-arry-tree'
                 licenses {

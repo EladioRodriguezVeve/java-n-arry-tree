@@ -61,6 +61,7 @@ repositories {
 dependencies {
     implementation 'io.github.eladiorodriguezveve:n-arry-tree:1.0.0'
     // Other dependencies
+}
 ```
 
 ## Javadocs

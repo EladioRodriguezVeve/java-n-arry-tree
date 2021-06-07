@@ -3,5 +3,4 @@
 #
 # These are explicitly windows files and should use crlf
 *.bat           text eol=crlf
-javadocs/* linguist-documentation
-guide/* linguist-documentation
+* linguist-language=Java

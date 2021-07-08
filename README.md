@@ -46,7 +46,7 @@ In your Maven pom file:
 </dependencies>
 ```
 
-## How to add this library as a dependency using Gralde
+## How to add this library as a dependency using Gradle
 
 In your build.gradle file:
 
